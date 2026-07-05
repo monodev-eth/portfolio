@@ -18,4 +18,6 @@ export const PROFILE = {
   github: "https://github.com/monodev-eth",
   twitter: "https://x.com/monochrome_dev",
   telegram: "https://t.me/dmitry_xyz",
+  ens: "monodev.eth",
+  ensProfile: "https://app.ens.domains/monodev.eth",
 } as const;

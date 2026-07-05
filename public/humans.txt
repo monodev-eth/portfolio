@@ -5,6 +5,7 @@ Handle: monodev-eth
 GitHub: https://github.com/monodev-eth
 X: https://x.com/monochrome_dev
 Telegram: https://t.me/dmitry_xyz
+ENS: monodev.eth
 Role: Co-founder at True Origin Labs
 
 /* SITE */

@@ -4,10 +4,12 @@
   "role": "Chief Digital Officer at SigIntZero",
   "summary": "Full-stack operator building across security, AI, and digital infrastructure.",
   "avatar": "https://github.com/monodev-eth.png?size=96",
+  "ens": "monodev.eth",
   "links": {
     "github": "https://github.com/monodev-eth",
     "x": "https://x.com/monochrome_dev",
     "telegram": "https://t.me/dmitry_xyz",
+    "ens": "https://app.ens.domains/monodev.eth",
     "interactivePortfolio": "/showcase",
     "llms": "/llms.json"
   },

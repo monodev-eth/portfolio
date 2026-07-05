@@ -351,6 +351,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
             <a href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
             <a href={PROFILE.twitter} target="_blank" rel="noreferrer">X</a>
             <a href={PROFILE.telegram} target="_blank" rel="noreferrer">TG</a>
+            <a href={PROFILE.ensProfile} target="_blank" rel="noreferrer" title={PROFILE.ens}>ENS</a>
           </nav>
           <span className="clock">{clock}</span>
           <button className="sndbtn" aria-pressed={soundOn} aria-label="Toggle sound" onClick={toggleSound}>
