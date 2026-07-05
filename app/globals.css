@@ -1,0 +1,658 @@
+/* =========================================================================
+   MEMORY CARD — PlayStation 2 dashboard portfolio. Boot void = near-black;
+   menu = deep blue. Restraint: one glass signature, high-contrast text.
+   ========================================================================= */
+
+:root {
+  --void: #080a16;
+  --menu: #0a1030;
+  --menu-2: #05060f;
+  --ink: #eef2ff;
+  --dim: #aeb9e6;
+  --faint: #6f7aa8;
+  --line: rgba(150, 170, 255, 0.16);
+  --line-2: rgba(150, 170, 255, 0.30);
+  --cyan: #36d6e6;
+  --glow: #aab4ff;
+
+  --display: var(--font-play), "Hanken Grotesk", system-ui, sans-serif;
+  --body: var(--font-hanken), system-ui, -apple-system, sans-serif;
+
+  --accent: #4f7cff;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+html { overflow: hidden; }
+
+body {
+  margin: 0;
+  font-family: var(--body);
+  color: var(--ink);
+  background: radial-gradient(120% 90% at 50% 18%, #16205a 0%, var(--menu) 46%, var(--menu-2) 100%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#gl {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 0;
+}
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+
+body.nogl #gl { display: none; }
+body.nogl {
+  background:
+    radial-gradient(2px 2px at 20% 30%, rgba(180,200,255,.5), transparent),
+    radial-gradient(2px 2px at 70% 60%, rgba(150,180,255,.4), transparent),
+    radial-gradient(2px 2px at 40% 80%, rgba(120,150,255,.35), transparent),
+    radial-gradient(120% 90% at 50% 20%, #15205c, var(--menu) 50%, var(--menu-2));
+}
+
+/* ============================ BOOT ============================ */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  transition: opacity 0.6s ease;
+}
+.boot.gone { opacity: 0; pointer-events: none; }
+.bootvig {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 55%, transparent 30%, rgba(8, 6, 18, 0.55) 100%);
+  pointer-events: none;
+}
+.bootbeat {
+  position: absolute;
+  font-family: var(--display);
+  color: #dfe6ff;
+  text-align: center;
+  opacity: 0;
+  letter-spacing: 0.4em;
+  transition: opacity 0.55s ease;
+}
+.bootbeat.show { opacity: 1; }
+.beat-sony {
+  font-size: clamp(15px, 2.2vw, 24px);
+  font-weight: 400;
+  text-shadow: 0 0 18px rgba(140, 160, 255, 0.7);
+}
+.bootbeat.mark { display: grid; gap: 14px; justify-items: center; }
+/* PORTFOLIO 2 — authentic PlayStation-logotype lockup, rendered as SVG outlines */
+.bootbeat.mark .wm {
+  width: clamp(240px, 50vw, 620px);
+  height: auto;
+  filter: drop-shadow(0 0 26px rgba(120, 150, 255, 0.55));
+}
+.bootbeat.mark em {
+  font-family: var(--body);
+  font-style: normal;
+  letter-spacing: 0.42em;
+  font-size: 11px;
+  color: var(--glow);
+  text-transform: uppercase;
+}
+.bootskip {
+  position: absolute;
+  bottom: 34px;
+  right: 38px;
+  background: none;
+  border: 0;
+  color: rgba(180, 195, 255, 0.55);
+  font-family: var(--body);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+/* ============================ OSD CHROME ============================ */
+.osd {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(18px, 4vw, 46px);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.2s;
+}
+.ready .osd { opacity: 1; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 13px;
+  letter-spacing: 0;
+  cursor: pointer;
+  text-transform: none;
+}
+.brandavatar {
+  width: 36px;
+  height: 36px;
+  display: block;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  box-shadow: 0 0 18px rgba(120, 150, 255, 0.28);
+  background: rgba(20, 28, 64, 0.6);
+}
+.brandcopy {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+.brandname {
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+}
+.brand .role {
+  font-family: var(--body);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 12px;
+  color: var(--faint);
+  line-height: 1.1;
+}
+.osd-l { display: flex; align-items: center; gap: clamp(12px, 2vw, 20px); }
+.navlegend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--faint);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.navlegend .lbl { margin-right: 4px; }
+.navlegend .sep { opacity: 0.45; }
+.navlegend kbd {
+  font-family: var(--display);
+  font-size: 10px;
+  background: rgba(20, 28, 64, 0.6);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--dim);
+}
+.osd-r { display: flex; align-items: center; gap: clamp(12px, 2vw, 26px); }
+.links { display: flex; align-items: center; gap: 16px; }
+.links a {
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.links a:hover { color: var(--cyan); }
+.clock {
+  font-family: var(--display);
+  font-size: clamp(20px, 2.4vw, 30px);
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 16px rgba(120, 150, 255, 0.45);
+}
+.sndbtn {
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  background: rgba(20, 28, 64, 0.5);
+  border: 1px solid var(--line);
+  color: var(--faint);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.sndbtn[aria-pressed="true"] { color: var(--cyan); border-color: var(--cyan); }
+.sndbtn .spk { font-size: 13px; }
+
+/* ============================ BROWSER ============================ */
+.browser {
+  position: relative;
+  z-index: 10;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(12px, 2vh, 26px);
+  padding: 96px clamp(18px, 4vw, 46px) 24px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
+}
+.ready .browser { opacity: 1; transform: none; }
+
+.crumbs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-family: var(--display);
+  text-transform: uppercase;
+}
+.crumb-cur {
+  color: var(--cyan);
+  font-size: 12px;
+  letter-spacing: 0.34em;
+  text-shadow: 0 0 14px color-mix(in srgb, var(--cyan) 45%, transparent);
+  transition: color 0.3s ease;
+}
+.crumb-date {
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  font-variant-numeric: tabular-nums;
+}
+/* ---- bottom-right nav cluster: keyboard hints + position dots ---- */
+.navhud {
+  position: fixed;
+  right: clamp(18px, 4vw, 46px);
+  bottom: clamp(16px, 3vh, 28px);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease 0.3s;
+}
+.ready .navhud { opacity: 1; }
+.navhud .navlegend, .navhud .dots { pointer-events: auto; }
+
+.dots { display: flex; justify-content: flex-end; gap: 9px; }
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(180, 195, 255, 0.22);
+  cursor: pointer;
+  transition: background .25s, transform .25s;
+}
+.dot.on { background: var(--cyan); transform: scale(1.3); box-shadow: 0 0 10px rgba(54, 214, 230, 0.7); }
+.dot:hover { background: rgba(180, 195, 255, 0.5); }
+
+/* ---- carousel ---- */
+.shelf {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(196px, 30vh, 272px);
+  overflow: visible;
+}
+.track {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  padding: 40px 0;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.tile {
+  position: relative;
+  flex: 0 0 auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+  cursor: pointer;
+  background: linear-gradient(150deg, rgba(46, 78, 156, 0.40), rgba(12, 20, 50, 0.30));
+  border: 1px solid rgba(195, 215, 255, 0.30);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -22px 36px rgba(0, 0, 0, 0.28);
+  transform: scale(0.78);
+  filter: saturate(0.7) brightness(0.72);
+  opacity: 0.66;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s, opacity 0.45s, box-shadow 0.45s;
+  overflow: hidden;
+  padding: 0;
+}
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 16%, transparent 36%),
+    linear-gradient(0deg, transparent 58%, rgba(255, 255, 255, 0.14) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+.tile .glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 14px;
+  font-family: var(--display);
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+.tile video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+.tile.playing video { opacity: 1; }
+.tile.playing .glyph { opacity: 0; transition: opacity 0.35s ease; }
+
+/* play cue — appears on the focused tile so it's clearly "click to watch" */
+.playcue {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  z-index: 5;
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: rgba(8, 12, 30, 0.6);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--cyan);
+  color: #fff;
+  font-size: 12px;
+  padding-left: 2px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.tile.focus .playcue { opacity: 1; box-shadow: 0 0 14px -2px var(--cyan); }
+
+.tile-label {
+  position: absolute;
+  left: 0; right: 0; bottom: -30px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+  opacity: 0;
+  transition: opacity .4s;
+  z-index: 4;
+}
+
+.tile.focus {
+  transform: scale(1.06);
+  filter: none;
+  opacity: 1;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--a1, #4f7cff) 60%, transparent), color-mix(in srgb, var(--a2, #0b1130) 42%, transparent));
+  border-color: var(--cyan);
+  box-shadow:
+    0 0 0 1px var(--cyan),
+    0 0 40px -4px color-mix(in srgb, var(--a1, #4f7cff) 70%, var(--cyan)),
+    0 24px 50px rgba(0, 0, 0, 0.55);
+}
+.tile.focus .tile-label { opacity: 1; bottom: -28px; color: var(--ink); }
+.tile.focus::after {
+  content: "";
+  position: absolute;
+  left: 8%; right: 8%;
+  bottom: -16px;
+  height: 22px;
+  background: radial-gradient(60% 100% at 50% 0%, color-mix(in srgb, var(--a1, #4f7cff) 60%, transparent), transparent 75%);
+  filter: blur(5px);
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: rgba(16, 24, 60, 0.92);
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color .2s, background .2s, opacity .2s;
+}
+.arrow:hover { border-color: var(--cyan); background: rgba(24, 36, 90, 0.95); }
+.arrow:disabled { opacity: 0.22; cursor: default; }
+.arrow.left { left: clamp(4px, 2vw, 26px); }
+.arrow.right { right: clamp(4px, 2vw, 26px); }
+
+/* ---- info ---- */
+.info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.info-tag {
+  margin: 0;
+  color: var(--dim);
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+  max-width: 48ch;
+}
+.info-actions { display: flex; gap: 12px; margin-top: 6px; }
+
+.stacklist { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; justify-content: center; }
+.stacklist span {
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(238, 242, 255, 0.82);
+  padding: 3px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+}
+
+.btn {
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: rgba(20, 28, 64, 0.7);
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  padding: 12px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .12s, border-color .2s, background .2s;
+}
+.btn:hover { transform: translateY(-1px); border-color: var(--cyan); }
+.btn.primary {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 55%, #1a2a66), #14204e);
+  border-color: color-mix(in srgb, var(--accent) 60%, var(--cyan));
+  box-shadow: 0 8px 24px -8px var(--accent);
+}
+.btn.ghost { background: rgba(20, 28, 64, 0.45); color: var(--dim); }
+
+/* ============================ MODAL ============================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: clamp(14px, 4vw, 48px);
+  background: rgba(4, 5, 14, 0.86);
+  backdrop-filter: blur(8px);
+  animation: modalIn .25s ease;
+}
+@keyframes modalIn { from { opacity: 0; } to { opacity: 1; } }
+.sheet {
+  width: min(1080px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: linear-gradient(180deg, rgba(16, 22, 54, 0.82), rgba(7, 10, 28, 0.9));
+  -webkit-backdrop-filter: blur(22px) saturate(1.25);
+  backdrop-filter: blur(22px) saturate(1.25);
+  border: 1px solid rgba(195, 215, 255, 0.24);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 40px 100px rgba(0, 0, 0, 0.7);
+}
+.player {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 52vh; /* cap the video so the case study below is always visible */
+  background: #04050d;
+  border-bottom: 1px solid var(--line);
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+.player video { width: 100%; height: 100%; object-fit: contain; background: #04050d; }
+.close, .nav {
+  position: absolute;
+  z-index: 3;
+  background: rgba(8, 10, 24, 0.7);
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.close { top: 14px; right: 14px; width: 40px; height: 40px; font-size: 16px; }
+.nav { top: 50%; transform: translateY(-50%); width: 46px; height: 46px; font-size: 26px; }
+.nav.prev { left: 14px; }
+.nav.next { right: 14px; }
+.close:hover, .nav:hover { border-color: var(--cyan); }
+
+.mbody { padding: clamp(20px, 3vw, 36px); }
+.mtop { display: flex; align-items: baseline; gap: 14px; }
+.mtop h2 { margin: 0; font-family: var(--display); font-size: clamp(24px, 3vw, 36px); }
+.myr { font-family: var(--display); color: var(--cyan); letter-spacing: 0.1em; }
+.mrole { color: var(--dim); margin: 4px 0 14px; }
+.mbody .stacklist { justify-content: flex-start; margin-top: 0; }
+.casegrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 22px;
+}
+.casegrid h4 {
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 0 0 8px;
+}
+.casegrid p { margin: 0; color: var(--dim); font-size: 14px; line-height: 1.6; }
+.mlinks { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+.mlinks a {
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 9px 16px;
+  transition: border-color .2s;
+}
+.mlinks a:hover { border-color: var(--cyan); }
+
+/* ============================ MISC ============================ */
+.saveflash {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 70;
+  background: rgba(8, 12, 30, 0.92);
+  border: 1px solid var(--cyan);
+  color: var(--ink);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 10px 18px;
+  border-radius: 9px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s, transform .3s;
+}
+.saveflash.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* tiny persistent "Portfolio 2" watermark, bottom-left (boot overlay hides it until ready) */
+.footmark {
+  position: fixed;
+  left: clamp(18px, 4vw, 46px);
+  bottom: clamp(16px, 3vh, 28px);
+  width: 104px;
+  height: auto;
+  z-index: 15;
+  color: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(120, 150, 255, 0.3));
+  transition: opacity 0.8s ease 0.35s;
+}
+.ready .footmark { opacity: 0.4; }
+
+/* ============================ RESPONSIVE ============================ */
+@media (max-width: 720px) {
+  .info-actions { flex-direction: row; justify-content: center; }
+  .casegrid { grid-template-columns: 1fr; gap: 16px; }
+  .tile { width: 132px; height: 132px; }
+  .arrow { width: 42px; height: 42px; }
+  .brandcopy { display: none; }
+  .navlegend { display: none; }
+  .clock { display: none; }
+  .links { gap: 12px; }
+  .sndbtn { width: 40px; height: 40px; }
+  .info-tag { color: #c2cbe6; }
+  .player { max-height: 40vh; }
+  .footmark { display: none; }
+  .brandavatar { width: 34px; height: 34px; }
+}
+
+/* hide the keyboard legend on touch devices (no keyboard) */
+@media (pointer: coarse) {
+  .navlegend { display: none; }
+}
+
+/* ============================ REDUCED MOTION ============================ */
+@media (prefers-reduced-motion: reduce) {
+  .boot { display: none; }
+  .track, .tile, .btn, .info { transition: none !important; }
+}

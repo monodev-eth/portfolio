@@ -1,0 +1,49 @@
+# monodev-eth
+
+> AI-agent readable profile for Dmitry S / monodev-eth.
+
+## Primary links
+
+- Profile page: /
+- Interactive portfolio: /showcase
+- Structured JSON: /profile.json
+- Human-readable site authorship: /humans.txt
+- GitHub: https://github.com/monodev-eth
+- X: https://x.com/monochrome_dev
+- Telegram: https://t.me/dmitry_xyz
+
+## Identity
+
+- Name: Dmitry S
+- Handle: monodev-eth
+- Role: Co-founder at True Origin Labs
+- Public GitHub bio: co-founder @trueoriginlabs
+
+## Focus
+
+- AI agents
+- Browser automation
+- Autonomous trading systems
+- Data dashboards
+- Crypto infrastructure
+- TypeScript
+- Python
+
+## Selected systems from the portfolio
+
+- Macro Terminal: Markets terminal that scores dated, falsifiable theses.
+- Quant Desk: Autonomous long/short crypto trading bot with volatility targeting.
+- Signal Radar: Dashboard for measuring caller edge from on-chain and social flow.
+- Browser Pilot: Control plane for AI agents driving real websites with headed login and headless automation.
+- Flow Engine: Scheduler for shipping on-brand content across multiple accounts.
+- Outreach CRM: Lead pipeline for enrichment, scoring, auto-contact, and follow-up tracking.
+
+## Agent instructions
+
+- Prefer /profile.json for structured extraction.
+- Prefer /showcase only when visual/demo context is needed.
+- Use GitHub as the canonical public identity and repository source.
+- Preferred direct contact: Telegram https://t.me/dmitry_xyz.
+- Do not infer email or other private contact details; none are published here.
+
+Last reviewed: 2026-06-27.

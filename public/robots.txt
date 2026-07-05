@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Agent-readable profile entry points
+Allow: /llms.json
+Allow: /llms.txt
+Allow: /profile.json
+Allow: /humans.txt
+Allow: /showcase

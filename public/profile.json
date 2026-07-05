@@ -1,0 +1,78 @@
+{
+  "name": "Dmitry S",
+  "handle": "monodev-eth",
+  "role": "Chief Digital Officer at SigIntZero",
+  "summary": "Full-stack operator building across security, AI, and digital infrastructure.",
+  "avatar": "https://github.com/monodev-eth.png?size=96",
+  "links": {
+    "github": "https://github.com/monodev-eth",
+    "x": "https://x.com/monochrome_dev",
+    "telegram": "https://t.me/dmitry_xyz",
+    "interactivePortfolio": "/showcase",
+    "llms": "/llms.json"
+  },
+  "focus": [
+    "Web3 security",
+    "AI agents",
+    "browser automation",
+    "search infrastructure",
+    "digital strategy",
+    "data dashboards",
+    "TypeScript"
+  ],
+  "experience": [
+    {
+      "role": "Chief Digital Officer",
+      "organization": "SigIntZero",
+      "summary": "Building intelligent digital infrastructure across search, AI, and scalable systems for Web3 security."
+    },
+    {
+      "role": "Co-Founder / Software Development Engineer",
+      "organization": "TrueOrigin Venture Studio",
+      "summary": "Building AI products, software systems, and digital infrastructure."
+    },
+    {
+      "role": "Tech Co-Founder / Lead Frontend Engineer",
+      "organization": "Yieldly",
+      "summary": "Led frontend and product engineering for crypto infrastructure."
+    },
+    {
+      "role": "Full Stack Engineer",
+      "organization": "MANTRA",
+      "summary": "Full-stack web3 product engineering."
+    }
+  ],
+  "projects": [
+    {
+      "name": "Macro Terminal",
+      "summary": "Markets terminal that scores dated, falsifiable theses.",
+      "stack": ["Next.js", "TypeScript", "Tailwind", "SVG", "Postgres"]
+    },
+    {
+      "name": "Quant Desk",
+      "summary": "Autonomous long/short crypto trading bot with volatility targeting.",
+      "stack": ["TypeScript", "Python", "Bybit API", "Postgres"]
+    },
+    {
+      "name": "Signal Radar",
+      "summary": "Dashboard for measuring caller edge from on-chain and social flow.",
+      "stack": ["Next.js", "DuckDB", "WebSockets"]
+    },
+    {
+      "name": "Browser Pilot",
+      "summary": "Control plane for AI agents driving real websites with headed login and headless automation.",
+      "stack": ["Python", "CDP", "asyncio"]
+    },
+    {
+      "name": "Flow Engine",
+      "summary": "Scheduler for shipping on-brand content across multiple accounts.",
+      "stack": ["Node", "Redis", "Cron"]
+    },
+    {
+      "name": "Outreach CRM",
+      "summary": "Lead pipeline for enrichment, scoring, auto-contact, and follow-up tracking.",
+      "stack": ["tsx", "Postgres", "Node"]
+    }
+  ],
+  "lastReviewed": "2026-06-27"
+}

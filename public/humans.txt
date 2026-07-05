@@ -1,0 +1,18 @@
+/* TEAM */
+
+Name: Dmitry S
+Handle: monodev-eth
+GitHub: https://github.com/monodev-eth
+X: https://x.com/monochrome_dev
+Telegram: https://t.me/dmitry_xyz
+Role: Co-founder at True Origin Labs
+
+/* SITE */
+
+Purpose: Lightweight identity and portfolio index for humans, AI agents, crawlers, and tools.
+Interactive showcase: /showcase
+Agent profile: /llms.txt
+Structured profile: /profile.json
+Style: Clean PS2-inspired interface, semantic HTML first.
+
+Last reviewed: 2026-06-27
