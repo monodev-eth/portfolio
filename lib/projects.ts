@@ -118,7 +118,7 @@ export const PROJECTS: Project[] = [
     period: "2025 – now",
     role: "TrueOrigin Labs · front-end build",
     tagline:
-      "The International Meme Fund — a memecoin-native bank on Ethereum. Borrow real stablecoins against your bags, and launch a coin that ships with its own ENS name and gas on the house.",
+      "The International Meme Fund: a memecoin-native bank on Ethereum. Borrow real stablecoins against your bags, and launch a coin that ships with its own ENS name and gas on the house.",
     stack: ["Next.js", "TypeScript", "Ethereum", "ENS", "Morpho"],
     state: "live",
     poster: ["#0c3a1e", "#0a0e1e"],
@@ -126,9 +126,9 @@ export const PROJECTS: Project[] = [
     problem:
       "Memecoins get treated as toys: you can't borrow against them, and launching one means fighting snipers, rug fears, and a nameless 0x address. The upside is real; the plumbing to actually bank it isn't.",
     process:
-      "Built the front-end for IMF on Ethereum across both sides of the protocol: the credit desk — deposit a memecoin (or BTC/ETH), borrow USDS from isolated Morpho vaults, earn $IMF rewards — and V4, a launchpad where every coin bonds on a fair fixed-supply curve and graduates into permanently locked liquidity, shipping with a free ENS subname and gas covered by the protocol. All over a wallet-native front end.",
+      "Built the front-end for IMF on Ethereum across both sides of the protocol. The credit desk lets you deposit a memecoin (or BTC/ETH), borrow USDS from isolated Morpho vaults, and earn $IMF rewards. V4 is a launchpad where every coin bonds on a fair fixed-supply curve and graduates into permanently locked liquidity, shipping with a free ENS subname and gas covered by the protocol. All over a wallet-native front end.",
     outcome:
-      "IMF became the fastest-growing Morpho vault — a nine-figure book that peaked near $260M TVL and the largest single holder of USDS — then shipped V4 to make launching a coin as easy as claiming a name. Now moving onto Robinhood Chain.",
+      "IMF became the fastest-growing Morpho vault: a nine-figure book that peaked near $260M TVL and the largest single holder of USDS. Then it shipped V4 to make launching a coin as easy as claiming a name. Now moving onto Robinhood Chain.",
     links: { live: "https://imf.bz", study: "https://docs.imf.bz" },
   },
   {
@@ -183,18 +183,18 @@ export const PROJECTS: Project[] = [
     period: "2024 – 2025",
     role: "TrueOrigin Labs · product & front-end",
     tagline:
-      "A social DeFi ecosystem on Telegram: discover communities, play to earn $FREN, and trade — all in one TON mini-app.",
+      "A social DeFi ecosystem on Telegram: discover communities, play to earn $FREN, and trade, all in one TON mini-app.",
     stack: ["Next.js", "TypeScript", "TON", "Telegram", "EVM"],
     state: "live",
     poster: ["#0a3050", "#0a0e1e"],
     video: "/clips/tonsoffriends.mp4",
     portrait: true,
     problem:
-      "Crypto's newcomers are overwhelmed and alone. Communities are scattered across Telegram, X, and Discord, low-quality projects erode trust, and TON lacks the integrations EVM chains take for granted — so there's no friendly, unified way in.",
+      "Crypto's newcomers are overwhelmed and alone. Communities are scattered across Telegram, X, and Discord, low-quality projects erode trust, and TON lacks the integrations EVM chains take for granted, so there's no friendly, unified way in.",
     process:
-      "Built a Telegram-native ecosystem around the $FREN token: a mini-app (@toftechbot) to search, join, and grow communities, a squad-based tapper game, and a DeFi suite — non-custodial Vaults, tradable group shares, a democratic meme-token launchpad, a swap aggregator, and Flow-powered chain analytics — bridged across TON, Ethereum, and Base.",
+      "Built a Telegram-native ecosystem around the $FREN token: a mini-app (@toftechbot) to search, join, and grow communities, a squad-based tapper game, and a DeFi suite (non-custodial Vaults, tradable group shares, a democratic meme-token launchpad, a swap aggregator, and Flow-powered chain analytics), all bridged across TON, Ethereum, and Base.",
     outcome:
-      "One mini-app where friends discover communities, play to earn, and trade without leaving Telegram — lowering the barrier to Web3 for newcomers while giving builders funding, tools, and a built-in audience.",
+      "One mini-app where friends discover communities, play to earn, and trade without leaving Telegram. It lowers the barrier to Web3 for newcomers while giving builders funding, tools, and a built-in audience.",
     links: { live: "https://tonfriends.tech", study: "https://docs.tonfriends.tech" },
   },
   {
@@ -253,11 +253,11 @@ export const PROJECTS: Project[] = [
     poster: ["#11204a", "#0a0e1e"],
     video: "/clips/shuriken.mp4",
     problem:
-      "Sniping a token launch is a blind bet: from the outside you can't tell if trading is even enabled, whether it's a honeypot you can never sell, or what the tax and price impact will be — and getting it wrong on-chain costs real money, instantly.",
+      "Sniping a token launch is a blind bet: from the outside you can't tell if trading is even enabled, whether it's a honeypot you can never sell, or what the tax and price impact will be. Getting it wrong on-chain costs real money, instantly.",
     process:
-      "On the core dev team, built the Rust EVM simulation-and-analysis engine: it replays contract state at a target block — with preceding transactions and state overrides — to simulate a token's buy and sell from the sniper's perspective, flagging honeypots and trade-enablement and computing the real buy/sell delta before any transaction is sent. Runs across L1 and L2.",
+      "On the core dev team, built the Rust EVM simulation-and-analysis engine: it replays contract state at a target block (with preceding transactions and state overrides) to simulate a token's buy and sell from the sniper's perspective, flagging honeypots and trade-enablement and computing the real buy/sell delta before any transaction is sent. Runs across L1 and L2.",
     outcome:
-      "A simulation API that turns a blind snipe into a checked one — honeypots and untradeable tokens filtered, trades sized on real numbers, all before capital ever touches the chain.",
+      "A simulation API that turns a blind snipe into a checked one: honeypots and untradeable tokens filtered, trades sized on real numbers, all before capital ever touches the chain.",
     links: { live: "https://shuriken.trade" },
   },
   {
@@ -269,17 +269,17 @@ export const PROJECTS: Project[] = [
     period: "2022",
     role: "TrueOrigin Labs · front-end build",
     tagline:
-      "The mint site for Bespoke: a 10,000-piece NFT collection styled as a tailor tucked away on Wall Street — 3D storefront, lore, and wallet mint in one experience.",
+      "The mint site for Bespoke: a 10,000-piece NFT collection styled as a tailor tucked away on Wall Street, with a 3D storefront, lore, and wallet mint in one experience.",
     stack: ["Next.js", "TypeScript", "MUI", "Ethereum", "Web3"],
     state: "seen",
     poster: ["#332a0c", "#0a0e1e"],
     video: "/clips/bespoke.mp4",
     problem:
-      "An NFT drop lives or dies on its mint experience. Bespoke needed a site that sold the story — a tailor tucked away on Wall Street — not just a wallet-connect over a grid of thumbnails.",
+      "An NFT drop lives or dies on its mint experience. Bespoke needed a site that sold the story, a tailor tucked away on Wall Street, not just a wallet-connect over a grid of thumbnails.",
     process:
       "Built the front-end: a rendered 3D storefront you step into, the About / Specs / Team / Community sections, whitelist and fixed-price minting with wallet connect, Lottie feature loops, and an interactive “Enter the Tower” page.",
     outcome:
-      "A branded, atmospheric mint site for a 10,000-piece collection — the storefront, the lore, and the mint flow in one place.",
+      "A branded, atmospheric mint site for a 10,000-piece collection: the storefront, the lore, and the mint flow in one place.",
     links: { live: "https://bespoke.bond", study: "https://docs.bespoke.bond" },
   },
   {
