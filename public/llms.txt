@@ -6,6 +6,7 @@
 
 - Profile page: /
 - Interactive portfolio: /showcase
+- Writing / build log: /blog (RSS: /blog/feed.xml)
 - Structured JSON: /profile.json
 - Human-readable site authorship: /humans.txt
 - GitHub: https://github.com/monodev-eth
@@ -21,6 +22,15 @@
 - Role: Co-founder at True Origin Labs
 - Public GitHub bio: co-founder @trueoriginlabs
 
+## Experience
+
+- Chief Digital Officer, SigIntZero: smart-contract audit & security firm. Search, AI, and digital infrastructure.
+- Co-Founder / Software Engineer, TrueOrigin Labs: venture studio behind Aetos and Flow. Crypto, fintech, applied AI.
+- Tech Co-Founder / Lead Frontend, Yieldly: the first DeFi suite on Algorand.
+- Full Stack Engineer, MANTRA: web3 product engineering in the TrueOrigin external team.
+- Front-End, Design, Integration & QA, Book Club: founding-team member. APAC crypto venture community running on Aetos.
+- Co-Founder, TrueOrigin: onchain product authenticity and supply-chain provenance.
+
 ## Focus
 
 - AI agents
@@ -33,19 +43,22 @@
 
 ## Selected systems from the portfolio
 
-- Macro Terminal: Markets terminal that scores dated, falsifiable theses.
-- Quant Desk: Autonomous long/short crypto trading bot with volatility targeting.
-- Signal Radar: Dashboard for measuring caller edge from on-chain and social flow.
-- Browser Pilot: Control plane for AI agents driving real websites with headed login and headless automation.
-- Flow Engine: Scheduler for shipping on-brand content across multiple accounts.
-- Outreach CRM: Lead pipeline for enrichment, scoring, auto-contact, and follow-up tracking.
+- Aetos: Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Docs: https://aetos.gitbook.io/aetos.vc. Underpins Book Club (https://www.bookclub.wtf).
+- Flow: High-frequency copytrading system on Solana and Ethereum (TrueOrigin Labs). Trading front-end, 0-block latency execution.
+- SigIntZero: Smart-contract audit and security firm (Chief Digital Officer). Sentinel AI scans, senior audits, and Tripwire runtime monitoring. Live: https://sigintzero.com.
+- Yieldly: The first DeFi suite on Algorand (tech co-founder, lead frontend). Staking pools and no-loss prize games.
+- Book Club: APAC crypto venture community running on Aetos (founding team). 9 teams backed, $10M+ collective revenue. Live: https://www.bookclub.wtf.
+- MantraDAO: DeFi staking and governance. Full-stack product engineering in the TrueOrigin external team.
+- Shuriken: Low-latency trading systems behind the Ethereum launch (core dev team). Live: https://shuriken.trade.
+- TrueOrigin: Onchain product authenticity and supply-chain provenance (co-founder). The studio's namesake.
 
 ## Agent instructions
 
 - Prefer /profile.json for structured extraction.
 - Prefer /showcase only when visual/demo context is needed.
+- Prefer /blog for first-person build logs and technical write-ups.
 - Use GitHub as the canonical public identity and repository source.
 - Preferred direct contact: Telegram https://t.me/dmitry_xyz.
 - Do not infer email or other private contact details; none are published here.
 
-Last reviewed: 2026-06-27.
+Last reviewed: 2026-07-08.

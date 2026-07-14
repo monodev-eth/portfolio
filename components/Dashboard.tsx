@@ -1,21 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import type { Project } from "@/lib/projects";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { ORGS, type Project } from "@/lib/projects";
 import { PROFILE } from "@/lib/profile";
 import { createAudio, type AudioApi } from "@/lib/audio";
 import type { PS2Api } from "@/lib/ps2bg";
 import Wordmark from "@/components/Wordmark";
+import VideoWall from "@/components/VideoWall";
 
 type SaveMap = Record<string, { t: number; done: boolean }>;
 const SAVE_KEY = "ps2.portfolio.v1";
-
-function fmt(t: number): string {
-  t = Math.max(0, Math.floor(t || 0));
-  const m = Math.floor(t / 60);
-  const s = t % 60;
-  return `${m}:${s < 10 ? "0" : ""}${s}`;
-}
 
 export default function Dashboard({ projects }: { projects: Project[] }) {
   const [focused, setFocused] = useState(0);
@@ -23,19 +17,20 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
   const [soundOn, setSoundOn] = useState(false);
   const [booted, setBooted] = useState(false);
   const [bootPhase, setBootPhase] = useState<"sony" | "mark" | null>(null);
-  const [saves, setSaves] = useState<SaveMap>({});
   const [clock, setClock] = useState("");
   const [flash, setFlash] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const shelfRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const tileRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const colRef = useRef<HTMLElement>(null);
+  const orgTrackRef = useRef<HTMLDivElement>(null);
+  const colTrackRef = useRef<HTMLDivElement>(null);
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   const ps2 = useRef<PS2Api | null>(null);
   const audio = useRef<AudioApi | null>(null);
-  const trackX = useRef(0);
+  const orgMemo = useRef<Record<string, number>>({});
   const savesRef = useRef<SaveMap>({});
   const focusedRef = useRef(0);
   const modalRef = useRef<number | null>(null);
@@ -49,7 +44,6 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
   useEffect(() => { focusedRef.current = focused; }, [focused]);
   useEffect(() => { modalRef.current = modalIndex; }, [modalIndex]);
   useEffect(() => { bootedRef.current = booted; }, [booted]);
-  useEffect(() => { savesRef.current = saves; }, [saves]);
   useEffect(() => { document.body.classList.toggle("ready", booted); }, [booted]);
 
   const showFlash = useCallback((msg: string) => {
@@ -58,29 +52,48 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     flashTimer.current = window.setTimeout(() => setFlash(null), 2200);
   }, []);
 
-  const centerTrack = useCallback((i: number) => {
-    const tile = tileRefs.current[i];
-    const shelf = shelfRef.current;
-    const track = trackRef.current;
-    if (!tile || !shelf || !track) return;
-    const s = shelf.getBoundingClientRect();
-    const t = tile.getBoundingClientRect();
-    trackX.current += s.left + s.width / 2 - (t.left + t.width / 2);
-    track.style.transform = `translateX(${trackX.current}px)`;
-  }, []);
+  /* XMB axes: ORGS with at least one project, each holding flat indices into `projects`. */
+  const groups = useMemo(
+    () =>
+      ORGS.map((org) => ({
+        org,
+        items: projects
+          .map((p, i) => (p.org === org.id ? i : -1))
+          .filter((i) => i >= 0),
+      })).filter((g) => g.items.length > 0),
+    [projects],
+  );
+  const orgIdxOf = useCallback(
+    (pIdx: number) => Math.max(0, groups.findIndex((g) => g.items.includes(pIdx))),
+    [groups],
+  );
+
+  const centerAxes = useCallback((pIdx: number) => {
+    const gi = orgIdxOf(pIdx);
+    const orgTrack = orgTrackRef.current;
+    const orgEl = orgTrack?.children[gi] as HTMLElement | undefined;
+    if (orgTrack && orgEl && orgTrack.parentElement) {
+      // rounded to the pixel grid; fractional translates blur the text layer
+      const x = Math.round(orgTrack.parentElement.clientWidth / 2 - (orgEl.offsetLeft + orgEl.offsetWidth / 2));
+      orgTrack.style.transform = `translateX(${x}px)`;
+    }
+    const ii = groups[gi]?.items.indexOf(pIdx) ?? 0;
+    const colTrack = colTrackRef.current;
+    const itemEl = colTrack?.children[ii] as HTMLElement | undefined;
+    if (colTrack && itemEl) {
+      const y = Math.round(8 - itemEl.offsetTop);
+      colTrack.style.transform = `translateY(${y}px)`;
+    }
+  }, [groups, orgIdxOf]);
 
   const playFocused = useCallback(
     (i: number) => {
-      tileRefs.current.forEach((tile, j) => {
-        const v = tile?.querySelector("video");
-        if (!v) return;
-        if (j === i) {
-          if (!v.getAttribute("src")) v.setAttribute("src", projects[i].video);
-          v.play()?.catch(() => {});
-        } else {
-          try { v.pause(); } catch {}
-        }
-      });
+      const v = previewVideoRef.current;
+      // the preview pane is hidden on small screens; don't stream video into it
+      if (!v || window.matchMedia("(max-width: 720px)").matches) return;
+      const src = projects[i]?.video;
+      if (src && v.getAttribute("src") !== src) v.setAttribute("src", src);
+      v.play()?.catch(() => {});
     },
     [projects],
   );
@@ -92,6 +105,31 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       setFocused(i);
     },
     [projects.length],
+  );
+
+  /* Vertical axis: step within the focused org's column. */
+  const goItem = useCallback(
+    (delta: number) => {
+      const gi = orgIdxOf(focusedRef.current);
+      const items = groups[gi].items;
+      const pos = items.indexOf(focusedRef.current);
+      const next = Math.max(0, Math.min(items.length - 1, pos + delta));
+      goFocus(items[next]);
+    },
+    [groups, orgIdxOf, goFocus],
+  );
+
+  /* Horizontal axis: step across orgs, restoring that org's remembered row. */
+  const goOrg = useCallback(
+    (delta: number) => {
+      const gi = orgIdxOf(focusedRef.current);
+      const next = Math.max(0, Math.min(groups.length - 1, gi + delta));
+      if (next === gi) return;
+      const g = groups[next];
+      const pos = Math.min(orgMemo.current[g.org.id] ?? 0, g.items.length - 1);
+      goFocus(g.items[pos]);
+    },
+    [groups, orgIdxOf, goFocus],
   );
 
   const persist = useCallback(() => {
@@ -108,48 +146,63 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
 
   const openModal = useCallback((i: number) => setModalIndex(i), []);
 
-  const modalStep = useCallback(
-    (d: number) => {
-      persist();
-      setModalIndex((mi) => (mi == null ? mi : Math.max(0, Math.min(projects.length - 1, mi + d))));
-    },
-    [persist, projects.length],
-  );
+  /* Console-style arrows inside the modal: scroll the sheet, then walk the link chips at the bottom. */
+  const modalArrow = useCallback((dir: 1 | -1) => {
+    const sheet = sheetRef.current;
+    if (!sheet) return;
+    const links = Array.from(sheet.querySelectorAll<HTMLAnchorElement>(".mlinks a"));
+    const idx = links.indexOf(document.activeElement as HTMLAnchorElement);
+    const step = sheet.clientHeight * 0.55;
+    const atBottom = sheet.scrollTop + sheet.clientHeight >= sheet.scrollHeight - 8;
+    if (dir > 0) {
+      if (idx >= 0 && idx < links.length - 1) {
+        links[idx + 1].focus({ preventScroll: true });
+        audio.current?.navBlip();
+      } else if (idx < 0 && atBottom && links.length) {
+        links[0].focus({ preventScroll: true });
+        audio.current?.navBlip();
+      } else if (idx < 0) {
+        sheet.scrollBy({ top: step, behavior: "smooth" });
+      }
+    } else {
+      if (idx > 0) {
+        links[idx - 1].focus({ preventScroll: true });
+        audio.current?.navBlip();
+      } else {
+        if (idx === 0) (links[0] as HTMLElement).blur();
+        sheet.scrollBy({ top: -step, behavior: "smooth" });
+      }
+    }
+  }, []);
 
   const closeModal = useCallback(() => {
     persist();
     audio.current?.backBlip();
-    showFlash("Save data written");
     const mi = modalRef.current;
-    setSaves({ ...savesRef.current });
     if (mi != null) setFocused(mi);
     try { modalVideoRef.current?.pause(); } catch {}
     setModalIndex(null);
-  }, [persist, showFlash]);
+  }, [persist]);
 
-  // focus / boot / modal -> center, accent, play the focused tile
+  // focus / boot / modal -> center both axes, accent, remember the row, play the preview
   useEffect(() => {
     const p = projects[focused];
     if (!p) return;
     document.documentElement.style.setProperty("--accent", p.poster[0]);
     ps2.current?.setAccent(p.poster[0]);
-    centerTrack(focused);
+    const gi = orgIdxOf(focused);
+    orgMemo.current[groups[gi].org.id] = groups[gi].items.indexOf(focused);
+    centerAxes(focused);
     if (booted && modalIndex === null) playFocused(focused);
-  }, [focused, booted, modalIndex, projects, centerTrack, playFocused]);
+  }, [focused, booted, modalIndex, projects, groups, orgIdxOf, centerAxes, playFocused]);
 
-  // open/close the demo modal
+  // open/close the demo modal — the PS2 scene keeps animating behind the translucent backdrop
   useEffect(() => {
-    if (modalIndex == null) {
-      ps2.current?.setPaused(false);
-      return;
-    }
+    if (modalIndex == null) return;
     const p = projects[modalIndex];
-    ps2.current?.setPaused(true);
     audio.current?.confirmBlip();
-    tileRefs.current.forEach((tile) => {
-      const v = tile?.querySelector("video");
-      try { v?.pause(); } catch {}
-    });
+    try { (document.activeElement as HTMLElement | null)?.blur?.(); } catch {}
+    try { previewVideoRef.current?.pause(); } catch {}
     const v = modalVideoRef.current;
     if (v) {
       v.src = p.video;
@@ -166,11 +219,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
 
     try {
       const raw = localStorage.getItem(SAVE_KEY);
-      if (raw) {
-        const s = JSON.parse(raw) as SaveMap;
-        savesRef.current = s;
-        setSaves(s);
-      }
+      if (raw) savesRef.current = JSON.parse(raw) as SaveMap;
     } catch {}
 
     audio.current = createAudio();
@@ -221,42 +270,52 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       }
       if (!bootedRef.current) { skipRef.current?.(); return; }
       if (modalRef.current != null) {
-        if (e.key === "ArrowLeft") modalStep(-1);
-        else if (e.key === "ArrowRight") modalStep(1);
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          modalArrow(e.key === "ArrowDown" ? 1 : -1);
+        }
         return;
       }
-      if (e.key === "ArrowLeft") goFocus(focusedRef.current - 1);
-      else if (e.key === "ArrowRight") goFocus(focusedRef.current + 1);
+      if (e.key === "ArrowLeft") goOrg(-1);
+      else if (e.key === "ArrowRight") goOrg(1);
+      else if (e.key === "ArrowUp") goItem(-1);
+      else if (e.key === "ArrowDown") goItem(1);
       else if (e.key === "Enter") openModal(focusedRef.current);
+      else return;
+      if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) e.preventDefault();
     };
     const onMove = (e: PointerEvent) => {
       ps2.current?.setMouse(e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight, 1);
     };
-    const onResize = () => centerTrack(focusedRef.current);
+    const onResize = () => centerAxes(focusedRef.current);
     const onVis = () => {
       if (document.hidden) {
         ps2.current?.setPaused(true);
-        tileRefs.current.forEach((t) => { const v = t?.querySelector("video"); try { v?.pause(); } catch {} });
+        try { previewVideoRef.current?.pause(); } catch {}
       } else {
-        ps2.current?.setPaused(modalRef.current != null);
+        ps2.current?.setPaused(false);
         if (bootedRef.current && modalRef.current == null) playFocused(focusedRef.current);
       }
     };
     let dragX: number | null = null;
-    const onDown = (e: PointerEvent) => { dragX = e.clientX; };
+    let dragY: number | null = null;
+    const onDown = (e: PointerEvent) => { dragX = e.clientX; dragY = e.clientY; };
     const onUp = (e: PointerEvent) => {
-      if (dragX == null) return;
+      if (dragX == null || dragY == null) return;
       const dx = e.clientX - dragX;
-      dragX = null;
-      if (Math.abs(dx) > 40) goFocus(focusedRef.current + (dx < 0 ? 1 : -1));
+      const dy = e.clientY - dragY;
+      dragX = dragY = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) goOrg(dx < 0 ? 1 : -1);
+      else if (Math.abs(dy) > 40) goItem(dy < 0 ? 1 : -1);
     };
     let wheelLock = false;
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && Math.abs(e.deltaY) < 8) return;
+      if (Math.abs(e.deltaX) < 4 && Math.abs(e.deltaY) < 8) return;
       e.preventDefault();
       if (wheelLock) return;
       wheelLock = true;
-      goFocus(focusedRef.current + (e.deltaX + e.deltaY > 0 ? 1 : -1));
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) goOrg(e.deltaX > 0 ? 1 : -1);
+      else goItem(e.deltaY > 0 ? 1 : -1);
       window.setTimeout(() => { wheelLock = false; }, 260);
     };
 
@@ -266,10 +325,10 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
-    const shelf = shelfRef.current;
+    const shelf = colRef.current;
     shelf?.addEventListener("wheel", onWheel, { passive: false });
 
-    requestAnimationFrame(() => centerTrack(focusedRef.current));
+    requestAnimationFrame(() => centerAxes(focusedRef.current));
 
     return () => {
       disposed = true;
@@ -300,7 +359,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     clicks.current += 1;
     if (clicks.current >= 3) {
       clicks.current = 0;
-      showFlash("◍ MEMORY CARD (8MB) — formatted with care");
+      showFlash("◍ MEMORY CARD (8MB) · formatted with care");
       if (!soundOn) { setSoundOn(true); audio.current?.setSound(true); }
       audio.current?.confirmBlip();
       document.body.animate?.(
@@ -315,9 +374,6 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     if (v && Math.floor(v.currentTime) % 2 === 0) persist();
   };
 
-  const cur = projects[focused];
-  const curSave = cur ? saves[cur.id] : undefined;
-  const canResume = !!(curSave && curSave.t > 3 && !curSave.done);
   const m = modalIndex !== null ? projects[modalIndex] : null;
 
   return (
@@ -360,58 +416,85 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
         </div>
       </header>
 
-      <main className="browser">
-        <div className="crumbs">
-          <span className="crumb-cur">{cur?.title}</span>
-          <span className="crumb-date">{cur?.period}</span>
-        </div>
-        <section className="shelf" ref={shelfRef}>
-          <button className="arrow left" aria-label="Previous project" disabled={focused === 0} onClick={() => goFocus(focused - 1)}>‹</button>
-          <div className="track" ref={trackRef}>
-            {projects.map((p, i) => (
-              <button
-                key={p.id}
-                ref={(el) => { tileRefs.current[i] = el; }}
-                className={`tile${i === focused ? " focus" : ""}${i === focused && booted && modalIndex === null ? " playing" : ""}`}
-                style={{ "--a1": p.poster[0], "--a2": p.poster[1] } as CSSProperties}
-                onClick={() => (i === focused ? openModal(i) : goFocus(i))}
-                aria-label={`${p.title}, ${p.year}`}
-              >
-                <video muted loop playsInline preload="none" />
-                <span className="glyph">{p.title}</span>
-                <span className="playcue" aria-hidden="true">▶</span>
-                <span className="tile-label">{p.title}</span>
-              </button>
-            ))}
+      <main className="browser xmb">
+        <section className="xmb-bar" aria-label="Companies">
+          <div className="orgtrack" ref={orgTrackRef}>
+            {groups.map((g, gi) => {
+              const on = gi === orgIdxOf(focused);
+              return (
+                <button
+                  key={g.org.id}
+                  className={`org${on ? " on" : ""}`}
+                  aria-current={on}
+                  onClick={() => {
+                    const pos = Math.min(orgMemo.current[g.org.id] ?? 0, g.items.length - 1);
+                    goFocus(g.items[pos]);
+                  }}
+                >
+                  <img src={g.org.logo} alt="" width={64} height={64} />
+                  <span className="orgname">{g.org.name}</span>
+                  <span className="orgblurb">{g.org.blurb}</span>
+                </button>
+              );
+            })}
           </div>
-          <button className="arrow right" aria-label="Next project" disabled={focused === projects.length - 1} onClick={() => goFocus(focused + 1)}>›</button>
         </section>
 
-        <section className="info">
-          <p className="info-tag">{cur?.tagline}</p>
-          {canResume && (
-            <div className="info-actions">
-              <button className="btn ghost" onClick={() => openModal(focused)}>↺&nbsp;&nbsp;Continue · {fmt(curSave!.t)}</button>
-            </div>
-          )}
+        <section className="xmb-col" ref={colRef} aria-label="Projects">
+          <div className="coltrack" ref={colTrackRef}>
+            {groups[orgIdxOf(focused)].items.map((pIdx) => {
+              const p = projects[pIdx];
+              const on = pIdx === focused;
+              return (
+                <button
+                  key={p.id}
+                  className={`xitem${on ? " on" : ""}${on && booted && modalIndex === null ? " playing" : ""}`}
+                  style={{ "--a1": p.poster[0], "--a2": p.poster[1] } as CSSProperties}
+                  onClick={() => (on ? openModal(pIdx) : goFocus(pIdx))}
+                  aria-label={`${p.title}, ${p.year}`}
+                >
+                  <span className="xicon"><img src={p.logo} alt="" width={28} height={28} /></span>
+                  <span className="xmeta">
+                    <span className="xtop">
+                      <span className="xtitle">{p.title}</span>
+                      <span className="xyear">{p.period}</span>
+                    </span>
+                    <span className="xrole">{p.role}</span>
+                    {on && <span className="xtag">{p.tagline}</span>}
+                  </span>
+                  {on && modalIndex === null && (
+                    <span className="xpreview" aria-hidden="true">
+                      {p.portrait ? (
+                        <VideoWall src={p.video} panels={3} />
+                      ) : (
+                        <video ref={previewVideoRef} muted loop playsInline preload="none" />
+                      )}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </section>
       </main>
 
       <aside className="navhud">
-        <div className="dots" role="tablist" aria-label="Projects">
-          {projects.map((p, i) => (
+        <div className="dots" role="tablist" aria-label="Projects in this company">
+          {groups[orgIdxOf(focused)].items.map((pIdx) => (
             <button
-              key={p.id}
-              className={`dot${i === focused ? " on" : ""}`}
+              key={projects[pIdx].id}
+              className={`dot${pIdx === focused ? " on" : ""}`}
               role="tab"
-              aria-selected={i === focused}
-              aria-label={p.title}
-              onClick={() => goFocus(i)}
+              aria-selected={pIdx === focused}
+              aria-label={projects[pIdx].title}
+              onClick={() => goFocus(pIdx)}
             />
           ))}
         </div>
         <div className="navlegend" aria-hidden="true">
-          <kbd>←</kbd><kbd>→</kbd><span className="lbl">browse</span>
+          <kbd>←</kbd><kbd>→</kbd><span className="lbl">company</span>
+          <span className="sep">·</span>
+          <kbd>↑</kbd><kbd>↓</kbd><span className="lbl">project</span>
           <span className="sep">·</span>
           <kbd>Enter</kbd><span className="lbl">watch</span>
           <span className="sep">·</span>
@@ -423,20 +506,23 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
 
       {m && (
         <div className="modal" role="dialog" aria-modal="true" onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}>
-          <div className="sheet">
+          <div className="sheet" ref={sheetRef}>
             <div className="player">
               <button className="close" aria-label="Close" onClick={closeModal}>✕</button>
-              <button className="nav prev" aria-label="Previous project" onClick={() => modalStep(-1)}>‹</button>
-              <button className="nav next" aria-label="Next project" onClick={() => modalStep(1)}>›</button>
-              <video
-                ref={modalVideoRef}
-                controls
-                controlsList="nodownload noplaybackrate noremoteplayback"
-                disablePictureInPicture
-                playsInline
-                preload="metadata"
-                onTimeUpdate={onTimeUpdate}
-              />
+              {m.portrait ? (
+                <VideoWall src={m.video} panels={3} />
+              ) : (
+                <video
+                  ref={modalVideoRef}
+                  controls
+                  loop
+                  controlsList="nodownload noplaybackrate noremoteplayback"
+                  disablePictureInPicture
+                  playsInline
+                  preload="metadata"
+                  onTimeUpdate={onTimeUpdate}
+                />
+              )}
             </div>
             <div className="mbody">
               <div className="mtop">
@@ -451,9 +537,9 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
                 <section><h4>Outcome</h4><p>{m.outcome}</p></section>
               </div>
               <div className="mlinks">
-                {m.links.live && <a href={m.links.live} onClick={(e) => { if (m.links.live === "#") e.preventDefault(); }}>Live</a>}
-                {m.links.code && <a href={m.links.code} onClick={(e) => { if (m.links.code === "#") e.preventDefault(); }}>Code</a>}
-                {m.links.study && <a href={m.links.study} onClick={(e) => { if (m.links.study === "#") e.preventDefault(); }}>Case study</a>}
+                {m.links.live && <a className={m.links.live !== "#" ? "live" : undefined} href={m.links.live} target="_blank" rel="noreferrer" onClick={(e) => { if (m.links.live === "#") e.preventDefault(); }}>Live</a>}
+                {m.links.code && <a href={m.links.code} target="_blank" rel="noreferrer" onClick={(e) => { if (m.links.code === "#") e.preventDefault(); }}>Code</a>}
+                {m.links.study && <a href={m.links.study} target="_blank" rel="noreferrer" onClick={(e) => { if (m.links.study === "#") e.preventDefault(); }}>Case study</a>}
               </div>
             </div>
           </div>

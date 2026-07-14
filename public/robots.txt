@@ -7,3 +7,6 @@ Allow: /llms.txt
 Allow: /profile.json
 Allow: /humans.txt
 Allow: /showcase
+Allow: /blog
+
+Sitemap: https://portfolio-next-peach-nine-91.vercel.app/sitemap.xml

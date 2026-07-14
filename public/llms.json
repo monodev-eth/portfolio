@@ -6,6 +6,8 @@
   "links": {
     "site": "/",
     "showcase": "/showcase",
+    "blog": "/blog",
+    "rss": "/blog/feed.xml",
     "github": "https://github.com/monodev-eth",
     "x": "https://x.com/monochrome_dev",
     "telegram": "https://t.me/dmitry_xyz",
@@ -25,40 +27,79 @@
     {
       "role": "Chief Digital Officer",
       "organization": "SigIntZero",
-      "summary": "Building intelligent digital infrastructure across search, AI, and scalable systems for Web3 security."
+      "summary": "Smart-contract audit and security firm. Search, AI, and digital infrastructure across the brand and products."
     },
     {
-      "role": "Co-Founder / Software Development Engineer",
-      "organization": "TrueOrigin Venture Studio",
-      "summary": "Building AI products, software systems, and digital infrastructure."
+      "role": "Co-Founder / Software Engineer",
+      "organization": "TrueOrigin Labs",
+      "summary": "Venture studio behind Aetos and Flow. Product and systems work across crypto, fintech, and applied AI."
     },
     {
       "role": "Tech Co-Founder / Lead Frontend Engineer",
       "organization": "Yieldly",
-      "summary": "Led frontend and product engineering for crypto infrastructure."
+      "summary": "The first DeFi suite on Algorand. Led front-end and product engineering through launch."
     },
     {
       "role": "Full Stack Engineer",
       "organization": "MANTRA",
-      "summary": "Full-stack web3 product engineering."
+      "summary": "Web3 product engineering in the TrueOrigin external team."
+    },
+    {
+      "role": "Front-End, Design, Integration & QA",
+      "organization": "Book Club",
+      "summary": "Founding-team member of the APAC crypto venture community. Runs on Aetos."
+    },
+    {
+      "role": "Co-Founder",
+      "organization": "TrueOrigin",
+      "summary": "Onchain product authenticity and supply-chain provenance. The studio's namesake."
     }
   ],
   "projects": [
     {
-      "name": "Macro Terminal",
-      "summary": "Markets terminal that scores dated, falsifiable theses."
+      "name": "Aetos",
+      "summary": "Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Underpins Book Club (bookclub.wtf).",
+      "links": {
+        "live": "https://aetos.vc",
+        "docs": "https://aetos.gitbook.io/aetos.vc"
+      }
     },
     {
-      "name": "Quant Desk",
-      "summary": "Autonomous long/short crypto trading bot with volatility targeting."
+      "name": "Flow",
+      "summary": "High-frequency copytrading system on Solana and Ethereum (TrueOrigin Labs). Trading front-end, 0-block latency execution."
     },
     {
-      "name": "Signal Radar",
-      "summary": "Dashboard for measuring caller edge from on-chain and social flow."
+      "name": "SigIntZero",
+      "summary": "Smart-contract audit and security firm (Chief Digital Officer). Sentinel AI scans, senior audits, and Tripwire runtime monitoring.",
+      "links": {
+        "live": "https://sigintzero.com"
+      }
     },
     {
-      "name": "Browser Pilot",
-      "summary": "Control plane for AI agents driving real websites with headed login and headless automation."
+      "name": "Yieldly",
+      "summary": "The first DeFi suite on Algorand (tech co-founder, lead frontend). Staking pools and no-loss prize games."
+    },
+    {
+      "name": "Book Club",
+      "summary": "APAC crypto venture community running on Aetos (founding team). 9 teams backed, $10M+ collective revenue.",
+      "links": {
+        "live": "https://www.bookclub.wtf"
+      }
+    },
+    {
+      "name": "MantraDAO",
+      "summary": "DeFi staking and governance. Full-stack product engineering in the TrueOrigin external team."
+    },
+    {
+      "name": "Shuriken",
+      "summary": "Low-latency trading systems behind Shuriken's Ethereum launch (core dev team).",
+      "links": {
+        "live": "https://shuriken.trade"
+      }
+    },
+    {
+      "name": "TrueOrigin",
+      "summary": "Onchain product authenticity and supply-chain provenance (co-founder). The studio's namesake."
     }
   ]
 }

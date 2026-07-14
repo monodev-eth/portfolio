@@ -11,6 +11,7 @@
     "telegram": "https://t.me/dmitry_xyz",
     "ens": "https://app.ens.domains/monodev.eth",
     "interactivePortfolio": "/showcase",
+    "blog": "/blog",
     "llms": "/llms.json"
   },
   "focus": [
@@ -26,55 +27,125 @@
     {
       "role": "Chief Digital Officer",
       "organization": "SigIntZero",
-      "summary": "Building intelligent digital infrastructure across search, AI, and scalable systems for Web3 security."
+      "summary": "Smart-contract audit and security firm. Search, AI, and digital infrastructure across the brand and products."
     },
     {
-      "role": "Co-Founder / Software Development Engineer",
-      "organization": "TrueOrigin Venture Studio",
-      "summary": "Building AI products, software systems, and digital infrastructure."
+      "role": "Co-Founder / Software Engineer",
+      "organization": "TrueOrigin Labs",
+      "summary": "Venture studio behind Aetos and Flow. Product and systems work across crypto, fintech, and applied AI."
     },
     {
       "role": "Tech Co-Founder / Lead Frontend Engineer",
       "organization": "Yieldly",
-      "summary": "Led frontend and product engineering for crypto infrastructure."
+      "summary": "The first DeFi suite on Algorand. Led front-end and product engineering through launch."
     },
     {
       "role": "Full Stack Engineer",
       "organization": "MANTRA",
-      "summary": "Full-stack web3 product engineering."
+      "summary": "Web3 product engineering in the TrueOrigin external team."
+    },
+    {
+      "role": "Front-End, Design, Integration & QA",
+      "organization": "Book Club",
+      "summary": "Founding-team member of the APAC crypto venture community. Runs on Aetos."
+    },
+    {
+      "role": "Co-Founder",
+      "organization": "TrueOrigin",
+      "summary": "Onchain product authenticity and supply-chain provenance. The studio's namesake."
     }
   ],
   "projects": [
     {
-      "name": "Macro Terminal",
-      "summary": "Markets terminal that scores dated, falsifiable theses.",
-      "stack": ["Next.js", "TypeScript", "Tailwind", "SVG", "Postgres"]
+      "name": "Aetos",
+      "summary": "Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Underpins Book Club (bookclub.wtf).",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Solidity",
+        "The Graph",
+        "EVM"
+      ],
+      "links": {
+        "live": "https://aetos.vc",
+        "docs": "https://aetos.gitbook.io/aetos.vc"
+      }
     },
     {
-      "name": "Quant Desk",
-      "summary": "Autonomous long/short crypto trading bot with volatility targeting.",
-      "stack": ["TypeScript", "Python", "Bybit API", "Postgres"]
+      "name": "Flow",
+      "summary": "High-frequency copytrading system on Solana and Ethereum (TrueOrigin Labs). Trading front-end, 0-block latency execution.",
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Solana",
+        "Ethereum"
+      ]
     },
     {
-      "name": "Signal Radar",
-      "summary": "Dashboard for measuring caller edge from on-chain and social flow.",
-      "stack": ["Next.js", "DuckDB", "WebSockets"]
+      "name": "SigIntZero",
+      "summary": "Smart-contract audit and security firm (Chief Digital Officer). Sentinel AI scans, senior audits, and Tripwire runtime monitoring.",
+      "stack": [
+        "AI",
+        "Security",
+        "Next.js",
+        "Search"
+      ],
+      "links": {
+        "live": "https://sigintzero.com"
+      }
     },
     {
-      "name": "Browser Pilot",
-      "summary": "Control plane for AI agents driving real websites with headed login and headless automation.",
-      "stack": ["Python", "CDP", "asyncio"]
+      "name": "Yieldly",
+      "summary": "The first DeFi suite on Algorand (tech co-founder, lead frontend). Staking pools and no-loss prize games.",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Algorand",
+        "TEAL"
+      ]
     },
     {
-      "name": "Flow Engine",
-      "summary": "Scheduler for shipping on-brand content across multiple accounts.",
-      "stack": ["Node", "Redis", "Cron"]
+      "name": "Book Club",
+      "summary": "APAC crypto venture community running on Aetos (founding team). 9 teams backed, $10M+ collective revenue.",
+      "stack": [
+        "Aetos",
+        "EVM",
+        "Design"
+      ],
+      "links": {
+        "live": "https://www.bookclub.wtf"
+      }
     },
     {
-      "name": "Outreach CRM",
-      "summary": "Lead pipeline for enrichment, scoring, auto-contact, and follow-up tracking.",
-      "stack": ["tsx", "Postgres", "Node"]
+      "name": "MantraDAO",
+      "summary": "DeFi staking and governance. Full-stack product engineering in the TrueOrigin external team.",
+      "stack": [
+        "React",
+        "TypeScript",
+        "Solidity"
+      ]
+    },
+    {
+      "name": "Shuriken",
+      "summary": "Low-latency trading systems behind Shuriken's Ethereum launch (core dev team).",
+      "stack": [
+        "Ethereum",
+        "Low latency",
+        "Trading"
+      ],
+      "links": {
+        "live": "https://shuriken.trade"
+      }
+    },
+    {
+      "name": "TrueOrigin",
+      "summary": "Onchain product authenticity and supply-chain provenance (co-founder). The studio's namesake.",
+      "stack": [
+        "Solidity",
+        "Node",
+        "Supply chain"
+      ]
     }
   ],
-  "lastReviewed": "2026-06-27"
+  "lastReviewed": "2026-07-08"
 }

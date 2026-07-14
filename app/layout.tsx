@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Play, Hanken_Grotesk } from "next/font/google";
 import { PROFILE } from "@/lib/profile";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 // Self-hosted at build time — no external request, no layout shift.
@@ -13,6 +14,7 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: `${PROFILE.displayName} / ${PROFILE.name}`,
   description: PROFILE.summary,
   openGraph: {

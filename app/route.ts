@@ -1,5 +1,6 @@
 import { PROJECTS } from "@/lib/projects";
 import { PROFILE } from "@/lib/profile";
+import { getAllPosts } from "@/lib/posts";
 
 export const dynamic = "force-static";
 
@@ -20,22 +21,32 @@ export function GET() {
     {
       role: "Chief Digital Officer",
       org: "SigIntZero",
-      meta: "Web3 security, search, AI, scalable systems",
+      meta: "Smart-contract audit & security firm. Search, AI, digital infrastructure",
     },
     {
       role: "Co-Founder / Software Engineer",
-      org: "TrueOrigin Venture Studio",
-      meta: "AI products, software delivery, digital infrastructure",
+      org: "TrueOrigin Labs",
+      meta: "Venture studio behind Aetos and Flow. Crypto, fintech, applied AI",
     },
     {
       role: "Tech Co-Founder / Lead Frontend",
       org: "Yieldly",
-      meta: "Crypto products, frontend systems, launch execution",
+      meta: "The first DeFi suite on Algorand. Front-end and product through launch",
     },
     {
       role: "Full Stack Engineer",
       org: "MANTRA",
-      meta: "Remote web3 product engineering",
+      meta: "Web3 product engineering in the TrueOrigin external team",
+    },
+    {
+      role: "Front-End, Design, Integration & QA",
+      org: "Book Club",
+      meta: "Founding-team member. APAC crypto venture community, runs on Aetos",
+    },
+    {
+      role: "Co-Founder",
+      org: "TrueOrigin",
+      meta: "Onchain product authenticity and supply-chain provenance. The studio's namesake",
     },
   ];
   const jsonLd = {
@@ -87,6 +98,24 @@ export function GET() {
       `</li>`
     ))
     .join("");
+  const latestPosts = getAllPosts().filter((post) => !post.draft).slice(0, 3);
+  const writingItems = latestPosts
+    .map((post) => (
+      `<li>` +
+      `<h3>${esc(post.date)}</h3>` +
+      `<p><a href="/blog/${esc(post.slug)}">${esc(post.title)}</a><span>${esc(post.summary)}</span></p>` +
+      `</li>`
+    ))
+    .join("");
+  const writingSection = latestPosts.length
+    ? `<section class="projects writing" aria-labelledby="writing">
+    <div class="section-head">
+      <h2 id="writing">Writing</h2>
+    </div>
+    <ol>${writingItems}</ol>
+    <p class="allposts"><a href="/blog">All posts →</a></p>
+  </section>`
+    : "";
 
   const html = `<!doctype html>
 <html lang="en">
@@ -110,6 +139,7 @@ export function GET() {
 <link rel="me" href="${esc(PROFILE.ensProfile)}">
 <link rel="alternate" type="application/json" href="/llms.json" title="LLM profile">
 <link rel="alternate" type="application/json" href="/profile.json" title="Structured profile">
+<link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="Writing feed">
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 <style>
 :root{--bg:#060711;--fg:#f3f6ff;--muted:#b2bce2;--dim:#707c9e;--line:rgba(164,184,245,.2);--line-strong:rgba(188,207,255,.38);--cyan:#76e4f4;--blue:#94aaff}
@@ -161,6 +191,12 @@ footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-
 footer a{color:var(--dim);text-decoration:none;opacity:.58}
 footer a:hover,footer a:focus-visible{color:var(--cyan);opacity:1;text-decoration:underline}
 footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;text-decoration:none}
+.writing h3{color:var(--dim);font:12px/1.9 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:400}
+.writing p a{color:#fbfcff;text-decoration:none}
+.writing p a:hover,.writing p a:focus-visible{color:var(--cyan)}
+.allposts{margin:14px 0 0;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.allposts a{color:var(--dim);text-decoration:none}
+.allposts a:hover,.allposts a:focus-visible{color:var(--cyan)}
 @media (max-width:760px){.wrap{width:min(100% - 32px,780px);padding-top:64px}header{gap:12px}.id{gap:9px}.avatar{width:44px;height:44px}.name{font-size:14px}.handle{font-size:11px}footer{justify-content:flex-end}main{padding-top:34px}.showcase-cta{min-width:166px;height:52px;padding:0 8px 0 14px;gap:10px}.showcase-label{font-size:10px;letter-spacing:.14em}.play-mark{width:34px;height:34px;border-radius:7px}.play-triangle{border-top-width:6px;border-bottom-width:6px;border-left-width:10px}.showcase-orbs{inset:-64px -70px -96px -82px;width:calc(100% + 152px);height:calc(100% + 160px)}.projects{margin-top:30px}.projects li{grid-template-columns:1fr;gap:5px}footer{margin-top:30px}}
 @media (prefers-reduced-motion:reduce){a{transition:none}}
 </style>
@@ -212,7 +248,10 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
     <ol>${projectItems}</ol>
   </section>
 
+  ${writingSection}
+
   <footer>
+    <a href="/blog">blog</a>
     <a href="/llms.json">llms.json</a>
     <a href="/profile.json">profile.json</a>
   </footer>

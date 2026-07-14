@@ -1,0 +1,435 @@
+/* =========================================================================
+   WRITING — reading surface for /blog. Same visual language as the root
+   profile route (near-black, faint grid, cyan accents), tuned for long-form.
+   globals.css locks <html>/<body> scroll for the PS2 showcase, so the blog
+   lives inside a fixed, self-scrolling shell instead of the document flow.
+   ========================================================================= */
+
+.blogshell {
+  --bbg: #060711;
+  --bfg: #f3f6ff;
+  --bread: #c7cfeb;
+  --bmuted: #b2bce2;
+  --bdim: #707c9e;
+  --bline: rgba(164, 184, 245, 0.2);
+  --bline-strong: rgba(188, 207, 255, 0.38);
+  --bcyan: #76e4f4;
+  --bmono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background:
+    radial-gradient(900px 420px at 50% -160px, rgba(42, 79, 180, 0.42), transparent 70%),
+    linear-gradient(180deg, #080b18 0%, var(--bbg) 38%, #04050b 100%);
+  color: var(--bfg);
+  font: 16px/1.72 var(--font-hanken), Inter, ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fixed scanline + grid backdrop; content scrolls over it. */
+.blogshell::before,
+.blogshell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.blogshell::before {
+  background: linear-gradient(rgba(255, 255, 255, 0.018) 50%, transparent 50%);
+  background-size: 100% 4px;
+  opacity: 0.35;
+}
+.blogshell::after {
+  background:
+    linear-gradient(rgba(160, 180, 255, 0.115) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160, 180, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(118, 228, 244, 0.035) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(118, 228, 244, 0.03) 2px, transparent 2px);
+  background-size: 56px 56px, 56px 56px, 224px 224px, 224px 224px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3) 52%, rgba(0, 0, 0, 0.08));
+  opacity: 0.55;
+}
+
+.blogwrap {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 36px, 720px);
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 64px 0 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.blogshell a {
+  color: inherit;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+}
+.blogshell a:hover,
+.blogshell a:focus-visible {
+  color: var(--bcyan);
+}
+.blogshell a:focus-visible {
+  outline: 1px solid var(--bcyan);
+  outline-offset: 4px;
+}
+
+/* ---- header / footer chrome ---- */
+.bloghead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 16px;
+}
+.blogid {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+}
+.blogid img {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--bline-strong);
+  border-radius: 3px;
+  box-shadow: 0 0 22px rgba(117, 215, 232, 0.14);
+}
+.blogname {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+}
+.bloghandle {
+  display: block;
+  margin-top: 1px;
+  color: var(--bdim);
+  font: 11px/1.4 var(--bmono);
+}
+.blognav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.blognav a {
+  font: 500 11px/1 var(--font-play), var(--bmono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bdim);
+  text-decoration: none;
+}
+.blognav a:hover,
+.blognav a:focus-visible,
+.blognav a[aria-current="true"] {
+  color: var(--bcyan);
+}
+
+.blogfoot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 40px;
+  color: var(--bdim);
+  font: 10px/1.5 var(--bmono);
+}
+.blogfoot a {
+  color: var(--bdim);
+  text-decoration: none;
+  opacity: 0.58;
+}
+.blogfoot a:hover,
+.blogfoot a:focus-visible {
+  color: var(--bcyan);
+  opacity: 1;
+  text-decoration: underline;
+}
+.blogfoot a + a::before {
+  content: "/";
+  margin-right: 10px;
+  color: var(--bdim);
+  opacity: 0.45;
+}
+
+/* ---- index ---- */
+.blogmain {
+  padding-top: 40px;
+}
+.blogmain > h1 {
+  margin: 0;
+  color: #fbfcff;
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 400;
+  line-height: 1.05;
+}
+.blogintro {
+  max-width: 52ch;
+  margin: 12px 0 0;
+  color: var(--bmuted);
+}
+
+.postlist {
+  list-style: none;
+  margin: 30px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.postlist a {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 18px;
+  margin: 0 -14px;
+  padding: 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.postlist a:hover,
+.postlist a:focus-visible {
+  color: inherit;
+  border-color: var(--bline);
+  background: rgba(16, 22, 46, 0.28);
+}
+.postdate {
+  color: var(--bdim);
+  font: 12px/1.9 var(--bmono);
+  white-space: nowrap;
+}
+.posttitle {
+  display: block;
+  color: #fbfcff;
+  font-size: 16px;
+  font-weight: 500;
+}
+.postlist a:hover .posttitle,
+.postlist a:focus-visible .posttitle {
+  color: var(--bcyan);
+}
+.postsummary {
+  display: block;
+  margin-top: 3px;
+  color: var(--bmuted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.posttags {
+  display: block;
+  margin-top: 7px;
+  color: var(--bdim);
+  font: 11px/1.4 var(--bmono);
+}
+.draftflag {
+  margin-left: 8px;
+  padding: 1px 6px;
+  border: 1px solid var(--bline-strong);
+  border-radius: 4px;
+  color: var(--bcyan);
+  font: 10px/1.6 var(--bmono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  vertical-align: 2px;
+}
+.blogempty {
+  margin: 30px 0 0;
+  color: var(--bdim);
+  font: 13px/1.7 var(--bmono);
+}
+
+/* ---- post page ---- */
+.postmeta .postdate {
+  margin: 0 0 14px;
+}
+.postmeta h1 {
+  margin: 0;
+  color: #fbfcff;
+  font-size: clamp(30px, 5.4vw, 44px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+.postlede {
+  max-width: 56ch;
+  margin: 14px 0 0;
+  color: var(--bmuted);
+  font-size: 17px;
+  line-height: 1.6;
+}
+.backlink {
+  margin: 44px 0 0;
+  font: 12px/1.4 var(--bmono);
+}
+.backlink a {
+  color: var(--bdim);
+  text-decoration: none;
+}
+.backlink a:hover,
+.backlink a:focus-visible {
+  color: var(--bcyan);
+}
+
+/* ---- rendered markdown ---- */
+.postbody {
+  margin-top: 36px;
+  color: var(--bread);
+}
+.postbody > :first-child {
+  margin-top: 0;
+}
+.postbody p {
+  margin: 18px 0;
+}
+.postbody h2,
+.postbody h3,
+.postbody h4 {
+  color: #fbfcff;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.postbody h2 {
+  margin: 42px 0 14px;
+  font-size: 23px;
+}
+.postbody h3 {
+  margin: 34px 0 12px;
+  font-size: 18px;
+}
+.postbody h4 {
+  margin: 28px 0 10px;
+  color: var(--bmuted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.postbody a {
+  color: var(--bcyan);
+}
+.postbody a:hover {
+  color: #b6f0fa;
+}
+.postbody ul,
+.postbody ol {
+  margin: 18px 0;
+  padding-left: 24px;
+}
+.postbody li {
+  margin: 7px 0;
+}
+.postbody li::marker {
+  color: var(--bdim);
+}
+.postbody strong {
+  color: var(--bfg);
+}
+.postbody blockquote {
+  margin: 22px 0;
+  padding: 2px 0 2px 18px;
+  border-left: 2px solid var(--bline-strong);
+  color: var(--bmuted);
+}
+.postbody blockquote p {
+  margin: 8px 0;
+}
+.postbody hr {
+  margin: 40px auto;
+  border: 0;
+  border-top: 1px solid var(--bline);
+  width: 100%;
+}
+.postbody img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px 0;
+  border: 1px solid var(--bline);
+  border-radius: 10px;
+}
+.postbody code {
+  font-family: var(--bmono);
+  font-size: 0.88em;
+}
+.postbody :not(pre) > code {
+  padding: 2px 6px;
+  border: 1px solid var(--bline);
+  border-radius: 5px;
+  background: rgba(150, 170, 255, 0.08);
+  color: var(--bfg);
+  white-space: nowrap;
+}
+.postbody pre {
+  margin: 24px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--bline);
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.postbody pre.shiki {
+  /* shiki inlines the theme background; keep it but blend the edges. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.postbody pre:not(.shiki) {
+  background: rgba(12, 17, 38, 0.6);
+}
+.postbody pre code {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  white-space: pre;
+}
+.postbody table {
+  width: 100%;
+  margin: 24px 0;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.postbody th {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--bline-strong);
+  color: var(--bdim);
+  font: 600 11px/1.6 var(--bmono);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.postbody td {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--bline);
+  vertical-align: top;
+}
+
+@media (max-width: 640px) {
+  .blogwrap {
+    width: min(100% - 32px, 720px);
+    padding-top: 48px;
+  }
+  .blogmain {
+    padding-top: 30px;
+  }
+  .postlist a {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    margin: 0 -10px;
+    padding: 12px 10px;
+  }
+  .postbody pre {
+    margin: 24px -10px;
+    border-radius: 8px;
+    padding: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blogshell a {
+    transition: none;
+  }
+}
