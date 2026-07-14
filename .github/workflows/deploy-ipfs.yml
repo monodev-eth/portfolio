@@ -39,10 +39,7 @@ jobs:
       - name: Build static export
         run: npm run build # next build && cp out/index out/index.html -> ./out
 
-      - name: Install Pinata SDK
-        run: npm install --no-save @pinata/sdk
-
       - name: Pin ./out to Pinata
         env:
           PINATA_JWT_TOKEN: ${{ secrets.PINATA_JWT_TOKEN }}
-        run: node scripts/pin-to-pinata.cjs
+        run: node scripts/pin-to-pinata.cjs # native fetch/FormData -> pinFileToIPFS
