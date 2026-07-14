@@ -1,0 +1,97 @@
+name: Deploy to IPFS (Pinata)
+
+# Builds the static export and pins it to Pinata on every push to this branch.
+#
+# One-time setup (both are yours to do — they need your Pinata account + repo access):
+#   1. Pinata dashboard -> Developers -> API Keys -> create a key with the
+#      "pinFileToIPFS"/Files write scope, copy the JWT.
+#   2. GitHub repo -> Settings -> Secrets and variables -> Actions ->
+#      New repository secret named  PINATA_JWT_TOKEN  = that JWT.
+#
+# After each run, the CID is printed in the run Summary. Point monodev.eth's
+# ENS "Content Hash" record at  ipfs://<cid>  (one-off, on-chain tx).
+
+on:
+  push:
+    branches: [ipfs-export]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  statuses: write
+  pull-requests: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build # next build && cp out/index out/index.html -> ./out
+
+      # Merkleize ./out into a CAR with a browsable CIDv1 (unixfs-v1-2025 profile).
+      # Repo: ipshipyard/ipfs-deploy-action (also published as ipfs/ipfs-deploy-action).
+      - name: Pack IPFS CAR
+        id: deploy
+        uses: ipshipyard/ipfs-deploy-action@v2
+        with:
+          path-to-deploy: out
+          cid-profile: unixfs-v1-2025
+          github-token: ${{ github.token }}
+
+      - name: Pin CAR to Pinata
+        env:
+          PINATA_JWT_TOKEN: ${{ secrets.PINATA_JWT_TOKEN }}
+          CID: ${{ steps.deploy.outputs.cid }}
+          CAR_PATH: ${{ steps.deploy.outputs.car-path }}
+        run: |
+          set -euo pipefail
+          if [ -z "${PINATA_JWT_TOKEN:-}" ]; then
+            echo "::error::Missing PINATA_JWT_TOKEN secret — add it in repo Settings -> Secrets -> Actions."
+            exit 1
+          fi
+          PIN_NAME="${GITHUB_REPOSITORY//\//-}-${GITHUB_SHA:0:7}"
+
+          response=$(curl -sS -w "\n%{http_code}" -X POST \
+            "https://uploads.pinata.cloud/v3/files" \
+            -H "Authorization: Bearer ${PINATA_JWT_TOKEN}" \
+            -F "network=public" \
+            -F "file=@${CAR_PATH}" \
+            -F "name=${PIN_NAME}" \
+            -F "car=true")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Pinata upload failed (HTTP $http_code): $body"
+            exit 1
+          fi
+
+          returned_cid=$(echo "$body" | jq -r '.data.cid')
+
+          {
+            echo "### 🌐 Pinned to IPFS via Pinata"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **CID** | \`${returned_cid}\` |"
+            echo "| **ENS Content Hash** | \`ipfs://${returned_cid}\` |"
+            echo "| **Gateway preview** | https://${returned_cid}.ipfs.dweb.link |"
+            echo ""
+            echo "Set monodev.eth's Content Hash to the \`ipfs://…\` value above at https://app.ens.domains"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${returned_cid}" != "${CID}" ]; then
+            echo "::warning::Pinata returned ${returned_cid} but the action computed ${CID} (usually fine — different CID profiles)."
+          fi
+          echo "Pinned ${PIN_NAME} -> ${returned_cid}"
