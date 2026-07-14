@@ -110,6 +110,28 @@ export const PROJECTS: Project[] = [
     links: {},
   },
   {
+    id: "imf",
+    org: "tolabs",
+    logo: "/logos/imf.png",
+    title: "IMF",
+    year: "2026",
+    period: "2025 – now",
+    role: "TrueOrigin Labs · front-end build",
+    tagline:
+      "The International Meme Fund — a memecoin-native bank on Ethereum. Borrow real stablecoins against your bags, and launch a coin that ships with its own ENS name and gas on the house.",
+    stack: ["Next.js", "TypeScript", "Ethereum", "ENS", "Morpho"],
+    state: "live",
+    poster: ["#0c3a1e", "#0a0e1e"],
+    video: "/clips/imf.mp4",
+    problem:
+      "Memecoins get treated as toys: you can't borrow against them, and launching one means fighting snipers, rug fears, and a nameless 0x address. The upside is real; the plumbing to actually bank it isn't.",
+    process:
+      "Built the front-end for IMF on Ethereum across both sides of the protocol: the credit desk — deposit a memecoin (or BTC/ETH), borrow USDS from isolated Morpho vaults, earn $IMF rewards — and V4, a launchpad where every coin bonds on a fair fixed-supply curve and graduates into permanently locked liquidity, shipping with a free ENS subname and gas covered by the protocol. All over a wallet-native front end.",
+    outcome:
+      "IMF became the fastest-growing Morpho vault — a nine-figure book that peaked near $260M TVL and the largest single holder of USDS — then shipped V4 to make launching a coin as easy as claiming a name. Now moving onto Robinhood Chain.",
+    links: { live: "https://imf.bz", study: "https://docs.imf.bz" },
+  },
+  {
     id: "sigintzero",
     org: "sigintzero",
     logo: "/logos/sigintzero.png",
@@ -237,6 +259,28 @@ export const PROJECTS: Project[] = [
     outcome:
       "A simulation API that turns a blind snipe into a checked one — honeypots and untradeable tokens filtered, trades sized on real numbers, all before capital ever touches the chain.",
     links: { live: "https://shuriken.trade" },
+  },
+  {
+    id: "bespoke",
+    org: "tolabs",
+    logo: "/logos/bespoke.png",
+    title: "Bespoke",
+    year: "2022",
+    period: "2022",
+    role: "TrueOrigin Labs · front-end build",
+    tagline:
+      "The mint site for Bespoke: a 10,000-piece NFT collection styled as a tailor tucked away on Wall Street — 3D storefront, lore, and wallet mint in one experience.",
+    stack: ["Next.js", "TypeScript", "MUI", "Ethereum", "Web3"],
+    state: "seen",
+    poster: ["#332a0c", "#0a0e1e"],
+    video: "/clips/bespoke.mp4",
+    problem:
+      "An NFT drop lives or dies on its mint experience. Bespoke needed a site that sold the story — a tailor tucked away on Wall Street — not just a wallet-connect over a grid of thumbnails.",
+    process:
+      "Built the front-end: a rendered 3D storefront you step into, the About / Specs / Team / Community sections, whitelist and fixed-price minting with wallet connect, Lottie feature loops, and an interactive “Enter the Tower” page.",
+    outcome:
+      "A branded, atmospheric mint site for a 10,000-piece collection — the storefront, the lore, and the mint flow in one place.",
+    links: { live: "https://bespoke.bond", study: "https://docs.bespoke.bond" },
   },
   {
     id: "trueorigin",
