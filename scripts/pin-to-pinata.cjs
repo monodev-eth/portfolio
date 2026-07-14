@@ -2,9 +2,10 @@
  * Pin the static export (./out) to Pinata as a browsable IPFS folder.
  *
  * Uploads the directory directly to the legacy pinFileToIPFS endpoint (free-plan
- * compatible — the v3 CAR upload is paid-only). Each file is sent with its path
- * RELATIVE TO ./out, so the returned CID's root IS the site root: <cid>/index.html
- * is the homepage, which is what ENS contenthash needs.
+ * compatible — the v3 CAR upload is paid-only). Pinata requires a single top-level
+ * directory, so every file is sent under one wrapper folder ("out/…"). Pinata pins
+ * that directory and returns its CID, so the site root is the CID root:
+ * <cid>/index.html is the homepage, which is what ENS contenthash needs.
  *
  * Env: PINATA_JWT_TOKEN (required to pin), GITHUB_REPOSITORY, GITHUB_SHA,
  *      GITHUB_STEP_SUMMARY. Set DRY_RUN=1 to walk + list files without uploading.
@@ -68,7 +69,9 @@ async function main() {
 
   const form = new FormData();
   for (const abs of files) {
-    form.append("file", new Blob([fs.readFileSync(abs)]), relPosix(abs));
+    // Single wrapper dir: Pinata rejects multiple top-level entries. The wrapper
+    // name is not part of the returned path (CID == the wrapper dir itself).
+    form.append("file", new Blob([fs.readFileSync(abs)]), `out/${relPosix(abs)}`);
   }
   form.append("pinataOptions", JSON.stringify({ cidVersion: 1 }));
   const repo = (process.env.GITHUB_REPOSITORY || "portfolio").replace(/\//g, "-");
