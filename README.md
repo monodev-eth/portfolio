@@ -15,7 +15,7 @@ npm run build && npm start
 
 - **`app/layout.tsx`** — `next/font` self-hosts *Play* + *Hanken Grotesk* at build time (no external request, no layout shift).
 - **`app/page.tsx`** — a Server Component that passes `PROJECTS` into the client `<Dashboard/>`, so project titles, taglines, and case-study copy render into the **initial HTML (SEO)**.
-- **`components/Dashboard.tsx`** (`"use client"`) — the carousel, modal, save-state, keyboard/drag nav, sound, and boot timeline. Content is JSX; the imperative bits (WebGL, audio, centering) run in effects.
+- **`components/Dashboard.tsx`** (`"use client"`) — the project-first XMB, focused project card, modal, save-state, keyboard/drag nav, sound, and boot timeline. Content is JSX; the imperative bits (WebGL, audio, centering) run in effects.
 - **`lib/ps2bg.ts`** — the Three.js boot + menu shader. Imported **only via dynamic `import()` inside a client effect**, so `three` never touches SSR and lands in its own async chunk (not in First Load JS).
 - **`lib/audio.ts`** — synthesized WebAudio (hum + blips).
 - **`lib/projects.ts`** — typed `Project[]`. **This is the edit point.**

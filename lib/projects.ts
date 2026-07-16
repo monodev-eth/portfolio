@@ -5,41 +5,6 @@
  */
 export type ProjectState = "featured" | "new" | "live" | "seen";
 
-/** XMB horizontal axis: the company/org a project was built under. */
-export interface Org {
-  id: string;
-  name: string;
-  logo: string;
-  blurb: string;
-}
-
-export const ORGS: Org[] = [
-  {
-    id: "tolabs",
-    name: "TrueOrigin Labs",
-    logo: "/logos/tolabs.png",
-    blurb: "The venture studio. Client engagements and studio products.",
-  },
-  {
-    id: "sigintzero",
-    name: "SigIntZero",
-    logo: "/logos/sigintzero.png",
-    blurb: "Smart-contract audit and security firm.",
-  },
-  {
-    id: "bookclub",
-    name: "Book Club",
-    logo: "/logos/bookclub.png",
-    blurb: "APAC crypto venture community.",
-  },
-  {
-    id: "trueorigin",
-    name: "TrueOrigin",
-    logo: "/logos/trueorigin.png",
-    blurb: "Onchain provenance. The studio's namesake.",
-  },
-];
-
 export interface Project {
   id: string;
   title: string;
@@ -47,8 +12,6 @@ export interface Project {
   /** Build window shown in the breadcrumb, formatted "mm/yyyy – mm/yyyy". */
   period: string;
   role: string;
-  /** id of the ORGS entry this project sits under on the XMB. */
-  org: string;
   /** Small mark shown in the XMB item row. */
   logo: string;
   tagline: string;
@@ -64,10 +27,21 @@ export interface Project {
   links: { live?: string; code?: string; study?: string };
 }
 
-export const PROJECTS: Project[] = [
+const PROJECT_ORDER = [
+  "imf",
+  "sigintzero",
+  "shuriken",
+  "flow",
+  "tonsoffriends",
+  "aetos",
+  "yieldly",
+  "bespoke",
+  "mantra",
+] as const;
+
+const PROJECTS_BY_HISTORY: Project[] = [
   {
     id: "aetos",
-    org: "tolabs",
     logo: "/logos/aetos.png",
     title: "Aetos",
     year: "2023",
@@ -84,12 +58,11 @@ export const PROJECTS: Project[] = [
     process:
       "Built the dApp front end at TrueOrigin: wallet-native flows over the Aetos contracts. Members vote each other in (1 member = 1 vote), commitment schedules call capital in rounds, vaults are siloed by purpose (capital, operations, returns, sub-vaults), and whitelisted tokens swap through an AMM. Indexed with The Graph.",
     outcome:
-      "An open-source, EVM-compatible platform that underpins Book Club, an APAC crypto venture community. The demo is the full 12-minute walkthrough: membership vote to claimed returns, every step an on-chain transaction.",
+      "An open-source, EVM-compatible platform that underpins Book Club, an APAC crypto venture community with 500+ members. Since 2022 the community has supported 9 teams with $10M+ in collective revenue. The demo follows the full on-chain lifecycle from membership vote to claimed returns.",
     links: { live: "https://aetos.vc", study: "https://aetos.gitbook.io/aetos.vc" },
   },
   {
     id: "flow",
-    org: "tolabs",
     logo: "/logos/flow.jpg",
     title: "Flow",
     year: "2024",
@@ -111,7 +84,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "imf",
-    org: "tolabs",
     logo: "/logos/imf.png",
     title: "IMF",
     year: "2026",
@@ -133,12 +105,11 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "sigintzero",
-    org: "sigintzero",
     logo: "/logos/sigintzero.png",
     title: "SigIntZero",
     year: "2026",
     period: "2025 – now",
-    role: "Chief Digital Officer",
+    role: "SigIntZero · Chief Digital Officer",
     tagline:
       "A smart-contract audit and security firm: Sentinel AI scans, senior audits, and Tripwire runtime monitoring.",
     stack: ["AI", "Security", "Next.js", "Search"],
@@ -155,7 +126,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "yieldly",
-    org: "tolabs",
     logo: "/logos/yieldly.png",
     title: "Yieldly",
     year: "2021",
@@ -176,7 +146,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "tonsoffriends",
-    org: "tolabs",
     logo: "/logos/tonsoffriends.png",
     title: "TonsOfFriends",
     year: "2024",
@@ -198,29 +167,7 @@ export const PROJECTS: Project[] = [
     links: { live: "https://tonfriends.tech", study: "https://docs.tonfriends.tech" },
   },
   {
-    id: "bookclub",
-    org: "bookclub",
-    logo: "/logos/bookclub.png",
-    title: "Book Club",
-    year: "2022",
-    period: "2022 – now",
-    role: "Founding team · front-end + design + integration + QA",
-    tagline: "An APAC crypto venture community: 500+ members, 9 teams backed, runs on Aetos.",
-    stack: ["Aetos", "EVM", "Design"],
-    state: "live",
-    poster: ["#3a1024", "#0a0e1e"],
-    video: "/clips/bookclub.mp4",
-    problem:
-      "APAC crypto had talent and capital but no shared room where founders, funds, and builders actually ship together.",
-    process:
-      "On the founding team. Built the club's web presence and the Aetos rails it runs on: front-end, design, integration, QA.",
-    outcome:
-      "Since January 2022: 9 teams supported, $10M+ collective revenue, 500+ members, and monthly demo nights across the region.",
-    links: { live: "https://www.bookclub.wtf" },
-  },
-  {
     id: "mantra",
-    org: "tolabs",
     logo: "/logos/mantra.png",
     title: "MantraDAO",
     year: "2020",
@@ -240,7 +187,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "shuriken",
-    org: "tolabs",
     logo: "/logos/shuriken.png",
     title: "Shuriken",
     year: "2025",
@@ -262,7 +208,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "bespoke",
-    org: "tolabs",
     logo: "/logos/bespoke.png",
     title: "Bespoke",
     year: "2022",
@@ -282,24 +227,8 @@ export const PROJECTS: Project[] = [
       "A branded, atmospheric mint site for a 10,000-piece collection: the storefront, the lore, and the mint flow in one place.",
     links: { live: "https://bespoke.bond", study: "https://docs.bespoke.bond" },
   },
-  {
-    id: "trueorigin",
-    org: "trueorigin",
-    logo: "/logos/trueorigin.png",
-    title: "TrueOrigin",
-    year: "2020",
-    period: "2019 – 2021",
-    role: "Co-founder",
-    tagline: "Product authenticity and supply-chain provenance, proven on-chain.",
-    stack: ["Solidity", "Node", "Supply chain"],
-    state: "seen",
-    poster: ["#3a2410", "#0a0e1e"],
-    video: "/clips/trueorigin.mp4",
-    problem: "Counterfeits thrive because provenance lives in paperwork nobody can verify.",
-    process:
-      "Co-founded the startup and built the systems that verify authenticity and track supply chains on-chain.",
-    outcome:
-      "The venture studio kept the name: TrueOrigin Labs went on to build Aetos, Flow, and the client work that followed.",
-    links: {},
-  },
 ];
+
+export const PROJECTS = [...PROJECTS_BY_HISTORY].sort(
+  (a, b) => PROJECT_ORDER.indexOf(a.id as (typeof PROJECT_ORDER)[number]) - PROJECT_ORDER.indexOf(b.id as (typeof PROJECT_ORDER)[number]),
+);
