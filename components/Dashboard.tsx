@@ -368,6 +368,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
           <nav className="links" aria-label="Contact">
             <a href={PROFILE.github} target="_blank" rel="noreferrer">GitHub</a>
             <a href={PROFILE.twitter} target="_blank" rel="noreferrer">X</a>
+            <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">In</a>
             <a href={PROFILE.telegram} target="_blank" rel="noreferrer">TG</a>
             <a href={PROFILE.ensProfile} target="_blank" rel="noreferrer" title={PROFILE.ens}>ENS</a>
           </nav>
@@ -479,6 +480,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
               </div>
               <div className="mlinks">
                 {m.links.live && <a className={m.links.live !== "#" ? "live" : undefined} href={m.links.live} target="_blank" rel="noreferrer" onClick={(e) => { if (m.links.live === "#") e.preventDefault(); }}>Live</a>}
+                {m.links.app && <a className="live" href={m.links.app} target="_blank" rel="noreferrer">App</a>}
                 {m.links.code && <a href={m.links.code} target="_blank" rel="noreferrer" onClick={(e) => { if (m.links.code === "#") e.preventDefault(); }}>Code</a>}
                 {m.links.study && <a href={m.links.study} target="_blank" rel="noreferrer" onClick={(e) => { if (m.links.study === "#") e.preventDefault(); }}>Case study</a>}
               </div>

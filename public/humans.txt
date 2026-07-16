@@ -3,10 +3,12 @@
 Name: Dmitry S
 Handle: monodev-eth
 GitHub: https://github.com/monodev-eth
-X: https://x.com/monochrome_dev
+X: https://x.com/monodev_eth
+LinkedIn: https://www.linkedin.com/in/dmitry-serdyuk-55149b123
 Telegram: https://t.me/dmitry_xyz
 ENS: monodev.eth
-Role: Co-founder at True Origin Labs
+Role: Co-founder at SigIntZero and TrueOrigin Labs
+Location: Sydney, Australia
 
 /* SITE */
 
@@ -16,4 +18,4 @@ Agent profile: /llms.txt
 Structured profile: /profile.json
 Style: Clean PS2-inspired interface, semantic HTML first.
 
-Last reviewed: 2026-06-27
+Last reviewed: 2026-07-16

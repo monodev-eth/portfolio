@@ -9,4 +9,4 @@ Allow: /humans.txt
 Allow: /showcase
 Allow: /blog
 
-Sitemap: https://portfolio-next-peach-nine-91.vercel.app/sitemap.xml
+Sitemap: https://monodev.eth.limo/sitemap.xml

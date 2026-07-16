@@ -24,7 +24,7 @@ export interface Project {
   problem: string;
   process: string;
   outcome: string;
-  links: { live?: string; code?: string; study?: string };
+  links: { live?: string; app?: string; code?: string; study?: string };
 }
 
 const PROJECT_ORDER = [
@@ -101,7 +101,7 @@ const PROJECTS_BY_HISTORY: Project[] = [
       "Built the front-end for IMF on Ethereum across both sides of the protocol. The credit desk lets you deposit a memecoin (or BTC/ETH), borrow USDS from isolated Morpho vaults, and earn $IMF rewards. V4 is a launchpad where every coin bonds on a fair fixed-supply curve and graduates into permanently locked liquidity, shipping with a free ENS subname and gas covered by the protocol. All over a wallet-native front end.",
     outcome:
       "IMF became the fastest-growing Morpho vault: a nine-figure book that peaked near $260M TVL and the largest single holder of USDS. Then it shipped V4 to make launching a coin as easy as claiming a name. Now moving onto Robinhood Chain.",
-    links: { live: "https://imf.bz", study: "https://docs.imf.bz" },
+    links: { live: "https://imf.bz", app: "https://app.imf.bz", study: "https://docs.imf.bz" },
   },
   {
     id: "sigintzero",
@@ -109,7 +109,7 @@ const PROJECTS_BY_HISTORY: Project[] = [
     title: "SigIntZero",
     year: "2026",
     period: "2025 – now",
-    role: "SigIntZero · Chief Digital Officer",
+    role: "SigIntZero · Co-founder",
     tagline:
       "A smart-contract audit and security firm: Sentinel AI scans, senior audits, and Tripwire runtime monitoring.",
     stack: ["AI", "Security", "Next.js", "Search"],
@@ -119,7 +119,7 @@ const PROJECTS_BY_HISTORY: Project[] = [
     problem:
       "An audit is a snapshot. Funds move at runtime, and exploits go through people and infrastructure as often as code.",
     process:
-      "Run the digital side as CDO: brand, site, search presence, and the daily security-intel engine behind the research blog, next to Sentinel (AI auditing) and Tripwire (0-block threat detection and response).",
+      "Co-founded the firm and run the digital side: brand, site, search presence, and the daily security-intel engine behind the research blog, next to Sentinel (AI auditing) and Tripwire (0-block threat detection and response).",
     outcome:
       "A three-product security ladder in production: self-serve Sentinel scans, senior audits, and Tripwire monitoring backed by a Superteam Australia grant.",
     links: { live: "https://sigintzero.com" },
@@ -225,7 +225,7 @@ const PROJECTS_BY_HISTORY: Project[] = [
       "Built the front-end: a rendered 3D storefront you step into, the About / Specs / Team / Community sections, whitelist and fixed-price minting with wallet connect, Lottie feature loops, and an interactive “Enter the Tower” page.",
     outcome:
       "A branded, atmospheric mint site for a 10,000-piece collection: the storefront, the lore, and the mint flow in one place.",
-    links: { live: "https://bespoke.bond", study: "https://docs.bespoke.bond" },
+    links: { study: "https://docs.bespoke.bond" },
   },
 ];
 

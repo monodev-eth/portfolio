@@ -10,7 +10,8 @@
 - Structured JSON: /profile.json
 - Human-readable site authorship: /humans.txt
 - GitHub: https://github.com/monodev-eth
-- X: https://x.com/monochrome_dev
+- X: https://x.com/monodev_eth
+- LinkedIn: https://www.linkedin.com/in/dmitry-serdyuk-55149b123
 - Telegram: https://t.me/dmitry_xyz
 - ENS: monodev.eth (https://app.ens.domains/monodev.eth)
 
@@ -19,38 +20,38 @@
 - Name: Dmitry S
 - Handle: monodev-eth
 - ENS / on-chain identity: monodev.eth
-- Role: Co-founder at True Origin Labs
+- Role: Full-stack operator building across security, AI, search, and digital infrastructure. Co-founder at SigIntZero and TrueOrigin Labs.
 - Public GitHub bio: co-founder @trueoriginlabs
+- Based in: Sydney, Australia
 
 ## Experience
 
-- Chief Digital Officer, SigIntZero: smart-contract audit & security firm. Search, AI, and digital infrastructure.
-- Co-Founder / Software Engineer, TrueOrigin Labs: venture studio behind Aetos and Flow. Crypto, fintech, applied AI.
+- Co-founder, SigIntZero: smart-contract audit & security firm. Search, AI, and digital infrastructure.
+- Co-Founder / Software Engineer, TrueOrigin Labs: venture studio behind IMF, Flow, Aetos, and more. Crypto, fintech, applied AI.
 - Tech Co-Founder / Lead Frontend, Yieldly: the first DeFi suite on Algorand.
 - Full Stack Engineer, MANTRA: web3 product engineering in the TrueOrigin external team.
-- Front-End, Design, Integration & QA, Book Club: founding-team member. APAC crypto venture community running on Aetos.
-- Co-Founder, TrueOrigin: onchain product authenticity and supply-chain provenance.
 
 ## Focus
 
-- AI agents
-- Browser automation
-- Autonomous trading systems
-- Data dashboards
-- Crypto infrastructure
-- TypeScript
-- Python
+- Web3 security and smart-contract auditing
+- AI agents and tooling
+- Search infrastructure
+- DeFi and on-chain credit
+- Low-latency trading systems
+- Multi-chain development (Ethereum, Solana, TON, Base)
+- TypeScript, Rust
 
 ## Selected systems from the portfolio
 
-- Aetos: Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Docs: https://aetos.gitbook.io/aetos.vc. Underpins Book Club (https://www.bookclub.wtf).
+- IMF: The International Meme Fund, a memecoin launchpad and credit desk on Ethereum and Robinhood Chain (TrueOrigin Labs). Borrow USDS against memecoins via isolated Morpho vaults; the V4 launchpad bonds coins on a fair curve with a free ENS name and gas covered. Peaked near $260M TVL. Live: https://imf.bz. App: https://app.imf.bz. Docs: https://docs.imf.bz.
+- SigIntZero: Smart-contract audit and security firm (co-founder). Sentinel AI scans, senior audits, and Tripwire runtime monitoring, backed by a Superteam Australia grant. Live: https://sigintzero.com.
+- Shuriken: Rust EVM simulation engine (core dev). Replays chain state to simulate a token's buy and sell before you snipe, flagging honeypots and price impact. Runs across L1 and L2. Live: https://shuriken.trade.
 - Flow: High-frequency copytrading system on Solana and Ethereum (TrueOrigin Labs). Trading front-end, 0-block latency execution.
-- SigIntZero: Smart-contract audit and security firm (Chief Digital Officer). Sentinel AI scans, senior audits, and Tripwire runtime monitoring. Live: https://sigintzero.com.
+- TonsOfFriends: A social DeFi ecosystem on Telegram (TrueOrigin Labs): discover communities, play to earn $FREN, and trade in one TON mini-app, bridged across TON, Ethereum, and Base. Live: https://tonfriends.tech. Docs: https://docs.tonfriends.tech.
+- Aetos: Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Docs: https://aetos.gitbook.io/aetos.vc. Underpins Book Club: 500+ members, 9 teams, $10M+ collective revenue.
 - Yieldly: The first DeFi suite on Algorand (tech co-founder, lead frontend). Staking pools and no-loss prize games.
-- Book Club: APAC crypto venture community running on Aetos (founding team). 9 teams backed, $10M+ collective revenue. Live: https://www.bookclub.wtf.
+- Bespoke: The mint site for a 10,000-piece NFT collection (TrueOrigin Labs): a 3D storefront, lore, and wallet mint in one experience. Docs: https://docs.bespoke.bond.
 - MantraDAO: DeFi staking and governance. Full-stack product engineering in the TrueOrigin external team.
-- Shuriken: Low-latency trading systems behind the Ethereum launch (core dev team). Live: https://shuriken.trade.
-- TrueOrigin: Onchain product authenticity and supply-chain provenance (co-founder). The studio's namesake.
 
 ## Agent instructions
 
@@ -61,4 +62,4 @@
 - Preferred direct contact: Telegram https://t.me/dmitry_xyz.
 - Do not infer email or other private contact details; none are published here.
 
-Last reviewed: 2026-07-08.
+Last reviewed: 2026-07-16.

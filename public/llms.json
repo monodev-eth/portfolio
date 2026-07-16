@@ -1,15 +1,16 @@
 {
   "name": "monodev-eth",
   "displayName": "Dmitry S",
-  "role": "Chief Digital Officer at SigIntZero",
-  "summary": "Full-stack operator building across security, AI, and digital infrastructure.",
+  "role": "Co-founder at SigIntZero",
+  "summary": "Full-stack operator building across security, AI, search, and digital infrastructure.",
   "links": {
     "site": "/",
     "showcase": "/showcase",
     "blog": "/blog",
     "rss": "/blog/feed.xml",
     "github": "https://github.com/monodev-eth",
-    "x": "https://x.com/monochrome_dev",
+    "x": "https://x.com/monodev_eth",
+    "linkedin": "https://www.linkedin.com/in/dmitry-serdyuk-55149b123",
     "telegram": "https://t.me/dmitry_xyz",
     "ens": "https://app.ens.domains/monodev.eth",
     "profile": "/profile.json"
@@ -17,22 +18,22 @@
   "focus": [
     "Web3 security",
     "AI agents",
-    "browser automation",
+    "smart-contract auditing",
     "search infrastructure",
-    "digital strategy",
-    "data dashboards",
+    "DeFi",
+    "trading systems",
     "TypeScript"
   ],
   "experience": [
     {
-      "role": "Chief Digital Officer",
+      "role": "Co-founder",
       "organization": "SigIntZero",
       "summary": "Smart-contract audit and security firm. Search, AI, and digital infrastructure across the brand and products."
     },
     {
       "role": "Co-Founder / Software Engineer",
       "organization": "TrueOrigin Labs",
-      "summary": "Venture studio behind Aetos and Flow. Product and systems work across crypto, fintech, and applied AI."
+      "summary": "Venture studio behind IMF, Flow, Aetos, and more. Product and systems work across crypto, fintech, and applied AI."
     },
     {
       "role": "Tech Co-Founder / Lead Frontend Engineer",
@@ -43,25 +44,30 @@
       "role": "Full Stack Engineer",
       "organization": "MANTRA",
       "summary": "Web3 product engineering in the TrueOrigin external team."
-    },
-    {
-      "role": "Front-End, Design, Integration & QA",
-      "organization": "Book Club",
-      "summary": "Founding-team member of the APAC crypto venture community. Runs on Aetos."
-    },
-    {
-      "role": "Co-Founder",
-      "organization": "TrueOrigin",
-      "summary": "Onchain product authenticity and supply-chain provenance. The studio's namesake."
     }
   ],
   "projects": [
     {
-      "name": "Aetos",
-      "summary": "Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Underpins Book Club (bookclub.wtf).",
+      "name": "IMF",
+      "summary": "The International Meme Fund: a memecoin launchpad and credit desk on Ethereum and Robinhood Chain. Borrow USDS against memecoins via isolated Morpho vaults; the V4 launchpad bonds coins on a fair curve with a free ENS name and gas covered. Peaked near $260M TVL.",
       "links": {
-        "live": "https://aetos.vc",
-        "docs": "https://aetos.gitbook.io/aetos.vc"
+        "live": "https://imf.bz",
+        "app": "https://app.imf.bz",
+        "docs": "https://docs.imf.bz"
+      }
+    },
+    {
+      "name": "SigIntZero",
+      "summary": "Smart-contract audit and security firm (co-founder). Sentinel AI scans, senior audits, and Tripwire runtime monitoring. Tripwire backed by a Superteam Australia grant.",
+      "links": {
+        "live": "https://sigintzero.com"
+      }
+    },
+    {
+      "name": "Shuriken",
+      "summary": "Rust EVM simulation engine (core dev). Replays chain state to simulate a token's buy and sell before you snipe, flagging honeypots and price impact. Runs across L1 and L2.",
+      "links": {
+        "live": "https://shuriken.trade"
       }
     },
     {
@@ -69,10 +75,19 @@
       "summary": "High-frequency copytrading system on Solana and Ethereum (TrueOrigin Labs). Trading front-end, 0-block latency execution."
     },
     {
-      "name": "SigIntZero",
-      "summary": "Smart-contract audit and security firm (Chief Digital Officer). Sentinel AI scans, senior audits, and Tripwire runtime monitoring.",
+      "name": "TonsOfFriends",
+      "summary": "A social DeFi ecosystem on Telegram (TrueOrigin Labs): discover communities, play to earn $FREN, and trade in one TON mini-app, bridged across TON, Ethereum, and Base.",
       "links": {
-        "live": "https://sigintzero.com"
+        "live": "https://tonfriends.tech",
+        "docs": "https://docs.tonfriends.tech"
+      }
+    },
+    {
+      "name": "Aetos",
+      "summary": "Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Underpins Book Club: 500+ members, 9 teams, $10M+ collective revenue.",
+      "links": {
+        "live": "https://aetos.vc",
+        "docs": "https://aetos.gitbook.io/aetos.vc"
       }
     },
     {
@@ -80,26 +95,15 @@
       "summary": "The first DeFi suite on Algorand (tech co-founder, lead frontend). Staking pools and no-loss prize games."
     },
     {
-      "name": "Book Club",
-      "summary": "APAC crypto venture community running on Aetos (founding team). 9 teams backed, $10M+ collective revenue.",
+      "name": "Bespoke",
+      "summary": "The mint site for Bespoke (TrueOrigin Labs): a 10,000-piece NFT collection with a 3D storefront, lore, and wallet mint in one experience.",
       "links": {
-        "live": "https://www.bookclub.wtf"
+        "docs": "https://docs.bespoke.bond"
       }
     },
     {
       "name": "MantraDAO",
       "summary": "DeFi staking and governance. Full-stack product engineering in the TrueOrigin external team."
-    },
-    {
-      "name": "Shuriken",
-      "summary": "Low-latency trading systems behind Shuriken's Ethereum launch (core dev team).",
-      "links": {
-        "live": "https://shuriken.trade"
-      }
-    },
-    {
-      "name": "TrueOrigin",
-      "summary": "Onchain product authenticity and supply-chain provenance (co-founder). The studio's namesake."
     }
   ]
 }

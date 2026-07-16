@@ -61,7 +61,7 @@ export default async function BlogPost({ params }: Props) {
       name: PROFILE.displayName,
       alternateName: PROFILE.name,
       url: SITE_URL,
-      sameAs: [PROFILE.github, PROFILE.twitter, PROFILE.telegram, PROFILE.ensProfile],
+      sameAs: [PROFILE.github, PROFILE.twitter, PROFILE.linkedin, PROFILE.telegram, PROFILE.ensProfile],
     },
   };
 
