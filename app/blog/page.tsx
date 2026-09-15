@@ -52,7 +52,6 @@ export default function BlogIndex() {
           {posts.map((post) => (
             <li key={post.slug}>
               <Link href={`/blog/${post.slug}`}>
-                <span className="postdate">{post.date}</span>
                 <span className="postthumb">
                   {post.cover && (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -64,7 +63,8 @@ export default function BlogIndex() {
                     {post.title}
                     {post.draft && <span className="draftflag">draft</span>}
                   </span>
-                  {post.summary && <span className="postsummary">{post.summary}</span>}
+                  <span className="postdate">{post.date}</span>
+                  {post.excerpt && <span className="postsummary">{post.excerpt}</span>}
                   {post.tags.length > 0 && <span className="posttags">{post.tags.join(" / ")}</span>}
                 </span>
               </Link>

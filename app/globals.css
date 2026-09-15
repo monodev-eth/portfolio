@@ -147,6 +147,7 @@ body.nogl {
   color: var(--ink);
   font-family: var(--body);
   font-size: 13px;
+  text-decoration: none;
   letter-spacing: 0;
   cursor: pointer;
   text-transform: none;
@@ -272,15 +273,17 @@ body.nogl {
 
 /* ============================ BROWSER ============================ */
 .browser {
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   z-index: 10;
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: safe center;
   gap: clamp(12px, 2vh, 26px);
-  padding: 96px clamp(18px, 4vw, 46px) 24px;
+  padding: 106px clamp(18px, 4vw, 46px) 90px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
@@ -326,7 +329,7 @@ body.nogl {
   position: relative;
   flex: 0 0 auto;
   width: 100%;
-  height: 236px;
+  height: 198px;
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
@@ -403,7 +406,8 @@ body.nogl {
 
 .project-stage {
   display: grid;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
+  gap: 12px;
   place-items: start center;
   width: min(1040px, 100%);
   min-height: 280px;
@@ -411,9 +415,9 @@ body.nogl {
 }
 .projectcard {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) minmax(340px, 420px);
+  grid-template-columns: 56px minmax(0, 1fr) minmax(280px, 40%);
   align-items: start;
-  gap: 22px;
+  gap: 20px;
   width: 100%;
   padding: 26px;
   border: 1px solid color-mix(in srgb, var(--accent) 55%, rgba(174, 196, 255, 0.28));
@@ -430,7 +434,7 @@ body.nogl {
 .projectcard-icon { display: grid; place-items: center; width: 64px; height: 64px; }
 .projectcard-icon img { width: 56px; height: 56px; object-fit: contain; border-radius: 7px; }
 .projectcard-copy { display: flex; min-width: 0; flex-direction: column; }
-.projectcard-top { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+.projectcard-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; min-width: 0; }
 .projectcard-title { font-family: var(--display); font-size: 28px; letter-spacing: 0.02em; }
 .projectcard-period {
   color: var(--dim);
@@ -441,14 +445,14 @@ body.nogl {
 }
 .projectcard-role { margin-top: 2px; color: var(--dim); font-size: 13px; }
 .projectcard-tagline { margin-top: 14px; color: #cbd3ef; font-size: 15px; line-height: 1.6; }
-.projectcard-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.projectcard-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .projectcard-stack span {
   padding: 3px 7px;
   border: 1px solid var(--line);
   border-radius: 4px;
   color: var(--dim);
   font-family: var(--display);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -461,7 +465,7 @@ body.nogl {
   border-radius: 8px;
   background: #04050d;
 }
-.projectcard-preview video { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s; }
+.projectcard-preview video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s; }
 .projectcard.playing .projectcard-preview video { opacity: 1; }
 .positioncounter {
   color: var(--dim);
@@ -510,30 +514,13 @@ body.nogl {
   max-height: 52vh; /* cap the video so the case study below is always visible */
   background: #04050d;
   border-bottom: 1px solid var(--line);
-  border-radius: 16px 16px 0 0;
+  border-radius: 0;
   overflow: hidden;
 }
 .player video { width: 100%; height: 100%; object-fit: contain; background: #04050d; }
 /* Portrait captures use staggered 9:16 panels across the 16:9 preview/player. */
 .videowall { display: flex; gap: 2px; width: 100%; height: 100%; background: #04050d; }
 .videowall video { flex: 1 1 0; min-width: 0; width: auto; height: 100%; object-fit: cover; display: block; }
-.close, .nav {
-  position: absolute;
-  z-index: 3;
-  background: rgba(8, 10, 24, 0.7);
-  border: 1px solid var(--line-2);
-  color: var(--ink);
-  cursor: pointer;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-}
-.close { top: 14px; right: 14px; width: 40px; height: 40px; font-size: 16px; }
-.nav { top: 50%; transform: translateY(-50%); width: 46px; height: 46px; font-size: 26px; }
-.nav.prev { left: 14px; }
-.nav.next { right: 14px; }
-.close:hover, .nav:hover { border-color: var(--cyan); }
-
 .mbody { padding: clamp(20px, 3vw, 36px); }
 .mtop { display: flex; align-items: baseline; gap: 14px; }
 .mtop h2 { margin: 0; font-family: var(--display); font-size: clamp(24px, 3vw, 36px); }
@@ -542,10 +529,11 @@ body.nogl {
 .mbody .stacklist { justify-content: flex-start; margin-top: 0; }
 .casegrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
   margin-top: 22px;
 }
+.casegrid section:last-child { grid-column: 1 / -1; }
 .casegrid h4 {
   font-family: var(--display);
   font-size: 11px;
@@ -617,22 +605,76 @@ body.nogl {
   position: fixed;
   left: clamp(18px, 4vw, 46px);
   bottom: clamp(16px, 3vh, 28px);
-  width: 104px;
-  height: auto;
   z-index: 15;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--ink);
   opacity: 0;
+  cursor: default;
   pointer-events: none;
   filter: drop-shadow(0 0 8px rgba(120, 150, 255, 0.3));
   transition: opacity 0.8s ease 0.35s;
 }
-.ready .footmark { opacity: 0.4; }
+.footmark svg { display: block; width: 104px; height: auto; }
+/* Only clickable once the boot overlay is gone; aria-hidden and unfocusable,
+ * since it is decoration carrying an easter egg, not a control. */
+.ready .footmark { opacity: 0.4; pointer-events: auto; }
+
+/* ---- browsing controls, case-study dialog bar, preview stills ---- */
+.project-controls { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 16px; }
+.project-controls button { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 6px; background: rgba(10, 16, 40, .5); color: var(--dim); font: 13px var(--body); cursor: pointer; }
+.project-controls button:hover:not(:disabled) { color: var(--ink); border-color: var(--cyan); }
+.project-controls button:disabled { opacity: .4; cursor: default; }
+.project-controls button:focus-visible, .dialogbar button:focus-visible, .brand:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.projectcard-cta { display: flex; align-items: center; gap: 12px; margin-top: 18px; color: var(--cyan); font: 14px var(--display); }
+.preview-still { display: block; width: 100%; height: 100%; object-fit: contain; }
+.projectcard-preview > .videowall { position: absolute; inset: 0; }
+.dialogbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; min-height: 60px; padding: 8px 12px; border-bottom: 1px solid var(--line-2); background: #0c122b; }
+/* The sheet leads with its own <h2>; the bar only names the project once that
+ * title has scrolled away, so the two are never on screen together. */
+.dialogbar > span { flex: 1; min-width: 0; padding: 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; opacity: 0; transition: opacity .2s ease; }
+.dialogbar.scrolled > span { opacity: 1; }
+.dialogbar .close, .dialog-step { position: static; flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line-2); border-radius: 6px; background: rgba(8, 10, 24, .7); color: var(--ink); cursor: pointer; font-size: 18px; }
+.dialogbar button:hover { border-color: var(--cyan); }
+.mresult { margin: 18px 0; padding-left: 16px; border-left: 2px solid var(--cyan); color: var(--ink); font-size: 18px; line-height: 1.55; }
+.sheet { scroll-padding-top: 76px; }
+.chip[aria-current="page"] { border-color: var(--cyan); color: var(--ink); }
+.osd .showcase-current { padding: 0 12px; }
 
 /* ============================ RESPONSIVE ============================ */
+@media (max-width: 1100px) {
+  .clock { display: none; }
+  .brandcopy { display: none; }
+  .osd-r .links { gap: 10px; }
+  .osd-l { gap: 12px; }
+  /* The preview stops being a side column and becomes a banner above the copy;
+   * below this width a 420px video leaves the text an unreadable strip. */
+  .projectcard { grid-template-columns: 56px minmax(0, 1fr); max-width: 720px; }
+  .projectcard-preview { grid-column: 1 / -1; grid-row: 1; max-height: 300px; aspect-ratio: 16 / 9; }
+  .projectcard-preview video { object-fit: contain; }
+  .project-controls { max-width: 720px; }
+}
+
 @media (max-width: 720px) {
-  .casegrid { grid-template-columns: 1fr; gap: 16px; }
-  .project-browser { gap: 18px; }
-  .project-rail { height: 180px; }
+  .osd { align-items: flex-start; padding: 14px 18px; }
+  .osd-l { flex: 1; min-width: 0; gap: 12px; }
+  .osd-r { gap: 0; }
+  .osd-r .links { display: none; }
+  .surfacechips { gap: 6px; flex-wrap: wrap; }
+  .chip { min-height: 40px; height: auto; padding: 0 10px; gap: 5px; font-size: 10px; letter-spacing: .05em; }
+  .chip img { width: 16px; height: 16px; }
+  .chip span { display: inline; }
+  .osd .showcase-current { display: inline-flex; padding: 0 8px; }
+  .brandavatar { width: 34px; height: 34px; }
+  .sndbtn { width: 40px; height: 40px; }
+  .navlegend { display: none; }
+  .navhud { display: none; }
+  .footmark { display: none; }
+
+  .browser { padding: 94px 18px 32px; justify-content: flex-start; }
+  .project-browser { gap: 8px; }
+  .project-rail { height: 148px; }
   .projecttrack { gap: 22px; }
   .projecttab { flex-basis: 112px; width: 112px; }
   .projectglyph { width: 58px; height: 58px; }
@@ -642,27 +684,30 @@ body.nogl {
   .projectname { max-width: 112px; font-size: 13px; }
   .projecttab.on .projectname { font-size: 15px; }
   .projectperiod { display: block; font-size: 12px; }
+
   .project-stage { min-height: 260px; }
-  .projectcard { grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding: 18px 16px; }
-  .projectcard-icon { width: 48px; height: 48px; }
-  .projectcard-icon img { width: 44px; height: 44px; }
+  .project-controls { gap: 12px; }
+  .project-controls button { padding: 0 10px; }
+  .projectcard { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 14px; }
+  .projectcard-icon { width: 40px; height: 40px; }
+  .projectcard-icon img { width: 36px; height: 36px; }
   .projectcard-title { font-size: 20px; }
   .projectcard-period { font-size: 12px; }
-  .projectcard-role { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+  .projectcard-role { font-size: 13px; line-height: 1.5; }
   .projectcard-tagline { margin-top: 12px; font-size: 14px; line-height: 1.55; }
+  .projectcard-cta { margin-top: 14px; }
   .projectcard-stack { margin-top: 14px; }
-  .projectcard-preview { display: none; }
-  .brandcopy { display: none; }
-  .navlegend { display: none; }
-  .clock { display: none; }
-  .links { gap: 10px; }
-  .chip { padding: 0 8px; }
-  .chip span { display: none; }
-  .sndbtn { width: 40px; height: 40px; }
+  .projectcard-preview { display: block; grid-column: 1 / -1; grid-row: 1; max-height: 180px; }
+
   .player { max-height: 40vh; }
   .sheet { width: min(1080px, 100%, calc(40vh * 16 / 9)); }
-  .footmark { display: none; }
-  .brandavatar { width: 34px; height: 34px; }
+  .mresult { font-size: 16px; }
+  .casegrid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* Labels win over icons once the header runs out of room. */
+@media (max-width: 380px) {
+  .surfacechips .chip img { display: none; }
 }
 
 /* hide the keyboard legend on touch devices (no keyboard) */

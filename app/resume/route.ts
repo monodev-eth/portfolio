@@ -63,7 +63,16 @@ export function GET() {
     `</li>`
   )).join("");
 
-  const projectItems = PROJECTS.map((project) => {
+  /* A curated subset for the one-pager; all ten stay on /showcase, linked under
+   * the list. Resolved by lookup rather than filter so a renamed id fails the
+   * build instead of silently shortening the resume. */
+  const RESUME_PROJECT_IDS = ["imf", "stockrip", "sigintzero", "shuriken", "flow", "aetos", "yieldly"];
+  const selected = RESUME_PROJECT_IDS.map((id) => {
+    const project = PROJECTS.find((p) => p.id === id);
+    if (!project) throw new Error(`resume: RESUME_PROJECT_IDS names unknown project "${id}"`);
+    return project;
+  });
+  const projectItems = selected.map((project) => {
     const href = primaryLink(project.links);
     const link = href
       ? `<a class="proj-link" href="${esc(href)}">${esc(stripProtocol(href))}</a>`
@@ -73,7 +82,7 @@ export function GET() {
       `<div class="when">${esc(project.period)}</div>` +
       `<div class="what">` +
       `<h3>${esc(project.title)}<span class="org">${esc(project.role)}</span></h3>` +
-      `<p>${esc(project.summary)}</p>` +
+      `<p>${esc(project.result)}</p>` +
       `<p class="meta">${esc(project.stack.join(" · "))}${link ? `<span class="sep" aria-hidden="true">·</span>${link}` : ""}</p>` +
       `</div>` +
       `</li>`
@@ -133,15 +142,17 @@ h3 .org{display:block;color:var(--body);font-size:12.4px;font-weight:400}
 .tech{margin:9px 0 0;color:var(--body);font-size:12.3px;line-height:1.75}
 .tech strong{color:var(--ink);font-weight:600}
 
-footer{margin-top:24px;padding-top:12px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:16px;color:var(--dim);font-size:10.8px}
+footer{flex-wrap:wrap;margin-top:24px;padding-top:12px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:16px;color:var(--dim);font-size:10.8px}
 footer a{border-bottom-color:transparent}
-.download{display:inline-block;margin:14px 0 0;padding:7px 13px;border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-size:11.6px}
+.resume-actions{display:flex;gap:10px}.download{display:inline-block;margin:14px 0 0;padding:7px 13px;border:1px solid var(--rule);border-radius:3px;color:var(--ink);font-size:11.6px}
 .download:hover{border-color:var(--accent);color:var(--accent)}
 
 @media (max-width:720px){
   .sheet{padding:32px 24px 30px}
   .head{flex-direction:column;gap:14px}
-  .contacts{text-align:left;line-height:1.9}
+  .contacts{text-align:left;line-height:1.9;max-width:100%}
+  .contacts a{white-space:normal;overflow-wrap:anywhere}
+  footer{flex-direction:column;gap:8px}
   .rows li{grid-template-columns:1fr;gap:2px}
   .when{padding-top:0}
   .cols{columns:1}
@@ -169,7 +180,7 @@ footer a{border-bottom-color:transparent}
   .meta,.cols li,.tech{font-size:8.4pt}
   footer{font-size:7.6pt}
   .proj-link{color:var(--body)}
-  .download{display:none}
+  .resume-actions{display:none}
 }
 </style>
 </head>
@@ -185,7 +196,7 @@ footer a{border-bottom-color:transparent}
     <div class="contacts">${contactLine}</div>
   </header>
 
-  <a class="download" href="/dima-resume.pdf" download>Download PDF</a>
+  <nav class="resume-actions" aria-label="Résumé actions"><a class="download" href="/dima-resume.pdf" download>Download PDF</a><a class="download" href="/">← Home</a></nav>
 
   <p class="summary">${esc(PROFILE.summary)} ${PROJECTS.length} shipped products across DeFi, security, and trading infrastructure, from the first DeFi suite on Algorand to a nine-figure on-chain credit desk.</p>
 
@@ -197,6 +208,7 @@ footer a{border-bottom-color:transparent}
   <section aria-labelledby="work">
     <h2 id="work">Selected work</h2>
     <ol class="rows">${projectItems}</ol>
+    <p><a href="${esc(SITE_URL)}/showcase">Explore all ${PROJECTS.length} projects →</a></p>
   </section>
 
   <section aria-labelledby="focus">

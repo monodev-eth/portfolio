@@ -55,10 +55,16 @@ export default function Lab() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <h1>Lab</h1>
       <p className="labintro">
-        Four systems that run on their own schedule on one machine, and keep running when I am asleep or on a plane.
-        None of them has a front door, so there is nothing to click. What follows is the shape of each one, the
-        decision in it that was actually hard, and the output you can go and check.
+        Four systems that keep running when I am asleep or on a plane.
+        Explore what they produce, then open the details to see how they work.
       </p>
+      <nav className="labjump" aria-label="Jump to a system">
+        {PIPELINES.map((pipeline, index) => (
+          <a key={pipeline.id} href={`#${pipeline.id}`}>
+            <span>{String(index + 1).padStart(2, "0")}</span>{pipeline.shortTitle}
+          </a>
+        ))}
+      </nav>
 
       <ol className="pipelist">
         {PIPELINES.map((pipeline, index) => (
@@ -73,20 +79,6 @@ export default function Lab() {
 
             <p className="pipetag">{pipeline.tagline}</p>
 
-            <ol className="stages" aria-label={`${pipeline.title} stages`}>
-              {pipeline.stages.map((stage) => (
-                <li key={stage.name}>
-                  <b>{stage.name}</b>
-                  <span>{stage.detail}</span>
-                </li>
-              ))}
-            </ol>
-
-            <div className="pipebody">
-              <p>{pipeline.why}</p>
-              <p>{pipeline.mechanic}</p>
-            </div>
-
             {pipeline.artifacts && (
               <figure className={`pipeart ${pipeline.artifactShape ?? "wide"}`}>
                 <div className="pipestrip">
@@ -99,8 +91,6 @@ export default function Lab() {
               </figure>
             )}
 
-            {pipeline.note && <p className="pipenote">{pipeline.note}</p>}
-
             <dl className="pipefacts">
               <dt>Shipped</dt>
               <dd>
@@ -109,12 +99,6 @@ export default function Lab() {
                     <li key={line}>{line}</li>
                   ))}
                 </ul>
-              </dd>
-              <dt>Built on</dt>
-              <dd className="piperuntime">
-                {pipeline.runtime.map((tool) => (
-                  <span key={tool}>{tool}</span>
-                ))}
               </dd>
             </dl>
 
@@ -128,6 +112,33 @@ export default function Lab() {
                 ))}
               </p>
             )}
+            <details className="pipedetails">
+              <summary>How it works <span aria-hidden="true">+</span></summary>
+              <ol className="stages" aria-label={`${pipeline.title} stages`}>
+                {pipeline.stages.map((stage) => (
+                  <li key={stage.name}>
+                    <b>{stage.name}</b>
+                    <span>{stage.detail}</span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="pipebody">
+                <p>{pipeline.why}</p>
+                <p>{pipeline.mechanic}</p>
+              </div>
+
+              {pipeline.note && <p className="pipenote">{pipeline.note}</p>}
+
+              <dl className="pipefacts">
+                <dt>Built on</dt>
+                <dd className="piperuntime">
+                  {pipeline.runtime.map((tool) => (
+                    <span key={tool}>{tool}</span>
+                  ))}
+                </dd>
+              </dl>
+            </details>
           </li>
         ))}
       </ol>

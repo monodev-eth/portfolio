@@ -61,7 +61,7 @@ export function GET() {
   const projectItems = visibleProjects
     .map((project) => (
       `<li>` +
-      `<h3>${esc(project.title)}</h3>` +
+      `<h3><a href="/showcase#${esc(project.id)}">${esc(project.title)} <span class="project-arrow" aria-hidden="true">↗</span></a></h3>` +
       `<p>${esc(project.tagline)}</p>` +
       `</li>`
     ))
@@ -69,7 +69,7 @@ export function GET() {
   const pipelineItems = PIPELINES
     .map((pipeline) => (
       `<li>` +
-      `<h3>${esc(pipeline.title)}</h3>` +
+      `<h3><a href="/lab#${esc(pipeline.id)}">${esc(pipeline.title)}</a></h3>` +
       `<p>${esc(pipeline.tagline)}<span>${esc(pipeline.cadence)}</span></p>` +
       `</li>`
     ))
@@ -87,7 +87,7 @@ export function GET() {
     .map((post) => (
       `<li>` +
       `<h3>${esc(post.date)}</h3>` +
-      `<p><a href="/blog/${esc(post.slug)}">${esc(post.title)}</a><span>${esc(post.summary)}</span></p>` +
+      `<p><a href="/blog/${esc(post.slug)}">${esc(post.title)}</a><span>${esc(post.excerpt)}</span></p>` +
       `</li>`
     ))
     .join("");
@@ -126,10 +126,10 @@ export function GET() {
 <link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" title="Writing feed">
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 <style>
-:root{--bg:#060711;--fg:#f3f6ff;--muted:#b2bce2;--dim:#707c9e;--line:rgba(164,184,245,.2);--line-strong:rgba(188,207,255,.38);--cyan:#76e4f4;--blue:#94aaff}
+:root{--bg:#060711;--fg:#f3f6ff;--muted:#b2bce2;--dim:#929fc4;--line:rgba(164,184,245,.2);--line-strong:rgba(188,207,255,.38);--cyan:#76e4f4;--blue:#94aaff}
 *{box-sizing:border-box}
 html,body{min-height:100%;margin:0}
-body{position:relative;overflow-x:hidden;background:radial-gradient(900px 420px at 50% -160px,rgba(42,79,180,.42),transparent 70%),linear-gradient(180deg,#080b18 0%,var(--bg) 38%,#04050b 100%);color:var(--fg);font:15px/1.72 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body{position:relative;overflow-x:clip;background:radial-gradient(900px 420px at 50% -160px,rgba(42,79,180,.42),transparent 70%),linear-gradient(180deg,#080b18 0%,var(--bg) 38%,#04050b 100%);color:var(--fg);font:15px/1.72 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 body:before,body:after{content:"";position:absolute;inset:0;min-height:100%;z-index:0;pointer-events:none}
 body:before{background:linear-gradient(rgba(255,255,255,.018) 50%,transparent 50%);background-size:100% 4px;opacity:.35}
 body:after{background:linear-gradient(135deg,rgba(255,255,255,.035),transparent 16%,transparent 84%,rgba(118,228,244,.028)),linear-gradient(rgba(160,180,255,.115) 1px,transparent 1px),linear-gradient(90deg,rgba(160,180,255,.1) 1px,transparent 1px),linear-gradient(rgba(118,228,244,.035) 2px,transparent 2px),linear-gradient(90deg,rgba(118,228,244,.03) 2px,transparent 2px);background-size:56px 56px,56px 56px,56px 56px,224px 224px,224px 224px;mask-image:linear-gradient(180deg,rgba(0,0,0,.68),rgba(0,0,0,.56) 52%,rgba(0,0,0,.28) 86%,rgba(0,0,0,.12));opacity:.55}
@@ -143,8 +143,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:28px;pa
 .name,.handle{display:block}.name{font-size:15px;font-weight:500;color:var(--fg)}.handle{margin-top:1px;color:var(--dim);font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 main{padding:48px 0 0}
 .hero{max-width:none}
-h1{margin:0;color:#fbfcff;font-size:clamp(44px,7.4vw,72px);font-weight:400;line-height:1;letter-spacing:0}
-h1 span{display:block;color:var(--muted);font-size:.72em;white-space:nowrap}
+h1{margin:0;color:#fbfcff;font-size:clamp(44px,7.4vw,72px);font-weight:400;line-height:1.08;letter-spacing:0}
+h1 span{display:block;color:var(--muted);font-size:.72em;text-wrap:balance;overflow-wrap:break-word}
 .showcase-cta{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-width:224px;height:66px;padding:0 12px 0 22px;border:1px solid rgba(174,196,255,.14);border-radius:12px;color:var(--fg);text-decoration:none;background:radial-gradient(95% 140% at 82% 50%,rgba(54,214,230,.08),transparent 58%),linear-gradient(90deg,rgba(7,10,28,.02),rgba(18,28,72,.16));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 0 34px rgba(54,214,230,.035);overflow:visible}
 .showcase-cta:before{content:"";pointer-events:none;position:absolute;inset:-74px -112px;border-radius:80px;background:radial-gradient(closest-side at 62% 50%,rgba(42,88,245,.16),transparent 72%),radial-gradient(closest-side at 72% 44%,rgba(54,214,230,.1),transparent 74%);z-index:-3;opacity:.88;filter:blur(2px)}
 .showcase-cta:after{content:"";pointer-events:none;position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 26%,rgba(54,214,230,.03));z-index:0;pointer-events:none;opacity:.56}
@@ -172,13 +172,13 @@ h1 span{display:block;color:var(--muted);font-size:.72em;white-space:nowrap}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 h2,h3{margin:0;font-weight:500;letter-spacing:0}
 h2{color:var(--fg);font-size:13px;text-transform:uppercase;letter-spacing:.13em}
-.projects{margin-top:34px}.projects.compact{margin-top:30px}
-.section-head{margin-bottom:10px}.section-head h2{font-size:13px}
+.projects{margin-top:44px}.projects.compact{margin-top:44px}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.section-head>a{font-size:12px;color:var(--muted);text-decoration:none}.projects h3 a{text-decoration:none}.projects .project-arrow{display:inline;color:var(--dim);font-size:12px}.primary-actions{display:flex;gap:20px;margin-top:20px}.primary-actions a{font-size:14px;color:var(--cyan)}.section-head h2{font-size:13px}
 .projects ol{display:grid;gap:16px;margin:0;padding:0;list-style:none}
 .projects li{display:grid;grid-template-columns:170px minmax(0,1fr);gap:22px;padding:0}
 .projects h3{color:#fbfcff;font-size:15px}.projects p{margin:0;color:var(--muted);line-height:1.6}.projects strong{display:block;color:var(--muted);font-weight:400}.projects span{display:block;color:var(--dim);margin-top:2px}
-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:auto;padding-top:20px;color:var(--dim);font:10px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-footer a{color:var(--dim);text-decoration:none;opacity:.58}
+footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px;margin-top:auto;padding-top:20px;color:var(--dim);font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+footer a{color:var(--dim);text-decoration:none;opacity:1}
 footer a:hover,footer a:focus-visible{color:var(--cyan);opacity:1;text-decoration:underline}
 footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;text-decoration:none}
 .writing h3{color:var(--dim);font:12px/1.9 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:400}
@@ -187,14 +187,14 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
 .allposts{margin:14px 0 0;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .allposts a{color:var(--dim);text-decoration:none}
 .allposts a:hover,.allposts a:focus-visible{color:var(--cyan)}
-@media (max-width:760px){.wrap{width:min(100% - 32px,780px);padding-top:64px}header{gap:12px}.headnav{gap:7px}.chips{gap:7px}.chip{height:28px;padding:0 6px;gap:5px;font-size:9px;letter-spacing:.04em}.chip img{width:13px;height:13px}.id{gap:9px}.avatar{width:44px;height:44px}.name{font-size:14px}.handle{font-size:11px}footer{justify-content:flex-end}main{padding-top:34px}.showcase-cta{min-width:166px;height:52px;padding:0 8px 0 14px;gap:10px}.showcase-label{font-size:10px;letter-spacing:.14em}.play-mark{width:34px;height:34px;border-radius:7px}.play-triangle{border-top-width:6px;border-bottom-width:6px;border-left-width:10px}.showcase-orbs{inset:-64px -70px -96px -82px;width:calc(100% + 152px);height:calc(100% + 160px)}.projects{margin-top:30px}.projects li{grid-template-columns:1fr;gap:5px}footer{margin-top:30px}}
+@media (max-width:760px){.wrap{width:min(100% - 32px,780px);padding-top:64px}header{gap:12px}.headnav{gap:7px}.chips{gap:7px}.chip{height:40px;padding:0 6px;gap:5px;font-size:9px;letter-spacing:.04em}.chip img{width:13px;height:13px}.id{gap:9px}.avatar{width:44px;height:44px}.name{font-size:14px}.handle{font-size:11px}footer{justify-content:flex-end}main{padding-top:34px}.showcase-cta{min-width:166px;height:52px;padding:0 8px 0 14px;gap:10px}.showcase-label{font-size:10px;letter-spacing:.14em}.play-mark{width:34px;height:34px;border-radius:7px}.play-triangle{border-top-width:6px;border-bottom-width:6px;border-left-width:10px}.showcase-orbs{inset:-64px -70px -96px -82px;width:calc(100% + 152px);height:calc(100% + 160px)}.projects{margin-top:30px}.projects li{grid-template-columns:1fr;gap:5px}footer{margin-top:30px}}
 @media (prefers-reduced-motion:reduce){a{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap h-card">
   <header>
-    <a class="id u-url" href="${esc(PROFILE.github)}" rel="me">
+    <a class="id u-url" href="/" aria-label="${esc(PROFILE.displayName)}, home">
       <img class="avatar u-photo" src="${esc(PROFILE.avatar)}" alt="" width="64" height="64">
       <span><span class="name p-name">${esc(PROFILE.displayName)}</span><span class="handle p-nickname">${esc(PROFILE.handle)}</span></span>
     </a>
@@ -213,6 +213,10 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
       <h1>${esc(PROFILE.displayName)}<span>${esc(PROFILE.role)}</span></h1>
       <p class="summary p-note">${esc(PROFILE.summary)}</p>
       <p class="focusline">${focus}</p>
+      <div class="primary-actions">
+        <a href="${esc(PROFILE.telegram)}">Get in touch ↗</a>
+        <a href="/resume">Résumé →</a>
+      </div>
       <div class="actions" aria-label="Contact and proof links">
         <a class="icon-link" href="${esc(PROFILE.github)}" rel="me" aria-label="GitHub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .98-.31 3.18 1.18A11.1 11.1 0 0 1 12 5.99c.98 0 1.96.13 2.88.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.77.12 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14v3.16c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
@@ -233,18 +237,17 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
         <a class="ens-link" href="${esc(PROFILE.ensProfile)}" rel="me" aria-label="ENS: ${esc(PROFILE.ens)}">${esc(PROFILE.ens)}</a>
       </div>
     </section>
-  </main>
-
-  <section class="projects compact" aria-labelledby="experience">
-    <h2 id="experience" class="sr-only">Experience</h2>
-    <ol>${experienceItems}</ol>
-  </section>
-
   <section class="projects" aria-labelledby="projects">
     <div class="section-head">
-      <h2 id="projects">Projects</h2>
+      <h2 id="projects">Selected work</h2>
+      <a href="/showcase">All projects →</a>
     </div>
     <ol>${projectItems}</ol>
+  </section>
+
+  <section class="projects compact" aria-labelledby="experience">
+    <div class="section-head"><h2 id="experience">Experience</h2></div>
+    <ol>${experienceItems}</ol>
   </section>
 
   <section class="projects" aria-labelledby="lab">
@@ -256,10 +259,12 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
   </section>
 
   ${writingSection}
+  </main>
 
   <footer>
-    <a href="/blog">blog</a>
+    <a href="/showcase">showcase</a>
     <a href="/lab">lab</a>
+    <a href="/blog">writing</a>
     <a href="/resume">resume</a>
     <a href="/llms.json">llms.json</a>
     <a href="/profile.json">profile.json</a>

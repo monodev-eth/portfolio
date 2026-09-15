@@ -1,6 +1,7 @@
 ---
 title: Most of the work in an agent browser is knowing when not to open one
 date: 2026-09-01
+excerpt: Building an agent browser taught me when to skip Chrome, when to escalate, and how to make failures useful.
 summary: Notes from twenty versions of vibatchium, a stealth browser daemon that AI agents drive. The stealth turned out to be the easy part. The escalation policy, a second lane that runs no JavaScript, and a README section listing what the thing cannot do turned out to be the rest of it.
 cover: /blog/cover-vb.png
 coverAlt: Diagram of the escalation ladder from plain HTTP through the fetch lane to a real browser

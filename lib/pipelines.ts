@@ -22,6 +22,7 @@ export interface Artifact {
 export interface Pipeline {
   id: string;
   title: string;
+  shortTitle: string;
   tagline: string;
   /** What fires it, and how often. */
   cadence: string;
@@ -49,6 +50,7 @@ export interface Pipeline {
 export const PIPELINES: Pipeline[] = [
   {
     id: "blog-writer",
+    shortTitle: "Blog writer",
     title: "SigIntZero blog writer",
     tagline:
       "A security research blog that picks its own subject, writes it, checks itself, illustrates itself and ships, then skips the day when nothing is worth writing about.",
@@ -83,6 +85,7 @@ export const PIPELINES: Pipeline[] = [
   },
   {
     id: "card-art",
+    shortTitle: "Card art",
     title: "StockRip card art",
     tagline:
       "Forty eight trading cards rendered by an agent, from a CSV of names to the shipped cut, one command per stage.",
@@ -118,6 +121,7 @@ export const PIPELINES: Pipeline[] = [
   },
   {
     id: "persona-engine",
+    shortTitle: "Posting engine",
     title: "Multi-account posting engine",
     tagline:
       "A registry of accounts, a voice contract for each, and a scheduler built so that two of them never speak in the same moment or out of the same burst of traffic.",
@@ -145,6 +149,7 @@ export const PIPELINES: Pipeline[] = [
   },
   {
     id: "fleet",
+    shortTitle: "Fleet Terminal",
     title: "Fleet Terminal",
     tagline:
       "One screen for every autonomous job on the box: schedule, health, and notional cost, across forty units and three species.",

@@ -1,6 +1,7 @@
 ---
 title: Three weeks of being wrong about a drone
 date: 2026-09-12
+excerpt: Fifteen diagnoses, one misleading correlation, and the board swap that finally fixed my video feed.
 summary: My whoop's video feed collapsed every time I flew it. I produced about fifteen confident diagnoses over three weeks, built most of them on a correlation that turned out not to exist, and in the end fixed it by swapping the board.
 cover: /blog/cover-drone.jpg
 coverAlt: Macro photo of the Air75 II flight controller inside its frame, wires and gyro chip visible

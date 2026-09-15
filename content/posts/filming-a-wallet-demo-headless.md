@@ -1,6 +1,7 @@
 ---
 title: Filming a wallet demo on a machine with no screen
 date: 2026-09-15
+excerpt: A real wallet, a forked chain, and a product demo recorded on a Linux machine with no screen.
 summary: A minute of product demo for a web3 app, driven by a real MetaMask wallet signing real transactions against a forked chain, recorded on a headless Linux box. A fake X display, a blockchain with a twenty five minute shelf life, and one limit I could not engineer around.
 cover: /blog/cover-stockrip.jpg
 coverAlt: A pack opening in the StockRip demo, revealing a Legendary card at 322x

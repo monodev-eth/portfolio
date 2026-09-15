@@ -23,6 +23,10 @@ export interface Project {
   problem: string;
   process: string;
   outcome: string;
+  /** Concise result shown before the detailed case study and on the résumé. */
+  result: string;
+  /** A lightweight frame from the demo, shown before playback and on mobile. */
+  preview: string;
   links: { live?: string; app?: string; code?: string; study?: string };
 }
 
@@ -42,6 +46,8 @@ const PROJECT_ORDER = [
 const PROJECTS_BY_HISTORY: Project[] = [
   {
     id: "aetos",
+    result: "Built the venture-DAO interface behind Book Club, an APAC community with more than 500 members.",
+    preview: "/previews/aetos.webp",
     logo: "/logos/aetos.png",
     title: "Aetos",
     year: "2023",
@@ -64,6 +70,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "flow",
+    result: "Built the trading front end for same-block copytrading on Solana and Ethereum.",
+    preview: "/previews/flow.webp",
     logo: "/logos/flow.jpg",
     title: "Flow",
     year: "2024",
@@ -86,6 +94,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "imf",
+    result: "Front end for a credit desk that peaked near $260M TVL, followed by its V4 launchpad.",
+    preview: "/previews/imf.webp",
     logo: "/logos/imf.png",
     title: "IMF",
     year: "2026",
@@ -108,6 +118,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "stockrip",
+    result: "Product and front end for a live tokenized-stock draw protocol with 76.5K rips and $4.5M in pool volume.",
+    preview: "/previews/stockrip.webp",
     logo: "/logos/stockrip.png",
     title: "StockRip",
     year: "2026",
@@ -130,6 +142,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "sigintzero",
+    result: "Co-founded a security firm spanning AI scans, senior audits and runtime monitoring, backed by a Superteam Australia grant.",
+    preview: "/previews/sigintzero.webp",
     logo: "/logos/sigintzero.png",
     title: "SigIntZero",
     year: "2026",
@@ -152,6 +166,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "yieldly",
+    result: "Led front end and product from zero to mainnet for Algorand's first DeFi suite.",
+    preview: "/previews/yieldly.webp",
     logo: "/logos/yieldly.png",
     title: "Yieldly",
     year: "2021",
@@ -173,6 +189,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "tonsoffriends",
+    result: "Built a Telegram mini-app bringing communities, games and DeFi together across TON and EVM chains.",
+    preview: "/previews/tonsoffriends.webp",
     logo: "/logos/tonsoffriends.png",
     title: "TonsOfFriends",
     year: "2024",
@@ -196,6 +214,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "mantra",
+    result: "Shipped full-stack staking and governance features as part of TrueOrigin's embedded team.",
+    preview: "/previews/mantra.webp",
     logo: "/logos/mantra.png",
     title: "MantraDAO",
     year: "2020",
@@ -216,6 +236,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "shuriken",
+    result: "Built the Rust simulation engine that checks honeypots and price impact before capital reaches the chain.",
+    preview: "/previews/shuriken.webp",
     logo: "/logos/shuriken.png",
     title: "Shuriken",
     year: "2025",
@@ -238,6 +260,8 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "bespoke",
+    result: "Built an immersive 3D storefront and wallet mint for a 10,000-piece NFT collection.",
+    preview: "/previews/bespoke.webp",
     logo: "/logos/bespoke.png",
     title: "Bespoke",
     year: "2022",

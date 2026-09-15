@@ -1,6 +1,7 @@
 ---
 title: How I researched my way out of a $1,400 drone build
 date: 2026-07-07
+excerpt: From a long-range drone wish list to a verified parts budget, a simulator, and a smaller first build.
 summary: I walked in wanting a 3D printed long range drone. Three days later I had a fully speced $1,414 digital FPV kit in the cart, and then talked myself down to a $490 analog trainer. Notes on the goggle tax, ecosystem lock-in, and letting the sim humble you first.
 cover: /blog/cover-fpv-bom.jpg
 coverAlt: Two stacked bars comparing a $1,414 digital FPV build against the $490 analog kit actually bought, with the goggle line item filling most of both

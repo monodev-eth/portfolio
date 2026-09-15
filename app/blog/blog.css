@@ -10,7 +10,7 @@
   --bfg: #f3f6ff;
   --bread: #c7cfeb;
   --bmuted: #b2bce2;
-  --bdim: #707c9e;
+  --bdim: #929fc4;
   --bline: rgba(164, 184, 245, 0.2);
   --bline-strong: rgba(188, 207, 255, 0.38);
   --bcyan: #76e4f4;
@@ -86,12 +86,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  flex-wrap: wrap;
   padding-bottom: 16px;
 }
 .blogid {
   display: inline-flex;
   align-items: center;
   gap: 11px;
+  flex-shrink: 0;
   text-decoration: none;
 }
 .blogid img {
@@ -109,41 +111,53 @@
 .bloghandle {
   display: block;
   margin-top: 1px;
+  white-space: nowrap;
   color: var(--bdim);
   font: 11px/1.4 var(--bmono);
 }
 .blognav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 6px;
 }
 .blognav a {
-  font: 500 11px/1 var(--font-play), var(--bmono);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 9px;
+  border-bottom: 1px solid transparent;
+  font: 500 12px/1 var(--font-play), var(--bmono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--bdim);
   text-decoration: none;
 }
 .blognav a:hover,
-.blognav a:focus-visible,
-.blognav a[aria-current="true"] {
+.blognav a:focus-visible {
   color: var(--bcyan);
+}
+/* The rule underlines the page you are on; hover only warms the colour, so the
+ * two states stay tellable apart. */
+.blognav a[aria-current="page"] {
+  color: var(--bcyan);
+  border-bottom-color: var(--bcyan);
 }
 
 .blogfoot {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
   margin-top: auto;
   padding-top: 40px;
   color: var(--bdim);
-  font: 10px/1.5 var(--bmono);
+  font: 12px/1.5 var(--bmono);
 }
 .blogfoot a {
   color: var(--bdim);
   text-decoration: none;
-  opacity: 0.58;
+  opacity: 1;
 }
 .blogfoot a:hover,
 .blogfoot a:focus-visible {
@@ -157,6 +171,7 @@
   color: var(--bdim);
   opacity: 0.45;
 }
+
 
 /* ---- index ---- */
 .blogmain {
@@ -184,7 +199,7 @@
 }
 .postlist a {
   display: grid;
-  grid-template-columns: 104px 148px minmax(0, 1fr);
+  grid-template-columns: 188px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
   margin: 0 -14px;
@@ -202,12 +217,13 @@
 .postdate {
   color: var(--bdim);
   font: 12px/1.9 var(--bmono);
-  white-space: nowrap;
+  display: block;
+  margin-top: 4px;
 }
 .posttitle {
   display: block;
   color: #fbfcff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
 }
 .postlist a:hover .posttitle,
@@ -248,7 +264,7 @@
  * cover, so a coverless entry still lines up with the rest. */
 .postthumb {
   display: block;
-  width: 148px;
+  width: 188px;
   aspect-ratio: 40 / 21;
   border-radius: 6px;
   overflow: hidden;
@@ -306,6 +322,7 @@
 .postbody {
   margin-top: 36px;
   color: var(--bread);
+  overflow-wrap: break-word;
 }
 .postbody > :first-child {
   margin-top: 0;
@@ -413,7 +430,12 @@
   border-radius: 5px;
   background: rgba(150, 170, 255, 0.08);
   color: var(--bfg);
-  white-space: nowrap;
+  /* An identifier longer than the column used to push the page sideways, so it
+   * may wrap; box-decoration-break closes the border on both halves. */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 .postbody pre {
   margin: 24px 0;
@@ -469,10 +491,15 @@
   }
   .postlist a {
     grid-template-columns: 1fr;
-    gap: 3px;
+    gap: 10px;
     margin: 0 -10px;
     padding: 12px 10px;
   }
+  .bloghead { gap: 12px; }
+  .blognav { width: 100%; justify-content: flex-start; gap: 12px; }
+  .blognav a { padding: 0 4px; }
+  .postlist { gap: 20px; }
+  .postthumb { max-height: 190px; }
   /* One column on a phone: the thumbnail goes full width above the title,
    * and a post without one takes up no space at all. */
   .postthumb {

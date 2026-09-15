@@ -23,6 +23,7 @@ export const AGENT_PROJECTS = PROJECTS.map((project) => {
   return {
     name: project.title,
     summary: project.summary,
+    result: project.result,
     stack: [...project.stack],
     ...(Object.keys(links).length ? { links } : {}),
   };
@@ -61,6 +62,8 @@ export function projectLine(project: (typeof AGENT_PROJECTS)[number]): string {
   const links = Object.entries(project.links ?? {})
     .map(([key, url]) => ` ${labels[key] ?? key}: ${url}.`)
     .join("");
+  /* `result` is a separate field in the JSON payloads; inlining it here too
+   * just repeats the same numbers the summary already carries. */
   return `- ${project.name}: ${project.summary}${links}`;
 }
 

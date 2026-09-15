@@ -26,6 +26,8 @@ export interface PostMeta {
   /** ISO date, YYYY-MM-DD. */
   date: string;
   summary: string;
+  /** Short description for browsing lists; the full summary remains on the article. */
+  excerpt: string;
   tags: string[];
   draft: boolean;
   /** Optional preview image, as a site-absolute path under /public. */
@@ -60,6 +62,7 @@ function readPost(file: string): Post {
     title: meta.title ?? slug,
     date: meta.date ?? "1970-01-01",
     summary: meta.summary ?? "",
+    excerpt: meta.excerpt ?? meta.summary ?? "",
     tags: meta.tags ? meta.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
     draft: meta.draft === "true",
     cover: meta.cover || undefined,
