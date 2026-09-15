@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dima / monodev-eth</title>
+<!-- No-JS fallback. Held at 1s so the script below can win and keep the path. -->
+<meta http-equiv="refresh" content="1;url=https://portfolio-next-peach-nine-91.vercel.app/">
+<link rel="canonical" href="https://portfolio-next-peach-nine-91.vercel.app/">
+<meta name="robots" content="noindex">
+<style>
+:root{color-scheme:dark}
+html,body{height:100%;margin:0}
+body{display:grid;place-items:center;background:radial-gradient(900px 420px at 50% -160px,rgba(42,79,180,.42),transparent 70%),linear-gradient(180deg,#080b18 0%,#060711 38%,#04050b 100%);color:#f3f6ff;font:15px/1.7 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;text-align:center;padding:24px}
+p{margin:0 0 10px}
+.dim{color:#929fc4;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.04em}
+a{color:#76e4f4;text-decoration:none;border-bottom:1px solid rgba(118,228,244,.35)}
+a:hover{border-bottom-color:#76e4f4}
+</style>
+</head>
+<body>
+<main>
+  <p class="dim">monodev.eth</p>
+  <p>Taking you to the live site.</p>
+  <p><a id="go" href="https://portfolio-next-peach-nine-91.vercel.app/">portfolio-next-peach-nine-91.vercel.app</a></p>
+</main>
+<script>
+/* Carry the path across, so monodev.eth.limo/blog lands on /blog rather than
+ * the homepage. The meta refresh above covers browsers with JS disabled. */
+(function () {
+  var base = "https://portfolio-next-peach-nine-91.vercel.app";
+  var to = base + location.pathname + location.search + location.hash;
+  var a = document.getElementById("go");
+  if (a) a.href = to;
+  location.replace(to);
+})();
+</script>
+</body>
+</html>

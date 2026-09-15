@@ -1,0 +1,39 @@
+name: Pin ENS redirect stub
+
+# monodev.eth's contenthash can only point at IPFS/IPNS/Arweave/Swarm, never at
+# an https origin. So the thing we pin is a ~2KB page that forwards to the live
+# site. Pin once, set the contenthash once, and the ENS name tracks the Vercel
+# deployment forever without another on-chain write.
+#
+# Needs the existing PINATA_JWT_TOKEN repo secret.
+
+on:
+  push:
+    branches: [ens-redirect]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # The pin script reads ./out, the same shape the full-site export uses.
+      - name: Stage the stub as ./out
+        run: |
+          mkdir -p out
+          cp ens-redirect/index.html out/index.html
+          cp ens-redirect/404.html   out/404.html
+          ls -la out
+
+      - name: Pin ./out to Pinata
+        env:
+          PINATA_JWT_TOKEN: ${{ secrets.PINATA_JWT_TOKEN }}
+        run: node scripts/pin-to-pinata.cjs
