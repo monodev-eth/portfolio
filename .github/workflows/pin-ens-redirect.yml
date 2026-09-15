@@ -31,6 +31,7 @@ jobs:
           mkdir -p out
           cp ens-redirect/index.html out/index.html
           cp ens-redirect/404.html   out/404.html
+          cp ens-redirect/_redirects out/_redirects
           ls -la out
 
       - name: Pin ./out to Pinata
