@@ -2,6 +2,8 @@
 title: How this blog works
 date: 2026-07-07
 summary: Markdown files in a folder, zero database, everything rendered at build time. Notes on the setup and how to publish a post.
+cover: /blog/cover-blog.png
+coverAlt: The frontmatter block of a blog post, syntax highlighted
 tags: meta, nextjs
 ---
 

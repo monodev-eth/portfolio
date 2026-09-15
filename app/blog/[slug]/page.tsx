@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
+  const cover = post.cover ? `${SITE_URL}${post.cover}` : undefined;
   return {
     title: `${post.title} / ${PROFILE.name}`,
     description: post.summary,
@@ -31,11 +32,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: [PROFILE.displayName],
       tags: post.tags,
       url: `${SITE_URL}/blog/${post.slug}`,
+      ...(cover ? { images: [{ url: cover, alt: post.coverAlt ?? post.title }] } : {}),
     },
     twitter: {
-      card: "summary",
+      card: cover ? "summary_large_image" : "summary",
       title: post.title,
       description: post.summary,
+      ...(cover ? { images: [cover] } : {}),
     },
   };
 }
@@ -53,6 +56,7 @@ export default async function BlogPost({ params }: Props) {
     description: post.summary,
     datePublished: post.date,
     keywords: post.tags.join(", "),
+    ...(post.cover ? { image: `${SITE_URL}${post.cover}` } : {}),
     url: `${SITE_URL}/blog/${post.slug}`,
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
     isPartOf: { "@type": "Blog", name: `${PROFILE.displayName} — writing`, url: `${SITE_URL}/blog` },

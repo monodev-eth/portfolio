@@ -10,6 +10,8 @@ import path from "node:path";
  *   date: 2026-07-07
  *   summary: One-liner shown on the index, in the RSS feed, and as the OG description.
  *   tags: webgl, nostalgia
+ *   cover: /blog/my-post.jpg   <- optional; listing thumbnail + OG image
+ *   coverAlt: what the image shows
  *   draft: true        <- optional; visible in `next dev`, excluded from builds
  *   ---
  *
@@ -26,6 +28,10 @@ export interface PostMeta {
   summary: string;
   tags: string[];
   draft: boolean;
+  /** Optional preview image, as a site-absolute path under /public. */
+  cover?: string;
+  /** Alt text for the cover. Falls back to the title. */
+  coverAlt?: string;
 }
 
 export interface Post extends PostMeta {
@@ -56,6 +62,8 @@ function readPost(file: string): Post {
     summary: meta.summary ?? "",
     tags: meta.tags ? meta.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
     draft: meta.draft === "true",
+    cover: meta.cover || undefined,
+    coverAlt: meta.coveralt || undefined,
     markdown: body,
   };
 }

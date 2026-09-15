@@ -15,7 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: SITE_URL },
     { url: `${SITE_URL}/showcase` },
+    { url: `${SITE_URL}/resume` },
     { url: `${SITE_URL}/blog` },
+    { url: `${SITE_URL}/lab` },
     ...posts,
   ];
 }

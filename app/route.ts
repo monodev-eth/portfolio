@@ -1,5 +1,7 @@
 import { PROJECTS } from "@/lib/projects";
-import { PROFILE } from "@/lib/profile";
+import { PIPELINES } from "@/lib/pipelines";
+import { SURFACES } from "@/lib/surfaces";
+import { EXPERIENCE, PROFILE } from "@/lib/profile";
 import { getAllPosts } from "@/lib/posts";
 
 export const dynamic = "force-static";
@@ -15,40 +17,6 @@ function esc(value: string): string {
 export function GET() {
   const projects = PROJECTS.slice(0, 6);
   const visibleProjects = projects.slice(0, 4);
-  const intro =
-    "Full-stack operator building across security, AI, search, and digital infrastructure.";
-  const experience = [
-    {
-      role: "Co-founder",
-      org: "SigIntZero",
-      meta: "Smart-contract audit & security firm. Search, AI, digital infrastructure",
-    },
-    {
-      role: "Co-Founder / Software Engineer",
-      org: "TrueOrigin Labs",
-      meta: "Venture studio behind Aetos and Flow. Crypto, fintech, applied AI",
-    },
-    {
-      role: "Tech Co-Founder / Lead Frontend",
-      org: "Yieldly",
-      meta: "The first DeFi suite on Algorand. Front-end and product through launch",
-    },
-    {
-      role: "Full Stack Engineer",
-      org: "MANTRA",
-      meta: "Web3 product engineering in the TrueOrigin external team",
-    },
-    {
-      role: "Front-End, Design, Integration & QA",
-      org: "Book Club",
-      meta: "Founding-team member. APAC crypto venture community, runs on Aetos",
-    },
-    {
-      role: "Co-Founder",
-      org: "TrueOrigin",
-      meta: "Onchain product authenticity and supply-chain provenance. The studio's namesake",
-    },
-  ];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
@@ -56,7 +24,7 @@ export function GET() {
     about: {
       "@type": "Person",
       name: PROFILE.displayName,
-      alternateName: PROFILE.name,
+      alternateName: PROFILE.aliases.filter((alias) => alias !== PROFILE.displayName),
       image: PROFILE.avatar,
       jobTitle: PROFILE.role,
       description: PROFILE.summary,
@@ -82,11 +50,11 @@ export function GET() {
   };
 
   const focus = PROFILE.focus.map((item) => esc(item)).join(" / ");
-  const experienceItems = experience
+  const experienceItems = EXPERIENCE
     .map((item) => (
       `<li>` +
       `<h3>${esc(item.role)}</h3>` +
-      `<p><strong>${esc(item.org)}</strong><span>${esc(item.meta)}</span></p>` +
+      `<p><strong>${esc(item.organization)}</strong><span>${esc(item.summary)}</span></p>` +
       `</li>`
     ))
     .join("");
@@ -96,6 +64,22 @@ export function GET() {
       `<h3>${esc(project.title)}</h3>` +
       `<p>${esc(project.tagline)}</p>` +
       `</li>`
+    ))
+    .join("");
+  const pipelineItems = PIPELINES
+    .map((pipeline) => (
+      `<li>` +
+      `<h3>${esc(pipeline.title)}</h3>` +
+      `<p>${esc(pipeline.tagline)}<span>${esc(pipeline.cadence)}</span></p>` +
+      `</li>`
+    ))
+    .join("");
+  const surfaceChips = SURFACES
+    .map((surface) => (
+      `<a class="chip" href="${esc(surface.href)}" title="${esc(surface.hint)}">` +
+      `<img src="${esc(surface.logo)}" alt="" width="18" height="18">` +
+      `<span>${esc(surface.label)}</span>` +
+      `</a>`
     ))
     .join("");
   const latestPosts = getAllPosts().filter((post) => !post.draft).slice(0, 3);
@@ -162,8 +146,8 @@ main{padding:48px 0 0}
 h1{margin:0;color:#fbfcff;font-size:clamp(44px,7.4vw,72px);font-weight:400;line-height:1;letter-spacing:0}
 h1 span{display:block;color:var(--muted);font-size:.72em;white-space:nowrap}
 .showcase-cta{position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-width:224px;height:66px;padding:0 12px 0 22px;border:1px solid rgba(174,196,255,.14);border-radius:12px;color:var(--fg);text-decoration:none;background:radial-gradient(95% 140% at 82% 50%,rgba(54,214,230,.08),transparent 58%),linear-gradient(90deg,rgba(7,10,28,.02),rgba(18,28,72,.16));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 0 34px rgba(54,214,230,.035);overflow:visible}
-.showcase-cta:before{content:"";position:absolute;inset:-74px -112px;border-radius:80px;background:radial-gradient(closest-side at 62% 50%,rgba(42,88,245,.16),transparent 72%),radial-gradient(closest-side at 72% 44%,rgba(54,214,230,.1),transparent 74%);z-index:-3;opacity:.88;filter:blur(2px)}
-.showcase-cta:after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 26%,rgba(54,214,230,.03));z-index:0;pointer-events:none;opacity:.56}
+.showcase-cta:before{content:"";pointer-events:none;position:absolute;inset:-74px -112px;border-radius:80px;background:radial-gradient(closest-side at 62% 50%,rgba(42,88,245,.16),transparent 72%),radial-gradient(closest-side at 72% 44%,rgba(54,214,230,.1),transparent 74%);z-index:-3;opacity:.88;filter:blur(2px)}
+.showcase-cta:after{content:"";pointer-events:none;position:absolute;inset:0;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 26%,rgba(54,214,230,.03));z-index:0;pointer-events:none;opacity:.56}
 .showcase-cta:hover,.showcase-cta:focus-visible{color:#fff;border-color:rgba(118,228,244,.48);background:radial-gradient(95% 140% at 82% 50%,rgba(54,214,230,.16),transparent 58%),linear-gradient(90deg,rgba(7,10,28,.08),rgba(22,34,88,.34));box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 44px rgba(54,214,230,.13)}
 .showcase-label{position:relative;z-index:2;color:#e8efff;font:500 12px/.95 "Trebuchet MS","Segoe UI",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 0 10px rgba(54,214,230,.24)}
 .showcase-label:before{content:attr(data-label);position:absolute;left:0;top:0;color:rgba(54,214,230,.24);transform:translate(.7px,.7px);pointer-events:none;z-index:-1}
@@ -171,7 +155,13 @@ h1 span{display:block;color:var(--muted);font-size:.72em;white-space:nowrap}
 .showcase-cta:hover .play-mark,.showcase-cta:focus-visible .play-mark{border-color:rgba(118,228,244,.72);background:rgba(10,17,44,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 0 28px rgba(54,214,230,.24)}
 .play-triangle{width:0;height:0;margin-left:3px;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid currentColor;filter:drop-shadow(0 0 12px rgba(54,214,230,.86))}
 .showcase-orbs{position:absolute;inset:-96px -128px;z-index:-2;width:calc(100% + 256px);height:calc(100% + 192px);pointer-events:none;mix-blend-mode:screen;opacity:.9}
-.summary{max-width:52ch;margin:16px 0 0;color:var(--muted);font-size:16px;line-height:1.65}
+.headnav{display:flex;flex-direction:column;align-items:stretch;gap:9px}
+.chips{position:relative;z-index:1;display:flex;gap:9px}
+.chip{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:rgba(8,11,24,.18);color:var(--muted);font:500 10px/1 "Trebuchet MS","Segoe UI",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:border-color .18s,color .18s,background .18s}
+.chip img{display:block;flex:0 0 auto}
+.chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip:hover,.chip:focus-visible{border-color:rgba(118,228,244,.5);color:var(--fg);background:rgba(16,22,46,.34)}
+.summary{max-width:52ch;margin:18px 0 0;color:var(--muted);font-size:16px;line-height:1.65}
 .focusline{max-width:64ch;margin:13px 0 0;color:var(--dim);font:12px/1.75 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .icon-link{display:inline-grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:rgba(8,11,24,.18)}
@@ -197,7 +187,7 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
 .allposts{margin:14px 0 0;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .allposts a{color:var(--dim);text-decoration:none}
 .allposts a:hover,.allposts a:focus-visible{color:var(--cyan)}
-@media (max-width:760px){.wrap{width:min(100% - 32px,780px);padding-top:64px}header{gap:12px}.id{gap:9px}.avatar{width:44px;height:44px}.name{font-size:14px}.handle{font-size:11px}footer{justify-content:flex-end}main{padding-top:34px}.showcase-cta{min-width:166px;height:52px;padding:0 8px 0 14px;gap:10px}.showcase-label{font-size:10px;letter-spacing:.14em}.play-mark{width:34px;height:34px;border-radius:7px}.play-triangle{border-top-width:6px;border-bottom-width:6px;border-left-width:10px}.showcase-orbs{inset:-64px -70px -96px -82px;width:calc(100% + 152px);height:calc(100% + 160px)}.projects{margin-top:30px}.projects li{grid-template-columns:1fr;gap:5px}footer{margin-top:30px}}
+@media (max-width:760px){.wrap{width:min(100% - 32px,780px);padding-top:64px}header{gap:12px}.headnav{gap:7px}.chips{gap:7px}.chip{height:28px;padding:0 6px;gap:5px;font-size:9px;letter-spacing:.04em}.chip img{width:13px;height:13px}.id{gap:9px}.avatar{width:44px;height:44px}.name{font-size:14px}.handle{font-size:11px}footer{justify-content:flex-end}main{padding-top:34px}.showcase-cta{min-width:166px;height:52px;padding:0 8px 0 14px;gap:10px}.showcase-label{font-size:10px;letter-spacing:.14em}.play-mark{width:34px;height:34px;border-radius:7px}.play-triangle{border-top-width:6px;border-bottom-width:6px;border-left-width:10px}.showcase-orbs{inset:-64px -70px -96px -82px;width:calc(100% + 152px);height:calc(100% + 160px)}.projects{margin-top:30px}.projects li{grid-template-columns:1fr;gap:5px}footer{margin-top:30px}}
 @media (prefers-reduced-motion:reduce){a{transition:none}}
 </style>
 </head>
@@ -208,16 +198,20 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
       <img class="avatar u-photo" src="${esc(PROFILE.avatar)}" alt="" width="64" height="64">
       <span><span class="name p-name">${esc(PROFILE.displayName)}</span><span class="handle p-nickname">${esc(PROFILE.handle)}</span></span>
     </a>
-    <a class="showcase-cta" href="/showcase" aria-label="Open showcase">
-      <canvas class="showcase-orbs" aria-hidden="true"></canvas>
-      <span class="showcase-label" data-label="SHOWCASE">SHOWCASE</span>
-      <span class="play-mark" aria-hidden="true"><span class="play-triangle"></span></span>
-    </a>
+    <div class="headnav">
+      <a class="showcase-cta" href="/showcase" aria-label="Open showcase">
+        <canvas class="showcase-orbs" aria-hidden="true"></canvas>
+        <span class="showcase-label" data-label="SHOWCASE">SHOWCASE</span>
+        <span class="play-mark" aria-hidden="true"><span class="play-triangle"></span></span>
+      </a>
+      <nav class="chips" aria-label="Sections">${surfaceChips}</nav>
+    </div>
   </header>
 
   <main>
     <section class="hero" aria-label="Profile summary">
-      <p class="summary p-note">${esc(intro)}</p>
+      <h1>${esc(PROFILE.displayName)}<span>${esc(PROFILE.role)}</span></h1>
+      <p class="summary p-note">${esc(PROFILE.summary)}</p>
       <p class="focusline">${focus}</p>
       <div class="actions" aria-label="Contact and proof links">
         <a class="icon-link" href="${esc(PROFILE.github)}" rel="me" aria-label="GitHub">
@@ -241,7 +235,8 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
     </section>
   </main>
 
-  <section class="projects compact" aria-label="Experience">
+  <section class="projects compact" aria-labelledby="experience">
+    <h2 id="experience" class="sr-only">Experience</h2>
     <ol>${experienceItems}</ol>
   </section>
 
@@ -252,10 +247,20 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
     <ol>${projectItems}</ol>
   </section>
 
+  <section class="projects" aria-labelledby="lab">
+    <div class="section-head">
+      <h2 id="lab">Lab</h2>
+    </div>
+    <ol>${pipelineItems}</ol>
+    <p class="allposts"><a href="/lab">How each one works →</a></p>
+  </section>
+
   ${writingSection}
 
   <footer>
     <a href="/blog">blog</a>
+    <a href="/lab">lab</a>
+    <a href="/resume">resume</a>
     <a href="/llms.json">llms.json</a>
     <a href="/profile.json">profile.json</a>
   </footer>

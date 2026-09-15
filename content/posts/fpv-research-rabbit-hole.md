@@ -2,8 +2,9 @@
 title: How I researched my way out of a $1,400 drone build
 date: 2026-07-07
 summary: I walked in wanting a 3D printed long range drone. Three days later I had a fully speced $1,414 digital FPV kit in the cart, and then talked myself down to a $490 analog trainer. Notes on the goggle tax, ecosystem lock-in, and letting the sim humble you first.
+cover: /blog/cover-fpv-bom.jpg
+coverAlt: Two stacked bars comparing a $1,414 digital FPV build against the $490 analog kit actually bought, with the goggle line item filling most of both
 tags: fpv, hardware, research
-draft: true
 ---
 
 It started with a Thingiverse page. The [NanoLongRange Evo](https://www.thingiverse.com/thing:4920575) is a 3D printed ultralight quad that cruises on 18650 laptop cells for absurd flight times, and I decided I wanted one. I knew nothing about FPV. The plan was: print the frame, buy the parts, fly.

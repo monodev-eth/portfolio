@@ -184,8 +184,9 @@
 }
 .postlist a {
   display: grid;
-  grid-template-columns: 104px minmax(0, 1fr);
+  grid-template-columns: 104px 148px minmax(0, 1fr);
   gap: 18px;
+  align-items: start;
   margin: 0 -14px;
   padding: 14px;
   border: 1px solid transparent;
@@ -241,6 +242,32 @@
   margin: 30px 0 0;
   color: var(--bdim);
   font: 13px/1.7 var(--bmono);
+}
+
+/* Listing thumbnail. The column is reserved whether or not a post has a
+ * cover, so a coverless entry still lines up with the rest. */
+.postthumb {
+  display: block;
+  width: 148px;
+  aspect-ratio: 40 / 21;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.postthumb:not(:empty) {
+  border: 1px solid var(--bline);
+  background: rgba(16, 22, 46, 0.5);
+}
+.postthumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.82;
+  transition: opacity 0.18s;
+}
+.postlist a:hover .postthumb img,
+.postlist a:focus-visible .postthumb img {
+  opacity: 1;
 }
 
 /* ---- post page ---- */
@@ -351,6 +378,31 @@
   border: 1px solid var(--bline);
   border-radius: 10px;
 }
+/* Hand-drawn SVG diagrams. They carry their own colours (matched to the
+ * palette above) and scale with the column; narrow screens scroll them
+ * sideways rather than squashing the labels into each other. */
+.postbody figure.diagram {
+  margin: 28px 0;
+  padding: 18px 18px 12px;
+  border: 1px solid var(--bline);
+  border-radius: 10px;
+  background: rgba(10, 14, 32, 0.4);
+  overflow-x: auto;
+}
+.postbody figure.diagram svg {
+  display: block;
+  min-width: 560px;
+}
+.postbody figure.diagram figcaption {
+  margin-top: 14px;
+  color: var(--bdim);
+  font: 12px/1.6 var(--bmono);
+}
+.postbody figure.diagram img {
+  margin: 0;
+  border: 0;
+}
+
 .postbody code {
   font-family: var(--bmono);
   font-size: 0.88em;
@@ -420,6 +472,15 @@
     gap: 3px;
     margin: 0 -10px;
     padding: 12px 10px;
+  }
+  /* One column on a phone: the thumbnail goes full width above the title,
+   * and a post without one takes up no space at all. */
+  .postthumb {
+    width: 100%;
+    margin: 6px 0 4px;
+  }
+  .postthumb:empty {
+    display: none;
   }
   .postbody pre {
     margin: 24px -10px;

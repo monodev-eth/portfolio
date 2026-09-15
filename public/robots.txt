@@ -8,5 +8,7 @@ Allow: /profile.json
 Allow: /humans.txt
 Allow: /showcase
 Allow: /blog
+Allow: /lab
+Allow: /resume
 
 Sitemap: https://monodev.eth.limo/sitemap.xml

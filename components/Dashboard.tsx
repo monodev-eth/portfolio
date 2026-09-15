@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Project } from "@/lib/projects";
+import { SURFACES } from "@/lib/surfaces";
 import { PROFILE } from "@/lib/profile";
 import { createAudio, type AudioApi } from "@/lib/audio";
 import type { PS2Api } from "@/lib/ps2bg";
@@ -22,11 +23,12 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
   const [flash, setFlash] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const stageRef = useRef<HTMLElement>(null);
   const projectTrackRef = useRef<HTMLDivElement>(null);
   const previewVideoRef = useRef<HTMLVideoElement>(null);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  /* Where focus was before the modal opened, so closing puts it back. */
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   const ps2 = useRef<PS2Api | null>(null);
   const audio = useRef<AudioApi | null>(null);
@@ -144,6 +146,9 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     if (mi != null) setFocused(mi);
     try { modalVideoRef.current?.pause(); } catch {}
     setModalIndex(null);
+    const back = returnFocusRef.current;
+    returnFocusRef.current = null;
+    if (back) requestAnimationFrame(() => back.focus?.({ preventScroll: true }));
   }, [persist]);
 
   // Focused project -> center the icon rail, update the scene accent, and play its preview.
@@ -162,8 +167,10 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     if (modalIndex == null) return;
     const p = projects[modalIndex];
     audio.current?.confirmBlip();
-    try { (document.activeElement as HTMLElement | null)?.blur?.(); } catch {}
+    returnFocusRef.current = (document.activeElement as HTMLElement | null) ?? null;
     try { previewVideoRef.current?.pause(); } catch {}
+    // A dialog that opens with focus on <body> strands keyboard and screen-reader users.
+    requestAnimationFrame(() => sheetRef.current?.focus({ preventScroll: true }));
     const v = modalVideoRef.current;
     if (v) {
       v.src = p.video;
@@ -231,6 +238,22 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       }
       if (!bootedRef.current) { skipRef.current?.(); return; }
       if (modalRef.current != null) {
+        if (e.key === "Tab") {
+          // Keep Tab inside the dialog; without this the page behind stays reachable.
+          const sheet = sheetRef.current;
+          if (!sheet) return;
+          const focusable = Array.from(
+            sheet.querySelectorAll<HTMLElement>('a[href],button,video[controls],[tabindex]:not([tabindex="-1"])'),
+          ).filter((el) => el.offsetParent !== null);
+          if (!focusable.length) { e.preventDefault(); sheet.focus(); return; }
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          const active = document.activeElement as HTMLElement | null;
+          if (e.shiftKey && (active === first || active === sheet)) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+          else if (active && !sheet.contains(active)) { e.preventDefault(); first.focus(); }
+          return;
+        }
         if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
           e.preventDefault();
           modalStep(e.key === "ArrowRight" ? 1 : -1);
@@ -269,15 +292,49 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       dragX = dragY = null;
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) goFocus(focusedRef.current + (dx < 0 ? 1 : -1));
     };
-    let wheelLock = false;
+    /* Wheel and trackpad walk the rail from anywhere on the page, not just over
+     * the card.
+     *   deltaMode 1 and 2 report lines and pages rather than pixels, so
+     *   normalise first: Firefox sends 3 lines per notch, which at 40px a line
+     *   lands on the same ~120px a pixel-mode notch reports.
+     *   Then split by event size rather than by a timer. One chunky event is a
+     *   discrete mouse notch and steps on its own; a stream of small ones is a
+     *   trackpad and spends its travel proportionally. A time-based lock gets
+     *   this wrong in both directions: it stampedes on a flick, and it stalls
+     *   completely when the WebGL scene slows event delivery down.
+     *   `intent` exists because focusedRef only catches up after a render, so
+     *   two steps inside one frame would otherwise both read the same index. */
+    const WHEEL_TO_PX = [1, 40, 800];
+    const WHEEL_STEP = 100;
+    const WHEEL_NOTCH = 50;
+    let accum = 0;
+    let lastAt = 0;
+    let intent = -1;
     const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) < 4 && Math.abs(e.deltaY) < 8) return;
+      // The case-study sheet scrolls itself; never take the wheel off it.
+      if (modalRef.current != null || !bootedRef.current) return;
+      const scale = WHEEL_TO_PX[e.deltaMode] ?? 1;
+      const dx = e.deltaX * scale;
+      const dy = e.deltaY * scale;
+      const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+      if (!delta) return;
       e.preventDefault();
-      if (wheelLock) return;
-      wheelLock = true;
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      goFocus(focusedRef.current + (delta > 0 ? 1 : -1));
-      window.setTimeout(() => { wheelLock = false; }, 260);
+
+      const now = e.timeStamp || performance.now();
+      const fresh = now - lastAt > 500;
+      lastAt = now;
+      if (fresh || delta * accum < 0) accum = 0;
+      if (fresh || intent < 0) intent = focusedRef.current;
+
+      if (Math.abs(delta) >= WHEEL_NOTCH) {
+        accum = 0;
+      } else {
+        accum += delta;
+        if (Math.abs(accum) < WHEEL_STEP) return;
+        accum = 0;
+      }
+      intent = Math.max(0, Math.min(projects.length - 1, intent + (delta > 0 ? 1 : -1)));
+      goFocus(intent);
     };
 
     window.addEventListener("keydown", onKey);
@@ -286,8 +343,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
-    const shelf = stageRef.current;
-    shelf?.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("wheel", onWheel, { passive: false });
 
     requestAnimationFrame(centerAxes);
 
@@ -301,7 +357,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointerup", onUp);
-      shelf?.removeEventListener("wheel", onWheel);
+      window.removeEventListener("wheel", onWheel);
       ps2.current?.dispose();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -363,6 +419,14 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
               <span className="role">{PROFILE.handle}</span>
             </span>
           </button>
+          <nav className="surfacechips" aria-label="Sections">
+            {SURFACES.map((surface) => (
+              <a key={surface.id} className="chip" href={surface.href} title={surface.hint} aria-label={surface.hint}>
+                <img src={surface.logo} alt="" width={22} height={22} />
+                <span>{surface.label}</span>
+              </a>
+            ))}
+          </nav>
         </div>
         <div className="osd-r">
           <nav className="links" aria-label="Contact">
@@ -380,6 +444,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       </header>
 
       <main className="browser project-browser">
+        <h1 className="sr-only">{PROFILE.name} portfolio: selected projects</h1>
         <section className="project-rail" aria-label="Projects">
           <div className="projecttrack" ref={projectTrackRef}>
             {projects.map((project, index) => {
@@ -401,7 +466,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
           </div>
         </section>
 
-        <section className="project-stage" ref={stageRef} aria-live="polite">
+        <section className="project-stage" aria-live="polite">
           {cur && (
             <button
               className={`projectcard${booted && modalIndex === null ? " playing" : ""}`}
@@ -445,8 +510,8 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
       <Wordmark className="footmark" decorative />
 
       {m && (
-        <div className="modal" role="dialog" aria-modal="true" onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}>
-          <div className="sheet" ref={sheetRef}>
+        <div className="modal" role="dialog" aria-modal="true" aria-labelledby="casestudy-title" onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}>
+          <div className="sheet" ref={sheetRef} tabIndex={-1}>
             <div className="player">
               <button className="close" aria-label="Close" onClick={closeModal}>✕</button>
               <button className="nav prev" aria-label="Previous project" onClick={() => modalStep(-1)}>‹</button>
@@ -468,7 +533,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
             </div>
             <div className="mbody">
               <div className="mtop">
-                <h2>{m.title}</h2>
+                <h2 id="casestudy-title">{m.title}</h2>
                 <span className="myr">{m.year}</span>
               </div>
               <p className="mrole">{m.role}</p>

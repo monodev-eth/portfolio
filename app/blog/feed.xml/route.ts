@@ -24,6 +24,11 @@ export function GET() {
         `<guid isPermaLink="true">${esc(url)}</guid>` +
         `<pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate>` +
         `<description>${esc(post.summary)}</description>` +
+        (post.cover
+          ? `<enclosure url="${esc(`${SITE_URL}${post.cover}`)}" type="${
+              post.cover.endsWith(".png") ? "image/png" : "image/jpeg"
+            }" length="0"/>`
+          : "") +
         post.tags.map((tag) => `<category>${esc(tag)}</category>`).join("") +
         `</item>`
       );

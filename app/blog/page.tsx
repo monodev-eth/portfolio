@@ -53,6 +53,12 @@ export default function BlogIndex() {
             <li key={post.slug}>
               <Link href={`/blog/${post.slug}`}>
                 <span className="postdate">{post.date}</span>
+                <span className="postthumb">
+                  {post.cover && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={post.cover} alt={post.coverAlt ?? post.title} loading="lazy" />
+                  )}
+                </span>
                 <span>
                   <span className="posttitle">
                     {post.title}

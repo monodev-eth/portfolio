@@ -18,6 +18,7 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
           </a>
           <nav className="blognav" aria-label="Site">
             <Link href="/blog">Writing</Link>
+            <a href="/lab">Lab</a>
             <a href="/showcase">Showcase</a>
             <a href="/blog/feed.xml">RSS</a>
           </nav>

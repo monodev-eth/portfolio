@@ -3,8 +3,6 @@
  *   poster : [colorA, colorB] gradient for the focused tile + its accent glow
  *   video  : demo clip in /public/clips (abstract loops stand in until a real capture exists)
  */
-export type ProjectState = "featured" | "new" | "live" | "seen";
-
 export interface Project {
   id: string;
   title: string;
@@ -15,8 +13,9 @@ export interface Project {
   /** Small mark shown in the XMB item row. */
   logo: string;
   tagline: string;
+  /** Fuller prose for the agent-readable surfaces (/profile.json, /llms.json, /llms.txt). */
+  summary: string;
   stack: string[];
-  state: ProjectState;
   poster: [string, string];
   video: string;
   /** Set when the clip is a portrait (mobile) capture, so the preview + player render 9:16 instead of 16:9. */
@@ -29,6 +28,7 @@ export interface Project {
 
 const PROJECT_ORDER = [
   "imf",
+  "stockrip",
   "sigintzero",
   "shuriken",
   "flow",
@@ -49,8 +49,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "TrueOrigin Labs · front-end + design + integration + QA",
     tagline:
       "A trustless platform for venture DAOs: capital calls, proposals, vaults, and returns, all on-chain.",
+    summary:
+      "Trustless venture-DAO platform built at TrueOrigin Labs. On-chain capital calls, proposals, siloed vaults, and returns. Underpins Book Club: 500+ members, 9 teams, $10M+ collective revenue.",
     stack: ["React", "TypeScript", "Solidity", "The Graph", "EVM"],
-    state: "featured",
     poster: ["#3a2c10", "#0a0e1e"],
     video: "/clips/aetos.mp4",
     problem:
@@ -70,8 +71,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "TrueOrigin Labs · trading front-end",
     tagline:
       "A high-frequency copytrading system on Solana and Ethereum. 0-block latency from signal to execution.",
+    summary:
+      "High-frequency copytrading system on Solana and Ethereum (TrueOrigin Labs). Trading front-end, 0-block latency execution.",
     stack: ["Next.js", "TypeScript", "Solana", "Ethereum"],
-    state: "live",
     poster: ["#0e1d3a", "#0a0e1e"],
     video: "/clips/flow.mp4",
     problem:
@@ -91,8 +93,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "TrueOrigin Labs · front-end build",
     tagline:
       "The International Meme Fund: a memecoin-native bank on Ethereum. Borrow real stablecoins against your bags, and launch a coin that ships with its own ENS name and gas on the house.",
+    summary:
+      "The International Meme Fund, a memecoin launchpad and credit desk on Ethereum and Robinhood Chain (TrueOrigin Labs). Borrow USDS against memecoins via isolated Morpho vaults; the V4 launchpad bonds coins on a fair fixed-supply curve, shipping with a free ENS subname and gas covered. Peaked near $260M TVL and the largest single holder of USDS.",
     stack: ["Next.js", "TypeScript", "Ethereum", "ENS", "Morpho"],
-    state: "live",
     poster: ["#0c3a1e", "#0a0e1e"],
     video: "/clips/imf.mp4",
     problem:
@@ -104,6 +107,28 @@ const PROJECTS_BY_HISTORY: Project[] = [
     links: { live: "https://imf.bz", app: "https://app.imf.bz", study: "https://docs.imf.bz" },
   },
   {
+    id: "stockrip",
+    logo: "/logos/stockrip.png",
+    title: "StockRip",
+    year: "2026",
+    period: "2025 – now",
+    role: "TrueOrigin Labs · product & front-end",
+    tagline:
+      "A vending machine for tokenized stocks on Robinhood Chain. Stock it with a position and ETH backing, or pay the pool price and rip a random one out.",
+    summary:
+      "A randomized acquisition protocol for tokenized stocks on Robinhood Chain (TrueOrigin Labs). Depositors pair real Robinhood stock tokens with ETH backing; buyers pay a harmonic-mean price and draw a random position, settled by on-chain VRF. Also a v4-paired reward token and a vault-card mint that locks an NFT plus graded backing into the same draw pool.",
+    stack: ["Next.js", "TypeScript", "viem", "Robinhood Chain", "Uniswap v4", "ERC-6551"],
+    poster: ["#16300c", "#0a0e1e"],
+    video: "/clips/stockrip.mp4",
+    problem:
+      "Tokenized stocks trade, and that is all they do. A position is a number in a wallet: nothing to open, nothing to chase, no reason to come back. Meanwhile the fair-launch mechanics that make people show up live entirely in memecoins, where there is no asset underneath.",
+    process:
+      "Built the product front end over the Stock Rip contracts: a vending-machine homepage that reads the whole pool, one-transaction deposits through a router (with an ETH zap that buys the leg first), a harmonic-mean price quote, and a rip theatre that holds the audience through the VRF wait, block by block, until the packs open. Reads moved off per-request chain calls onto an indexed API tier with direct chain reads as the fallback. The Create side mints vault cards that lock a source NFT plus graded ETH backing and equity legs, rendered on-chain so the card art is read from state on every render.",
+    outcome:
+      "Live on Robinhood Chain with 566 positions in the machine, around 28 ETH of backing, 76.5K rips and $4.5M of volume through the pool. The demo drives the real contracts end to end: a five-pack rip settling to a Legendary, then a vault card minted from a wallet signature.",
+    links: { live: "https://stockrip.com", study: "https://stockrip.com/docs" },
+  },
+  {
     id: "sigintzero",
     logo: "/logos/sigintzero.png",
     title: "SigIntZero",
@@ -112,8 +137,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "SigIntZero · Co-founder",
     tagline:
       "A smart-contract audit and security firm: Sentinel AI scans, senior audits, and Tripwire runtime monitoring.",
+    summary:
+      "Smart-contract audit and security firm (co-founder). Sentinel AI scans, senior audits, and Tripwire runtime monitoring, backed by a Superteam Australia grant.",
     stack: ["AI", "Security", "Next.js", "Search"],
-    state: "live",
     poster: ["#0f2430", "#0a0e1e"],
     video: "/clips/sigintzero.mp4",
     problem:
@@ -132,8 +158,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     period: "2020 – 2022",
     role: "Tech co-founder · lead frontend",
     tagline: "The first DeFi suite on Algorand: staking pools and no-loss prize games.",
+    summary:
+      "The first DeFi suite on Algorand (tech co-founder, lead frontend). Staking pools and no-loss prize games.",
     stack: ["React", "TypeScript", "Algorand", "TEAL"],
-    state: "seen",
     poster: ["#0e2f2a", "#0a0e1e"],
     video: "/clips/yieldly.mp4",
     portrait: true,
@@ -153,8 +180,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "TrueOrigin Labs · product & front-end",
     tagline:
       "A social DeFi ecosystem on Telegram: discover communities, play to earn $FREN, and trade, all in one TON mini-app.",
+    summary:
+      "A social DeFi ecosystem on Telegram (TrueOrigin Labs): discover communities, play to earn $FREN, and trade in one TON mini-app, bridged across TON, Ethereum, and Base.",
     stack: ["Next.js", "TypeScript", "TON", "Telegram", "EVM"],
-    state: "live",
     poster: ["#0a3050", "#0a0e1e"],
     video: "/clips/tonsoffriends.mp4",
     portrait: true,
@@ -174,8 +202,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     period: "2020 – 2021",
     role: "TrueOrigin Labs · full stack, external team",
     tagline: "DeFi staking and governance. Product engineering from an embedded external team.",
+    summary:
+      "DeFi staking and governance. Full-stack product engineering in the TrueOrigin external team.",
     stack: ["React", "TypeScript", "Solidity"],
-    state: "seen",
     poster: ["#2a164a", "#0a0e1e"],
     video: "/clips/mantra.mp4",
     problem:
@@ -194,8 +223,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "TrueOrigin Labs · core development",
     tagline:
       "The Rust EVM simulation engine behind Shuriken: simulate a token's buy and sell against live chain state to catch honeypots and price impact before you snipe.",
+    summary:
+      "Rust EVM simulation engine (core dev). Replays chain state to simulate a token's buy and sell before you snipe, flagging honeypots and price impact. Runs across L1 and L2.",
     stack: ["Rust", "EVM", "Ethereum", "ERC-20", "Simulation"],
-    state: "live",
     poster: ["#11204a", "#0a0e1e"],
     video: "/clips/shuriken.mp4",
     problem:
@@ -215,8 +245,9 @@ const PROJECTS_BY_HISTORY: Project[] = [
     role: "TrueOrigin Labs · front-end build",
     tagline:
       "The mint site for Bespoke: a 10,000-piece NFT collection styled as a tailor tucked away on Wall Street, with a 3D storefront, lore, and wallet mint in one experience.",
+    summary:
+      "The mint site for a 10,000-piece NFT collection (TrueOrigin Labs): a 3D storefront, lore, and wallet mint in one experience.",
     stack: ["Next.js", "TypeScript", "MUI", "Ethereum", "Web3"],
-    state: "seen",
     poster: ["#332a0c", "#0a0e1e"],
     video: "/clips/bespoke.mp4",
     problem:

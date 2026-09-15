@@ -1,0 +1,321 @@
+/* =========================================================================
+   LAB — /lab, the running-systems index. Shares the reading shell, scanlines
+   and head/foot chrome with blog.css (imported first in app/lab/layout.tsx);
+   everything here is the pipeline panel itself. Wider than the blog, because
+   a stage rail is a diagram and a diagram wants room.
+   ========================================================================= */
+
+.labwrap {
+  width: min(100% - 36px, 1000px);
+}
+
+.labmain {
+  /* .blogwrap is a column flex container and .pipelist is a grid, so every
+   * ancestor of the horizontally-scrolling artifact strip needs min-width: 0.
+   * Without it the strip's intrinsic width wins and the whole page scrolls
+   * sideways on a phone. */
+  min-width: 0;
+  padding-top: 40px;
+}
+.labmain > h1 {
+  margin: 0;
+  color: #fbfcff;
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 400;
+  line-height: 1.05;
+}
+.labintro {
+  max-width: 62ch;
+  margin: 12px 0 0;
+  color: var(--bmuted);
+}
+
+.pipelist {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+/* ---- the panel ---- */
+.pipe {
+  position: relative;
+  min-width: 0;
+  padding: 22px 24px 24px;
+  border: 1px solid var(--bline);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(18, 25, 52, 0.52), rgba(10, 14, 32, 0.3));
+  scroll-margin-top: 24px;
+}
+
+.pipehead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 12px;
+}
+.pipeindex {
+  color: var(--bdim);
+  font: 12px/1 var(--bmono);
+  letter-spacing: 0.1em;
+}
+.pipehead h2 {
+  margin: 0;
+  color: #fbfcff;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.pipecadence {
+  color: var(--bcyan);
+  font: 11px/1.6 var(--bmono);
+  white-space: nowrap;
+}
+
+.pipetag {
+  max-width: 74ch;
+  margin: 8px 0 0;
+  color: var(--bmuted);
+  font-size: 15px;
+}
+
+/* ---- stage rail ----
+ * Each stage owns its own segment of the rule, so the line reads as continuous
+ * on one row and simply carries on when the grid wraps. No SVG, no fixed count.
+ */
+.stages {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: grid;
+  /* Narrow enough that the longest rail (eight stages) still lands on one row
+   * at full width. Column gap stays zero so the segments read as one rule;
+   * the row gap only matters once it wraps. */
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+  column-gap: 0;
+  row-gap: 20px;
+}
+.stages li {
+  position: relative;
+  padding: 16px 12px 2px 0;
+  border-top: 1px solid var(--bline-strong);
+}
+.stages li::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bcyan);
+  box-shadow: 0 0 10px rgba(118, 228, 244, 0.5);
+}
+.stages b {
+  display: block;
+  color: #fbfcff;
+  font: 500 12px/1.5 var(--bmono);
+  letter-spacing: 0.04em;
+}
+.stages span {
+  display: block;
+  margin-top: 4px;
+  color: var(--bdim);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* ---- prose ---- */
+.pipebody {
+  max-width: 74ch;
+}
+.pipebody p {
+  margin: 20px 0 0;
+  color: var(--bread);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+/* ---- artifact strip ---- */
+.pipeart {
+  margin: 22px 0 0;
+}
+.pipestrip {
+  display: flex;
+  min-width: 0;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+.pipestrip img {
+  display: block;
+  flex: 0 0 auto;
+  border: 1px solid var(--bline);
+  border-radius: 6px;
+  object-fit: cover;
+  opacity: 0.88;
+  transition: opacity 0.18s;
+}
+.pipestrip img:hover {
+  opacity: 1;
+}
+.pipeart.wide img {
+  width: 208px;
+  aspect-ratio: 16 / 9;
+}
+.pipeart.card img {
+  width: 108px;
+  aspect-ratio: 2 / 3;
+}
+.pipeart figcaption {
+  margin-top: 8px;
+  color: var(--bdim);
+  font: 11px/1.5 var(--bmono);
+}
+
+/* ---- the deliberate blank ---- */
+.pipenote {
+  max-width: 74ch;
+  margin: 20px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--bline-strong);
+  color: var(--bmuted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ---- facts ---- */
+.pipefacts {
+  margin: 24px 0 0;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--bline);
+}
+.pipefacts dt {
+  color: var(--bdim);
+  font: 11px/1.9 var(--bmono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.pipefacts dd {
+  margin: 0;
+  color: var(--bread);
+  font-size: 14px;
+}
+.pipefacts ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 5px;
+}
+.pipefacts li {
+  position: relative;
+  padding-left: 15px;
+  line-height: 1.62;
+}
+.pipefacts li::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 5px;
+  height: 1px;
+  background: var(--bline-strong);
+}
+.piperuntime {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.piperuntime span {
+  padding: 2px 8px;
+  border: 1px solid var(--bline);
+  border-radius: 4px;
+  color: var(--bmuted);
+  font: 11px/1.7 var(--bmono);
+}
+
+.pipelinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 18px 0 0;
+  font: 12px/1.7 var(--bmono);
+}
+.pipelinks a {
+  color: var(--bcyan);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(118, 228, 244, 0.32);
+}
+.pipelinks a:hover,
+.pipelinks a:focus-visible {
+  border-bottom-color: var(--bcyan);
+}
+
+.labfootnote {
+  max-width: 66ch;
+  margin: 30px 0 0;
+  color: var(--bdim);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  .labwrap {
+    width: min(100% - 32px, 720px);
+    padding-top: 48px;
+  }
+  .labmain {
+    padding-top: 30px;
+  }
+  .pipe {
+    padding: 18px 16px 20px;
+    margin: 0 -4px;
+  }
+  /* A rail with one stage per row on a phone: the dots line up into a spine. */
+  .stages {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .stages li {
+    padding: 12px 0 0 18px;
+    border-top: 0;
+    border-left: 1px solid var(--bline-strong);
+  }
+  .stages li::before {
+    top: 15px;
+    left: -4px;
+  }
+  .stages li:first-child {
+    padding-top: 6px;
+  }
+  .stages li:first-child::before {
+    top: 9px;
+  }
+  .pipehead {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .pipecadence {
+    grid-column: 2;
+    white-space: normal;
+  }
+  .pipefacts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px 0;
+  }
+  .pipefacts dd + dt {
+    margin-top: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pipestrip img {
+    transition: none;
+  }
+}
