@@ -107,7 +107,7 @@ export const PIPELINES: Pipeline[] = [
       "Two decisions carry the whole thing. The art is generated as a bare panel with no text, no logo and no border, because the app draws the label block over it and baking text into the image collides with live UI chrome. And the briefs are agent task files with explicit inputs, outputs and prohibitions rather than prompts. The first version emitted bare prompts, and codex had no idea where to save, what to read as a style reference, or what it was not allowed to touch. The reference step has an explicit stop instruction so it cannot invent the geometry of a real object it failed to find. One flag selects the ladder and every path underneath it, so a new collection is a CSV plus two dict entries and never a new script.",
     shipped: [
       "48 shipped cuts across four collections, 342 renders behind them",
-      "Its own repo now, after a git stash -u deleted the generator out of the app",
+      "Lives in its own repo, versioned separately from the app it feeds",
     ],
     artifacts: [
       { src: "/lab/cards/uranium-ore.webp", alt: "Card art: a tin of uranium ore" },

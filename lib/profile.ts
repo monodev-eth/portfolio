@@ -17,6 +17,8 @@ export const PROFILE = {
   role: "Co-founder · SigIntZero",
   roleLong: "Co-founder at SigIntZero and TrueOrigin Labs",
   summary: "Full-stack operator building across security, AI, search, and digital infrastructure.",
+  /** The hard numbers behind the summary, shown under it on the landing page. Source: lib/projects.ts. */
+  proof: "Shipped the front ends for IMF, a credit desk that peaked near $260M TVL, and StockRip, live on Robinhood Chain with $4.5M through its pool. Builds the open-source browser layer his agents run on.",
   location: "Sydney, Australia",
   focus: [
     "Web3 security",
@@ -29,6 +31,7 @@ export const PROFILE = {
   twitter: "https://x.com/monodev_eth",
   linkedin: "https://www.linkedin.com/in/dmitry-serdyuk-55149b123",
   telegram: "https://t.me/dmitry_xyz",
+  email: "serdyuk.dmitry@gmail.com",
   ens: "monodev.eth",
   ensProfile: "https://app.ens.domains/monodev.eth",
   /* One identity, four separators — the platforms disagree, the person doesn't. */
@@ -41,7 +44,7 @@ export const PROFILE = {
   /** Every name this resolves to, so an agent can collapse them into one entity. */
   aliases: ["Dima", "Dmitry S", "monodev-eth", "monodev_eth", "monodev.eth"],
   /** Bump when the identity surfaces are reviewed; stamped onto the generated files. */
-  lastReviewed: "2026-09-15",
+  lastReviewed: "2026-10-12",
 } as const;
 
 /** Ordered newest first. Feeds the profile page, profile.json, llms.json and llms.txt. */
@@ -56,7 +59,7 @@ export interface Role {
 
 export const EXPERIENCE: Role[] = [
   {
-    role: "Co-founder",
+    role: "Co-Founder",
     organization: "SigIntZero",
     period: "2025 – now",
     summary: "Smart-contract audit and security firm. Search, AI, and digital infrastructure across the brand and products.",
@@ -81,7 +84,7 @@ export const EXPERIENCE: Role[] = [
   },
   {
     role: "Full Stack Engineer",
-    organization: "MANTRA",
+    organization: "MantraDAO",
     period: "2020 – 2021",
     summary: "Web3 product engineering in the TrueOrigin external team.",
   },

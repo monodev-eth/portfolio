@@ -200,7 +200,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
     // A dialog that opens with focus on <body> strands keyboard and screen-reader users.
     requestAnimationFrame(() => sheetRef.current?.focus({ preventScroll: true }));
     const v = modalVideoRef.current;
-    if (v) {
+    if (v && p.video) {
       v.src = p.video;
       const sv = savesRef.current[p.id];
       v.currentTime = sv && sv.t > 3 && !sv.done ? sv.t : 0;
@@ -505,6 +505,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
             <a href={PROFILE.twitter} target="_blank" rel="noreferrer">X</a>
             <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">In</a>
             <a href={PROFILE.telegram} target="_blank" rel="noreferrer">TG</a>
+            <a href={`mailto:${PROFILE.email}`}>Mail</a>
             <a href={PROFILE.ensProfile} target="_blank" rel="noreferrer" title={PROFILE.ens}>ENS</a>
           </nav>
           <span className="clock">{clock}</span>
@@ -564,7 +565,7 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
               </span>
               <span className="projectcard-preview" aria-hidden="true">
                 <img className="preview-still" src={cur.preview} alt="" width={720} height={406} />
-                {widePreview && booted && modalIndex === null && (cur.portrait ? (
+                {widePreview && booted && modalIndex === null && cur.video && (cur.portrait ? (
                   <VideoWall src={cur.video} panels={3} />
                 ) : (
                   <video ref={previewVideoRef} poster={cur.preview} muted loop playsInline preload="none" />
@@ -613,7 +614,9 @@ export default function Dashboard({ projects }: { projects: Project[] }) {
               <button className="close" aria-label="Close case study" onClick={closeModal}>✕</button>
             </div>
             <div className="player">
-              {m.portrait ? (
+              {!m.video ? (
+                <img src={m.preview} alt="" />
+              ) : m.portrait ? (
                 <VideoWall src={m.video} panels={3} />
               ) : (
                 <video

@@ -3,6 +3,7 @@ import { PIPELINES } from "@/lib/pipelines";
 import { SURFACES } from "@/lib/surfaces";
 import { EXPERIENCE, PROFILE } from "@/lib/profile";
 import { getAllPosts } from "@/lib/posts";
+import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -29,6 +30,7 @@ export function GET() {
       jobTitle: PROFILE.role,
       description: PROFILE.summary,
       url: PROFILE.github,
+      email: PROFILE.email,
       sameAs: [PROFILE.github, PROFILE.twitter, PROFILE.linkedin, PROFILE.telegram, PROFILE.ensProfile],
       identifier: PROFILE.ens,
       knowsAbout: PROFILE.focus,
@@ -53,7 +55,7 @@ export function GET() {
   const experienceItems = EXPERIENCE
     .map((item) => (
       `<li>` +
-      `<h3>${esc(item.role)}</h3>` +
+      `<h3>${esc(item.role)}<span class="period">${esc(item.period)}</span></h3>` +
       `<p><strong>${esc(item.organization)}</strong><span>${esc(item.summary)}</span></p>` +
       `</li>`
     ))
@@ -61,7 +63,7 @@ export function GET() {
   const projectItems = visibleProjects
     .map((project) => (
       `<li>` +
-      `<h3><a href="/showcase#${esc(project.id)}">${esc(project.title)} <span class="project-arrow" aria-hidden="true">↗</span></a></h3>` +
+      `<h3><a href="/showcase#${esc(project.id)}">${esc(project.title)}</a></h3>` +
       `<p>${esc(project.tagline)}</p>` +
       `</li>`
     ))
@@ -97,7 +99,7 @@ export function GET() {
       <h2 id="writing">Writing</h2>
     </div>
     <ol>${writingItems}</ol>
-    <p class="allposts"><a href="/blog">All posts →</a></p>
+    <p class="allposts"><a href="/blog">All posts</a></p>
   </section>`
     : "";
 
@@ -112,11 +114,13 @@ export function GET() {
 <meta property="og:type" content="profile">
 <meta property="og:title" content="${esc(PROFILE.displayName)} / ${esc(PROFILE.name)}">
 <meta property="og:description" content="${esc(PROFILE.summary)}">
-<meta property="og:image" content="${esc(PROFILE.avatar)}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="${esc(SITE_URL)}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(PROFILE.displayName)} / ${esc(PROFILE.name)}">
 <meta name="twitter:description" content="${esc(PROFILE.summary)}">
-<meta name="twitter:image" content="${esc(PROFILE.avatar)}">
+<meta name="twitter:image" content="${esc(SITE_URL)}/og.png">
 <link rel="me" href="${esc(PROFILE.github)}">
 <link rel="me" href="${esc(PROFILE.twitter)}">
 <link rel="me" href="${esc(PROFILE.telegram)}">
@@ -129,6 +133,7 @@ export function GET() {
 :root{--bg:#060711;--fg:#f3f6ff;--muted:#b2bce2;--dim:#929fc4;--line:rgba(164,184,245,.2);--line-strong:rgba(188,207,255,.38);--cyan:#76e4f4;--blue:#94aaff}
 *{box-sizing:border-box}
 html,body{min-height:100%;margin:0}
+html{overflow-x:clip}
 body{position:relative;overflow-x:clip;background:radial-gradient(900px 420px at 50% -160px,rgba(42,79,180,.42),transparent 70%),linear-gradient(180deg,#080b18 0%,var(--bg) 38%,#04050b 100%);color:var(--fg);font:15px/1.72 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 body:before,body:after{content:"";position:absolute;inset:0;min-height:100%;z-index:0;pointer-events:none}
 body:before{background:linear-gradient(rgba(255,255,255,.018) 50%,transparent 50%);background-size:100% 4px;opacity:.35}
@@ -162,6 +167,8 @@ h1 span{display:block;color:var(--muted);font-size:.72em;text-wrap:balance;overf
 .chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip:hover,.chip:focus-visible{border-color:rgba(118,228,244,.5);color:var(--fg);background:rgba(16,22,46,.34)}
 .summary{max-width:52ch;margin:18px 0 0;color:var(--muted);font-size:16px;line-height:1.65}
+.proof{max-width:60ch;margin:10px 0 0;color:var(--dim);font-size:14px;line-height:1.65}
+.projects h3 .period{display:block;margin-top:2px;color:var(--dim);font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:400}
 .focusline{max-width:64ch;margin:13px 0 0;color:var(--dim);font:12px/1.75 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .icon-link{display:inline-grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);border-radius:3px;color:var(--muted);text-decoration:none;background:rgba(8,11,24,.18)}
@@ -173,7 +180,7 @@ h1 span{display:block;color:var(--muted);font-size:.72em;text-wrap:balance;overf
 h2,h3{margin:0;font-weight:500;letter-spacing:0}
 h2{color:var(--fg);font-size:13px;text-transform:uppercase;letter-spacing:.13em}
 .projects{margin-top:44px}.projects.compact{margin-top:44px}
-.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.section-head>a{font-size:12px;color:var(--muted);text-decoration:none}.projects h3 a{text-decoration:none}.projects .project-arrow{display:inline;color:var(--dim);font-size:12px}.primary-actions{display:flex;gap:20px;margin-top:20px}.primary-actions a{font-size:14px;color:var(--cyan)}.section-head h2{font-size:13px}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.section-head>a{font-size:12px;color:var(--muted);text-decoration:none}.projects h3 a{text-decoration:none}.primary-actions{display:flex;gap:20px;margin-top:20px}.primary-actions a{font-size:14px;color:var(--cyan)}.section-head h2{font-size:13px}
 .projects ol{display:grid;gap:16px;margin:0;padding:0;list-style:none}
 .projects li{display:grid;grid-template-columns:170px minmax(0,1fr);gap:22px;padding:0}
 .projects h3{color:#fbfcff;font-size:15px}.projects p{margin:0;color:var(--muted);line-height:1.6}.projects strong{display:block;color:var(--muted);font-weight:400}.projects span{display:block;color:var(--dim);margin-top:2px}
@@ -210,12 +217,13 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
 
   <main>
     <section class="hero" aria-label="Profile summary">
-      <h1>${esc(PROFILE.displayName)}<span>${esc(PROFILE.role)}</span></h1>
+      <h1>${esc(PROFILE.displayName)}<span>${esc(PROFILE.roleLong)}</span></h1>
       <p class="summary p-note">${esc(PROFILE.summary)}</p>
+      <p class="proof">${esc(PROFILE.proof)}</p>
       <p class="focusline">${focus}</p>
       <div class="primary-actions">
-        <a href="${esc(PROFILE.telegram)}">Get in touch ↗</a>
-        <a href="/resume">Résumé →</a>
+        <a href="${esc(PROFILE.telegram)}">Get in touch</a>
+        <a href="/resume">Résumé</a>
       </div>
       <div class="actions" aria-label="Contact and proof links">
         <a class="icon-link" href="${esc(PROFILE.github)}" rel="me" aria-label="GitHub">
@@ -234,13 +242,17 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
           <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
           <span class="sr-only">Telegram</span>
         </a>
+        <a class="icon-link" href="mailto:${esc(PROFILE.email)}" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 5.5h18v13H3zM3.5 6l8.5 7 8.5-7"/></svg>
+          <span class="sr-only">Email</span>
+        </a>
         <a class="ens-link" href="${esc(PROFILE.ensProfile)}" rel="me" aria-label="ENS: ${esc(PROFILE.ens)}">${esc(PROFILE.ens)}</a>
       </div>
     </section>
   <section class="projects" aria-labelledby="projects">
     <div class="section-head">
       <h2 id="projects">Selected work</h2>
-      <a href="/showcase">All projects →</a>
+      <a href="/showcase">All projects</a>
     </div>
     <ol>${projectItems}</ol>
   </section>
@@ -255,7 +267,7 @@ footer a+a:before{content:"/";margin-right:10px;color:var(--dim);opacity:.45;tex
       <h2 id="lab">Lab</h2>
     </div>
     <ol>${pipelineItems}</ol>
-    <p class="allposts"><a href="/lab">How each one works →</a></p>
+    <p class="allposts"><a href="/lab">How each one works</a></p>
   </section>
 
   ${writingSection}

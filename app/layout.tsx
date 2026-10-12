@@ -21,13 +21,13 @@ export const metadata: Metadata = {
     title: `${PROFILE.displayName} / ${PROFILE.name}`,
     description: PROFILE.summary,
     type: "website",
-    images: [{ url: PROFILE.avatar, alt: PROFILE.name }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: `${PROFILE.displayName}, ${PROFILE.roleLong}` }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${PROFILE.displayName} / ${PROFILE.name}`,
     description: PROFILE.summary,
-    images: [PROFILE.avatar],
+    images: ["/og.png"],
   },
 };
 

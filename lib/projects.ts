@@ -1,8 +1,10 @@
 /*
  * Real projects shown in the memory-card browser, one object per save file.
  *   poster : [colorA, colorB] gradient for the focused tile + its accent glow
- *   video  : demo clip in /public/clips (abstract loops stand in until a real capture exists)
+ *   video  : demo clip in /public/clips; omit it and the preview still stands in
  */
+import { SITE_URL } from "@/lib/site";
+
 export interface Project {
   id: string;
   title: string;
@@ -17,7 +19,7 @@ export interface Project {
   summary: string;
   stack: string[];
   poster: [string, string];
-  video: string;
+  video?: string;
   /** Set when the clip is a portrait (mobile) capture, so the preview + player render 9:16 instead of 16:9. */
   portrait?: boolean;
   problem: string;
@@ -34,6 +36,7 @@ const PROJECT_ORDER = [
   "imf",
   "stockrip",
   "sigintzero",
+  "vibatchium",
   "shuriken",
   "flow",
   "tonsoffriends",
@@ -165,6 +168,29 @@ const PROJECTS_BY_HISTORY: Project[] = [
     links: { live: "https://sigintzero.com" },
   },
   {
+    id: "vibatchium",
+    result: "Built and maintain an open-source browser daemon that runs many logged-in Chrome sessions for AI agents, unattended.",
+    preview: "/previews/vibatchium.webp",
+    logo: "/logos/vibatchium.png",
+    title: "vibatchium",
+    year: "2026",
+    period: "2026 – now",
+    role: "TrueOrigin Labs · creator & maintainer",
+    tagline:
+      "The browser layer for an always-on box: one daemon, many logged-in Chrome sessions, stealth on by default, driven by AI agents through a CLI and an MCP server.",
+    summary:
+      "Open-source (Apache-2.0) browser daemon for AI agents (TrueOrigin Labs, creator and maintainer). One daemon runs many persistent, logged-in Chrome sessions unattended, with a stealth layer, a browserless fetch lane on the same cookies, origin-bound secrets the agent can use but not read, and prompt-injection scanning. Ships as the vb CLI and an MCP server on PyPI.",
+    stack: ["Python", "Patchright", "Chrome", "MCP", "curl_cffi"],
+    poster: ["#0f3324", "#0a0e1e"],
+    problem:
+      "Agents that work on the real web hit login walls, bot challenges and pages that only exist after JavaScript runs. The supervised tools hand control back to a human at every wall, and the libraries leave sessions, crash recovery and credentials for you to build.",
+    process:
+      "Wrote it as a daemon rather than a library: N persistent Chrome profiles behind one process, with leases so agents sharing a box don't collide, crash self-heal, budgets and idle freeze. A fetch lane replays the session's cookies with a Chrome TLS fingerprint and no renderer, so a page only pays for a browser when it needs one. Secrets are filled by origin and refused on read-back, and page text is scanned for prompt injection before an agent sees it.",
+    outcome:
+      "Twenty minor releases on PyPI and listed in the MCP registry. It runs under the multi-account posting engine in the Lab, and it filmed the StockRip wallet demo on a machine with no screen.",
+    links: { code: "https://github.com/trueoriginlabs/vibatchium", live: "https://pypi.org/project/vibatchium/", study: `${SITE_URL}/blog/browser-for-agents` },
+  },
+  {
     id: "yieldly",
     result: "Led front end and product from zero to mainnet for Algorand's first DeFi suite.",
     preview: "/previews/yieldly.webp",
@@ -228,7 +254,7 @@ const PROJECTS_BY_HISTORY: Project[] = [
     poster: ["#2a164a", "#0a0e1e"],
     video: "/clips/mantra.mp4",
     problem:
-      "MANTRA needed product shipped across staking and governance without slowing the core roadmap.",
+      "MantraDAO needed product shipped across staking and governance without slowing the core roadmap.",
     process:
       "Full stack in the TrueOrigin external team inside the org, shipping product surfaces over the staking and governance contracts.",
     outcome: "Features landed release after release next to the core team's roadmap.",

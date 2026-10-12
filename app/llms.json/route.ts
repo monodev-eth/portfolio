@@ -18,6 +18,7 @@ export function GET() {
     role: IDENTITY.role,
     summary: IDENTITY.summary,
     location: IDENTITY.location,
+    email: IDENTITY.email,
     links: {
       site: "/",
       showcase: "/showcase",

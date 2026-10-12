@@ -29,9 +29,9 @@ function techIndex(): string[] {
   return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([item]) => item);
 }
 
-/** The one live link worth printing per project: the app beats the marketing site. */
+/** The one link worth printing per project: the app, then the source, then the marketing site. */
 function primaryLink(links: (typeof PROJECTS)[number]["links"]): string | undefined {
-  return links.app ?? links.live ?? links.study ?? links.code;
+  return links.app ?? links.code ?? links.live ?? links.study;
 }
 
 function stripProtocol(url: string): string {
@@ -47,6 +47,7 @@ export function GET() {
     PROFILE.twitter,
     PROFILE.telegram,
   ].map((href) => ({ href, label: stripProtocol(href) }));
+  contacts.push({ href: `mailto:${PROFILE.email}`, label: PROFILE.email });
   contacts.push({ href: PROFILE.ensProfile, label: PROFILE.ens });
 
   const contactLine = contacts
@@ -63,10 +64,10 @@ export function GET() {
     `</li>`
   )).join("");
 
-  /* A curated subset for the one-pager; all ten stay on /showcase, linked under
+  /* A curated subset for the one-pager; the full list stays on /showcase, linked under
    * the list. Resolved by lookup rather than filter so a renamed id fails the
    * build instead of silently shortening the resume. */
-  const RESUME_PROJECT_IDS = ["imf", "stockrip", "sigintzero", "shuriken", "flow", "aetos", "yieldly"];
+  const RESUME_PROJECT_IDS = ["imf", "stockrip", "sigintzero", "vibatchium", "shuriken", "flow", "aetos", "yieldly"];
   const selected = RESUME_PROJECT_IDS.map((id) => {
     const project = PROJECTS.find((p) => p.id === id);
     if (!project) throw new Error(`resume: RESUME_PROJECT_IDS names unknown project "${id}"`);
@@ -198,7 +199,7 @@ footer a{border-bottom-color:transparent}
 
   <nav class="resume-actions" aria-label="Résumé actions"><a class="download" href="/dima-resume.pdf" download>Download PDF</a><a class="download" href="/">← Home</a></nav>
 
-  <p class="summary">${esc(PROFILE.summary)} ${PROJECTS.length} shipped products across DeFi, security, and trading infrastructure, from the first DeFi suite on Algorand to a nine-figure on-chain credit desk.</p>
+  <p class="summary">${esc(PROFILE.summary)} ${PROJECTS.length} shipped products across DeFi, security, trading infrastructure, and agent tooling, from the first DeFi suite on Algorand to a nine-figure on-chain credit desk.</p>
 
   <section aria-labelledby="experience">
     <h2 id="experience">Experience</h2>
@@ -208,7 +209,7 @@ footer a{border-bottom-color:transparent}
   <section aria-labelledby="work">
     <h2 id="work">Selected work</h2>
     <ol class="rows">${projectItems}</ol>
-    <p><a href="${esc(SITE_URL)}/showcase">Explore all ${PROJECTS.length} projects →</a></p>
+    <p><a href="${esc(SITE_URL)}/showcase">Explore all ${PROJECTS.length} projects</a></p>
   </section>
 
   <section aria-labelledby="focus">

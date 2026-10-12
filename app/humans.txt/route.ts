@@ -12,6 +12,7 @@ GitHub: ${PROFILE.github}
 X: ${PROFILE.twitter}
 LinkedIn: ${PROFILE.linkedin}
 Telegram: ${PROFILE.telegram}
+Email: ${PROFILE.email}
 ENS: ${PROFILE.ens}
 Role: ${IDENTITY.role}
 Location: ${IDENTITY.location}

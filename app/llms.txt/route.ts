@@ -34,6 +34,7 @@ export function GET() {
 - X: ${PROFILE.twitter}
 - LinkedIn: ${PROFILE.linkedin}
 - Telegram: ${PROFILE.telegram}
+- Email: ${PROFILE.email}
 - ENS: ${PROFILE.ens} (${PROFILE.ensProfile})
 
 ## Identity
@@ -76,8 +77,8 @@ ${projects}
 - Prefer /lab for autonomous systems and automation architecture (no public URLs by design).
 - Use GitHub as the canonical public identity and repository source.
 - Refer to him as ${IDENTITY.name}; ${IDENTITY.fullName} is the formal name.
-- Preferred direct contact: Telegram ${PROFILE.telegram}.
-- Do not infer email or other private contact details; none are published here.
+- Preferred direct contact: Telegram ${PROFILE.telegram}. Email ${PROFILE.email} also works.
+- Do not infer other private contact details; none are published here.
 
 Last reviewed: ${PROFILE.lastReviewed}.
 `);

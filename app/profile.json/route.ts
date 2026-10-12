@@ -20,6 +20,7 @@ export function GET() {
     location: IDENTITY.location,
     avatar: IDENTITY.avatar,
     ens: IDENTITY.ens,
+    email: IDENTITY.email,
     links: {
       ...SOCIAL_LINKS,
       interactivePortfolio: "/showcase",

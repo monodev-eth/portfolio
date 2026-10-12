@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     type: "website",
     url: `${SITE_URL}/blog`,
+    images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
 };
 

@@ -47,6 +47,7 @@ export const IDENTITY = {
   location: PROFILE.location,
   avatar: PROFILE.avatar,
   ens: PROFILE.ens,
+  email: PROFILE.email,
 } as const;
 
 export const EXPERIENCE_PAYLOAD = EXPERIENCE.map((item) => ({
