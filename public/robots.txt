@@ -11,4 +11,4 @@ Allow: /blog
 Allow: /lab
 Allow: /resume
 
-Sitemap: https://monodev.dev/sitemap.xml
+Sitemap: https://monodev.eth.limo/sitemap.xml
