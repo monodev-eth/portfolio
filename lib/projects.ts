@@ -121,7 +121,7 @@ const PROJECTS_BY_HISTORY: Project[] = [
   },
   {
     id: "stockrip",
-    result: "Product and front end for a live tokenized-stock draw protocol with 76.5K rips and $4.5M in pool volume.",
+    result: "Built the front end for StockRip's on-chain stock-card protocol (77.9K draws), then led an AI-agent build of its consumer app, live on real money in six days.",
     preview: "/previews/stockrip.webp",
     logo: "/logos/stockrip.png",
     title: "StockRip",
@@ -129,18 +129,19 @@ const PROJECTS_BY_HISTORY: Project[] = [
     period: "2025 – now",
     role: "TrueOrigin Labs · product & front-end",
     tagline:
-      "A vending machine for tokenized stocks on Robinhood Chain. Stock it with a position and ETH backing, or pay the pool price and rip a random one out.",
+      "Trading cards that hold real shares. Rip a pack on your phone, pull tokenized stocks out of a live on-chain draw, then keep the card or sell it.",
     summary:
-      "A randomized acquisition protocol for tokenized stocks on Robinhood Chain (TrueOrigin Labs). Depositors pair real Robinhood stock tokens with ETH backing; buyers pay a harmonic-mean price and draw a random position, settled by on-chain VRF. Also a v4-paired reward token and a vault-card mint that locks an NFT plus graded backing into the same draw pool.",
-    stack: ["Next.js", "TypeScript", "viem", "Robinhood Chain", "Uniswap v4", "ERC-6551"],
+      "A trading-card app for tokenized stocks on Robinhood Chain (TrueOrigin Labs). The consumer app at stockrip.com is a PWA where each card holds real Robinhood stock tokens: rip a pack, keep or sell a card, buy a stock as a new card, or gift a pack by link, with prices in dollars and an embedded wallet. AI agents wrote it from a task graph, with tests written before the code and a reviewer agent that never sees the builder\'s reasoning. Underneath is the StockRip draw protocol, whose original front end now runs at pro.stockrip.com: depositors pair stock tokens with ETH backing, and buyers pay a harmonic-mean price to draw a random position settled by on-chain VRF.",
+    stack: ["Next.js", "TypeScript", "viem", "Robinhood Chain", "Privy", "Three.js", "Playwright"],
     poster: ["#16300c", "#0a0e1e"],
     video: "/clips/stockrip.mp4",
+    portrait: true,
     problem:
       "Tokenized stocks trade, and that is all they do. A position is a number in a wallet: nothing to open, nothing to chase, no reason to come back. Meanwhile the fair-launch mechanics that make people show up live entirely in memecoins, where there is no asset underneath.",
     process:
-      "Built the product front end over the Stock Rip contracts: a vending-machine homepage that reads the whole pool, one-transaction deposits through a router (with an ETH zap that buys the leg first), a harmonic-mean price quote, and a rip theatre that holds the audience through the VRF wait, block by block, until the packs open. Reads moved off per-request chain calls onto an indexed API tier with direct chain reads as the fallback. The Create side mints vault cards that lock a source NFT plus graded ETH backing and equity legs, rendered on-chain so the card art is read from state on every render.",
+      "Built the protocol's own front end first, now at pro.stockrip.com: a vending-machine homepage that reads the whole pool live, one-click deposits, a reveal that holds the audience while the on-chain randomness settles, and collectible vault cards. Then led the build of the consumer app that replaced it on stockrip.com. AI agents wrote the code from a task plan: tests came first, screens were checked against the design by a second AI reviewer, and the product, design and money calls stayed with the team.",
     outcome:
-      "Live on Robinhood Chain with 566 positions in the machine, around 28 ETH of backing, 76.5K rips and $4.5M of volume through the pool. The demo drives the real contracts end to end: a five-pack rip settling to a Legendary, then a vault card minted from a wallet signature.",
+      "The app went live on real money six days after its first commit and took over stockrip.com within the month. The protocol underneath has handled 77.9K draws and 1,764 ETH of volume, with over 1,000 positions in the pool. The clip is the live app on a phone: the pack carousel, the shelf of stock cards, and a card's own page with its chart and news.",
     links: { live: "https://stockrip.com", study: "https://stockrip.com/docs" },
   },
   {

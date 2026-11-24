@@ -16,9 +16,9 @@ export const PROFILE = {
   handle: "@monodev-eth",
   role: "Co-founder · SigIntZero",
   roleLong: "Co-founder at SigIntZero and TrueOrigin Labs",
-  summary: "Full-stack operator building across security, AI, search, and digital infrastructure.",
+  summary: "Product engineer and founder, working from consumer front ends through to the AI agents that build them. Has shipped DeFi lending, staking and venture platforms, copytrading and trade-simulation tools, a tokenized-stock card app, open-source browser infrastructure for agents, and a security blog that researches and publishes itself.",
   /** The hard numbers behind the summary, shown under it on the landing page. Source: lib/projects.ts. */
-  proof: "Shipped the front ends for IMF, a credit desk that peaked near $260M TVL, and StockRip, live on Robinhood Chain with $4.5M through its pool. Builds the open-source browser layer his agents run on.",
+  proof: "Shipped the front ends for IMF, a credit desk that peaked near $260M TVL, and StockRip, whose on-chain stock-card protocol has handled 77.9K draws and 1,764 ETH of volume.",
   location: "Sydney, Australia",
   focus: [
     "Web3 security",

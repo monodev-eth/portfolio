@@ -22,7 +22,7 @@ export const SURFACES: Surface[] = [
     logo: "/logos/lab.svg",
     label: "Lab",
     href: "/lab",
-    hint: "Lab: four pipelines that run unattended",
+    hint: "Lab: five pipelines that run unattended",
   },
   {
     id: "writing",

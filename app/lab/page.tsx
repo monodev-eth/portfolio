@@ -55,7 +55,7 @@ export default function Lab() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <h1>Lab</h1>
       <p className="labintro">
-        Four systems that keep running when I am asleep or on a plane.
+        Five systems that keep running when I am asleep or on a plane.
         Explore what they produce, then open the details to see how they work.
       </p>
       <nav className="labjump" aria-label="Jump to a system">
@@ -145,7 +145,7 @@ export default function Lab() {
 
       <p className="labfootnote">
         Everything here runs on one Linux box under my desk, on systemd timers and cron, with Claude Code as the
-        model in the loop rather than a hosted API. The full schedule lives in the last one on this list.
+        model in the loop rather than a hosted API. The app builder's CI runs on a second machine. The full schedule lives in the last one on this list.
       </p>
     </main>
   );

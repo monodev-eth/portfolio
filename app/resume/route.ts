@@ -199,7 +199,7 @@ footer a{border-bottom-color:transparent}
 
   <nav class="resume-actions" aria-label="Résumé actions"><a class="download" href="/dima-resume.pdf" download>Download PDF</a><a class="download" href="/">← Home</a></nav>
 
-  <p class="summary">${esc(PROFILE.summary)} ${PROJECTS.length} shipped products across DeFi, security, trading infrastructure, and agent tooling, from the first DeFi suite on Algorand to a nine-figure on-chain credit desk.</p>
+  <p class="summary">${esc(PROFILE.summary)} ${PROJECTS.length} products across DeFi, security, trading infrastructure, and agent tooling, from the first DeFi suite on Algorand to a nine-figure on-chain credit desk.</p>
 
   <section aria-labelledby="experience">
     <h2 id="experience">Experience</h2>

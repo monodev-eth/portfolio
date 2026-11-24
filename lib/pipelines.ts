@@ -70,8 +70,8 @@ export const PIPELINES: Pipeline[] = [
     mechanic:
       "The interesting part is the skip. Most of this pipeline is gates that can stop it: the selector disqualifies weekly digests, proof-of-concept tracker commits, generic index URLs, anything outside a 14 day window, and any topic a published post already covers. A quiet cycle produces nothing, and that is the correct outcome rather than a failure. The first autonomous run got it wrong in an instructive way. It read the X posting queue instead of the brief's curated incidents, picked a stale off-brand story and skipped a $20M governance takeover. The fix was a structured hand-off file between the two stages, not a smarter prompt. One smaller thing worth stealing: the stat cards are drawn programmatically with Pillow and a truetype font rather than generated, because image models garble text and always will.",
     shipped: [
-      "28 posts live between 5 July and 10 September 2026",
-      "50 covers generated, every one of them text-free",
+      "64 posts live between 5 July and 24 November 2026",
+      "A generated cover on every post, every one of them text-free",
       "Publishes from an isolated worktree, so it has never touched a working tree",
     ],
     artifacts: [
@@ -82,6 +82,35 @@ export const PIPELINES: Pipeline[] = [
     ],
     artifactShape: "wide",
     evidence: [{ label: "sigintzero.com/blog", href: "https://sigintzero.com/blog" }],
+  },
+  {
+    id: "app-builder",
+    shortTitle: "App builder",
+    title: "StockRip build harness",
+    tagline:
+      "A consumer app that moves real money, written by AI agents against a harness that decides when their work is done.",
+    cadence: "continuous, a few agent sessions in parallel",
+    runtime: ["Claude Code", "Playwright", "Vitest", "GitHub Actions", "GPU runner"],
+    stages: [
+      { name: "decide", detail: "people make the product and money calls" },
+      { name: "task", detail: "forty four tasks over seven phases" },
+      { name: "tests", detail: "written first, must fail before any code" },
+      { name: "build", detail: "agents write the code and the PRs" },
+      { name: "diff", detail: "each screen against the prototype, loosely" },
+      { name: "judge", detail: "a reviewer blind to the builder's reasoning" },
+      { name: "browser", detail: "the affected specs, WebGL on a GPU" },
+      { name: "guard", detail: "changes to the checks get their own review" },
+    ],
+    why:
+      "An agent will tell you it is finished when it isn't, and on an app where a tap can spend someone's money that is the failure that matters. So most of the effort went into the machinery that decides when work is done, and into making any change to that machinery visible.",
+    mechanic:
+      "The judge was tested before it graded anything real: screens broken on purpose (a shifted layout, the wrong metal on the pay button, a missing row) next to screens nudged by a point, five runs each, with at most a 2% false-fail and a 5% false-pass rate. Changes to the checks themselves never ride along with a feature: any pull request that touches the tests, thresholds or rubric gets its own review, and the job fails until that review approves. The product, design and money calls stay with people, each one written down as a decision.",
+    shipped: [
+      "Live on real money six days after the first commit, and serving stockrip.com within the month",
+      "526 merged pull requests in seven weeks",
+      "About 2,150 unit tests on every pull request, plus browser specs on a GPU",
+    ],
+    evidence: [{ label: "stockrip.com", href: "https://stockrip.com" }],
   },
   {
     id: "card-art",
