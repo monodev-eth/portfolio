@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && cp -f out/index out/index.html",
+    "build": "next build && cp -f out/index out/index.html && mv out/resume out/resume.page && mkdir out/resume && mv out/resume.page out/resume/index.html",
     "start": "next start",
     "lint": "next lint"
   },
